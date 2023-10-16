@@ -28,7 +28,7 @@ public class Stack<TElem> implements IStack<TElem>
         this.internalStack.add(element);
     }
 
-    public boolean isEmpty()
+    public Boolean isEmpty()
     {
         return this.internalStack.isEmpty();
     }

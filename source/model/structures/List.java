@@ -26,17 +26,17 @@ public class List<TElem> implements IList<TElem>
         this.internalList.set(index, element);
     }
     
-    public int indexOf(TElem element)
+    public Integer indexOf(TElem element)
     {
         return this.internalList.indexOf(element);
     }
     
-    public int lastIndexOf(TElem element)
+    public Integer lastIndexOf(TElem element)
     {
         return this.internalList.lastIndexOf(element);
     }
     
-    public boolean remove(TElem element)
+    public Boolean remove(TElem element)
     {
         return this.internalList.remove(element);
     }
@@ -51,17 +51,17 @@ public class List<TElem> implements IList<TElem>
         return this.internalList.get(index);
     }
     
-    public boolean contains(TElem element)
+    public Boolean contains(TElem element)
     {
         return this.internalList.contains(element);
     }
     
-    public boolean isEmpty()
+    public Boolean isEmpty()
     {
         return this.internalList.isEmpty();
     }
     
-    public int size()
+    public Integer size()
     {
         return this.internalList.size();
     }

@@ -4,6 +4,6 @@ public interface IStack<TElem>
 {
     public TElem pop() throws Exception;
     public void push(TElem element);
-    public boolean isEmpty();
+    public Boolean isEmpty();
     public String toString();
 }
