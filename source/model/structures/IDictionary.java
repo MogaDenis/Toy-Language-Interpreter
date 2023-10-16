@@ -1,6 +1,6 @@
 package source.model.structures;
 
-public interface IDIctionary<TKey, TValue> 
+public interface IDictionary<TKey, TValue> 
 {
     public Boolean containsKey(TKey key);
     public Boolean containsValue(TValue value);    

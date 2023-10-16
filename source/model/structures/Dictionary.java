@@ -2,7 +2,7 @@ package source.model.structures;
 
 import java.util.HashMap;
 
-public class Dictionary<TKey, TValue> implements IDIctionary<TKey, TValue>
+public class Dictionary<TKey, TValue> implements IDictionary<TKey, TValue>
 {
     private HashMap<TKey, TValue> internalDictionary;
 

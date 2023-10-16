@@ -2,6 +2,8 @@ package source.model.structures;
 
 import java.util.Vector;
 
+import source.model.exceptions.EmptyStackException;
+
 public class Stack<TElem> implements IStack<TElem>
 {
     private Vector<TElem> internalStack;
@@ -11,10 +13,10 @@ public class Stack<TElem> implements IStack<TElem>
         this.internalStack = new Vector<TElem>();
     }
 
-    public TElem pop() throws Exception
+    public TElem pop() throws EmptyStackException
     {
         if (this.internalStack.size() == 0)
-            throw new Exception();
+            throw new EmptyStackException("Empty stack!");
 
         TElem element = this.internalStack.get(this.internalStack.size() - 1);
 

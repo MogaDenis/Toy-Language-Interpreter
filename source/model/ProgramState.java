@@ -1,20 +1,19 @@
 package source.model;
 
-import java.util.Dictionary;
-
 import source.model.statements.IStatement;
-import source.model.structures.List;
-import source.model.structures.Stack;
+import source.model.structures.IList;
+import source.model.structures.IStack;
 import source.model.values.Value;
+import source.model.structures.IDictionary;
 
 public class ProgramState 
 {
-    private Stack<IStatement> executionStack;
-    private Dictionary<String, Value> symbolTabel;
-    private List<Value> output;
+    private IStack<IStatement> executionStack;
+    private IDictionary<String, Value> symbolTabel;
+    private IList<Value> output;
     private IStatement originalProgram;
 
-    public ProgramState(Stack<IStatement> stack, Dictionary<String, Value> symbolTable, List<Value> output, IStatement program)
+    public ProgramState(IStack<IStatement> stack, IDictionary<String, Value> symbolTable, IList<Value> output, IStatement program)
     {
         this.executionStack = stack;
         this.symbolTabel = symbolTable;
@@ -25,17 +24,17 @@ public class ProgramState
         this.executionStack.push(program);  
     }
 
-    public Stack<IStatement> getExecutionStack()
+    public IStack<IStatement> getExecutionStack()
     {
         return this.executionStack;
     }
 
-    public Dictionary<String, Value> getSymbolTable()
+    public IDictionary<String, Value> getSymbolTable()
     {
         return this.symbolTabel;
     }
 
-    public List<Value> getOutput()
+    public IList<Value> getOutput()
     {
         return this.output;
     }
