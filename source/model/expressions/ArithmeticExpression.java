@@ -1,7 +1,7 @@
 package source.model.expressions;
 
-import source.model.exceptions.DivisionByZeroException;
-import source.model.exceptions.OperandTypeException;
+import source.model.exceptions.ExpressionException;
+import source.model.exceptions.StatementException;
 import source.model.structures.IDictionary;
 import source.model.types.IntType;
 import source.model.values.Value;
@@ -20,19 +20,19 @@ public class ArithmeticExpression implements Expression
         this.operation = operation;
     }
 
-    public Value evaluate(IDictionary<String, Value> symbolTable) throws Exception
+    public Value evaluate(IDictionary<String, Value> symbolTable) throws ExpressionException, StatementException
     {
         Value value1, value2;
 
         value1 = expression1.evaluate(symbolTable);
 
         if (value1.getType().equals(new IntType()) == false)
-            throw new OperandTypeException("First operand is not an integer.");
+            throw new ExpressionException("First operand is not an integer.");
 
         value2 = expression2.evaluate(symbolTable);
 
         if (value2.getType().equals(new IntType()) == false)
-            throw new OperandTypeException("Second operand is not an integer.");
+            throw new ExpressionException("Second operand is not an integer.");
 
         IntValue intValue1 = (IntValue)value1;
         IntValue intValue2 = (IntValue)value2;
@@ -51,7 +51,7 @@ public class ArithmeticExpression implements Expression
 
         if (this.operation == 4) // Division
             if (number2 == 0)
-                throw new DivisionByZeroException("Division by zero.");
+                throw new ExpressionException("Division by zero.");
 
         return new IntValue(number1 / number2);
     }

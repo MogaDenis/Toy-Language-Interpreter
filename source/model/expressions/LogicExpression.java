@@ -1,6 +1,7 @@
 package source.model.expressions;
 
-import source.model.exceptions.OperandTypeException;
+import source.model.exceptions.ExpressionException;
+import source.model.exceptions.StatementException;
 import source.model.structures.IDictionary;
 import source.model.types.BoolType;
 import source.model.values.Value;
@@ -12,19 +13,19 @@ public class LogicExpression implements Expression
     private Expression expression2;
     private int operation; // 1 - AND, 2 - OR
 
-    public Value evaluate(IDictionary<String, Value> symbolTable) throws Exception
+    public Value evaluate(IDictionary<String, Value> symbolTable) throws ExpressionException, StatementException
     {
         Value value1, value2;
 
         value1 = expression1.evaluate(symbolTable);
 
         if (value1.getType().equals(new BoolType()) == false)
-            throw new OperandTypeException("First operand is not a logic expression.");
+            throw new ExpressionException("First operand is not a logic expression.");
 
         value2 = expression2.evaluate(symbolTable);
 
         if (value2.getType().equals(new BoolType()) == false)
-            throw new OperandTypeException("Second operand is not a logic expression.");
+            throw new ExpressionException("Second operand is not a logic expression.");
 
         BoolValue boolValue1 = (BoolValue)value1;
         BoolValue boolValue2 = (BoolValue)value2;

@@ -8,6 +8,12 @@ public class CompoundStatement implements IStatement
     private IStatement first;
     private IStatement second;
 
+    public CompoundStatement(IStatement firstStatement, IStatement secondStatement)
+    {
+        this.first = firstStatement;
+        this.second = secondStatement;
+    }
+
     @Override
     public String toString()
     {
