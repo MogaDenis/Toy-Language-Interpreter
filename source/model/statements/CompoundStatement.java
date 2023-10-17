@@ -15,6 +15,12 @@ public class CompoundStatement implements IStatement
     }
 
     @Override
+    public IStatement deepCopyStatement()
+    {
+        return new CompoundStatement(this.first, this.second);
+    }
+
+    @Override
     public String toString()
     {
         return "(" + first.toString() + ";" + second.toString() + ")";  

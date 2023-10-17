@@ -17,6 +17,12 @@ public class VariableDeclarationStatement implements IStatement
     }
 
     @Override
+    public IStatement deepCopyStatement()
+    {
+        return new VariableDeclarationStatement(this.name, this.type);
+    }
+
+    @Override
     public ProgramState execute(ProgramState programState)
     {
         return programState;

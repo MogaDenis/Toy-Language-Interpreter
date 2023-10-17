@@ -1,6 +1,7 @@
 package source.model.structures;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Dictionary<TKey, TValue> implements IDictionary<TKey, TValue>
 {
@@ -29,5 +30,15 @@ public class Dictionary<TKey, TValue> implements IDictionary<TKey, TValue>
     public TValue remove(TKey key)
     {
         return this.internalDictionary.remove(key);
+    }
+
+    public String toString()
+    {
+        String string = "";
+
+        for (Map.Entry<TKey, TValue> pair : this.internalDictionary.entrySet())
+            string += pair.getKey().toString() + " - " + pair.getValue().toString() + '\n';
+
+        return string;
     }
 }

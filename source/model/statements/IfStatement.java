@@ -20,6 +20,12 @@ public class IfStatement implements IStatement
     }
 
     @Override
+    public IStatement deepCopyStatement()
+    {
+        return new IfStatement(this.expression, this.thenStatement, this.elseStatement);
+    }
+
+    @Override
     public ProgramState execute(ProgramState programState)
     {
         return programState;

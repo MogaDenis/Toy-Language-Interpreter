@@ -20,6 +20,12 @@ public class AssignmentStatement implements IStatement
     }
 
     @Override
+    public IStatement deepCopyStatement()
+    {
+        return new AssignmentStatement(this.id, this.expression);
+    }
+
+    @Override
     public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException
     {
         IDictionary<String, Value> symbolTable = programState.getSymbolTable();

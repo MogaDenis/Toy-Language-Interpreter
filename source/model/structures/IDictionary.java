@@ -7,4 +7,5 @@ public interface IDictionary<TKey, TValue>
     public TValue get(TKey key);
     public void put(TKey key, TValue value);
     public TValue remove(TKey key);
+    public String toString();
 }

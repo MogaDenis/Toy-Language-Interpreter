@@ -40,7 +40,7 @@ public class Stack<TElem> implements IStack<TElem>
         String string = new String();
 
         for (TElem element : this.internalStack)
-            string += element.toString();
+            string += element.toString() + '\n';
 
         return string;
     }

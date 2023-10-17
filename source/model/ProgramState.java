@@ -18,8 +18,9 @@ public class ProgramState
         this.executionStack = stack;
         this.symbolTabel = symbolTable;
         this.output = output;
-        // this.originalProgram = program;
+
         // We need to make a deepcopy of this. 
+        this.originalProgram = program.deepCopyStatement();
 
         this.executionStack.push(program);  
     }
@@ -47,6 +48,7 @@ public class ProgramState
     @Override
     public String toString()
     {
-        return "";
+        return "Execution stack:\n" + this.executionStack.toString() + "\nSymbol table:\n" + this.symbolTabel.toString() + 
+            "\nOutput:\n" + this.output.toString();
     }
 }

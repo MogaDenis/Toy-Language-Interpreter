@@ -16,6 +16,12 @@ public class PrintStatement implements IStatement
     }
 
     @Override
+    public IStatement deepCopyStatement()
+    {
+        return new PrintStatement(this.expression);
+    }
+
+    @Override
     public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException
     {
         Value evaluation = this.expression.evaluate(programState.getSymbolTable());
