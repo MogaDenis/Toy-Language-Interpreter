@@ -11,9 +11,9 @@ public class ArithmeticExpression implements Expression
 {
     private Expression expression1;
     private Expression expression2;
-    private Integer operation; // 1 - addition, 2 - subtraction, 3 - multiplication, 4 - division
+    private Character operation; // 1 - addition, 2 - subtraction, 3 - multiplication, 4 - division
 
-    public ArithmeticExpression(Expression exp1, Expression exp2, int operation)
+    public ArithmeticExpression(Character operation, Expression exp1, Expression exp2)
     {
         this.expression1 = exp1;
         this.expression2 = exp2;
@@ -40,17 +40,17 @@ public class ArithmeticExpression implements Expression
         int number1 = intValue1.getValue();
         int number2 = intValue2.getValue();
 
-        if (this.operation == 1) // Addition
+        if (this.operation == '+') // Addition
             return new IntValue(number1 + number2);
         
-        if (this.operation == 2) // Subtraction
+        if (this.operation == '-') // Subtraction
             return new IntValue(number1 - number2);
 
-        if (this.operation == 3) // Multiplication
+        if (this.operation == '*') // Multiplication
             return new IntValue(number1 * number2);
 
         // Division
-        if (this.operation == 4 && number2 == 0) 
+        if (this.operation == '/' && number2 == 0) 
             throw new ExpressionException("Division by zero.");
 
         return new IntValue(number1 / number2);
@@ -58,15 +58,6 @@ public class ArithmeticExpression implements Expression
 
     public String toString()
     {
-        String operator = "+";
-    
-        if (this.operation == 2)
-            operator = "-";
-        else if (this.operation == 3)
-            operator = "*";
-        else if (this.operation == 4)
-            operator = "/";
-
-        return this.expression1.toString() + " " + operator + " " + this.expression2.toString();
+        return this.expression1.toString() + " " + this.operation + " " + this.expression2.toString();
     }
 }

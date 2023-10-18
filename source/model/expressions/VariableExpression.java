@@ -21,6 +21,11 @@ public class VariableExpression implements Expression
         return symbolTable.get(id);
     }
 
+    public String toString()
+    {
+        return this.id;
+    }
+
     // TODO
     // Implement toString...
 }

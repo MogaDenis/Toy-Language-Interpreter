@@ -37,10 +37,13 @@ public class Stack<TElem> implements IStack<TElem>
 
     public String toString()
     {
+        if (this.internalStack.isEmpty())
+            return "Empty stack\n";
+
         String string = new String();
 
-        for (TElem element : this.internalStack)
-            string += element.toString() + '\n';
+        for (int i = this.internalStack.size() - 1; i >= 0; i--)
+            string += this.internalStack.get(i).toString();
 
         return string;
     }

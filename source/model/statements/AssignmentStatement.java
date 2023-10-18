@@ -47,6 +47,6 @@ public class AssignmentStatement implements IStatement
     @Override
     public String toString()
     {
-        return this.id + "=" + this.expression.toString();  
+        return this.id + "=" + this.expression.toString() + ";\n";  
     }
 }

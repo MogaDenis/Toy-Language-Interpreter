@@ -3,8 +3,11 @@ package source.model;
 import source.model.statements.IStatement;
 import source.model.structures.IList;
 import source.model.structures.IStack;
+import source.model.structures.Stack;
 import source.model.values.Value;
+import source.model.structures.Dictionary;
 import source.model.structures.IDictionary;
+import source.model.structures.List;
 
 public class ProgramState 
 {
@@ -13,16 +16,15 @@ public class ProgramState
     private IList<Value> output;
     private IStatement originalProgram;
 
-    public ProgramState(IStack<IStatement> stack, IDictionary<String, Value> symbolTable, IList<Value> output, IStatement program)
+    public ProgramState(IStatement program)
     {
-        this.executionStack = stack;
-        this.symbolTabel = symbolTable;
-        this.output = output;
+        this.executionStack = new Stack<IStatement>();
+        this.symbolTabel = new Dictionary<String, Value>();
+        this.output = new List<Value>();
 
-        // We need to make a deepcopy of this. 
         this.originalProgram = program.deepCopyStatement();
 
-        this.executionStack.push(program);  
+        this.executionStack.push(program);
     }
 
     public IStack<IStatement> getExecutionStack()
@@ -48,7 +50,7 @@ public class ProgramState
     @Override
     public String toString()
     {
-        return "Execution stack:\n" + this.executionStack.toString() + "\nSymbol table:\n" + this.symbolTabel.toString() + 
-            "\nOutput:\n" + this.output.toString();
+        return "\n~Current program state~\nExecution stack:\n" + this.executionStack.toString() + "\nSymbol table:\n" + this.symbolTabel.toString() + 
+            "\nOutput list:\n" + this.output.toString();
     }
 }

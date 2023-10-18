@@ -5,4 +5,6 @@ import source.model.ProgramState;
 public interface Repository 
 {
     public ProgramState getCurrentProgram();
+
+    public String getProgramStateString();
 }

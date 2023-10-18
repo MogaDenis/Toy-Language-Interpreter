@@ -65,4 +65,17 @@ public class List<TElem> implements IList<TElem>
     {
         return this.internalList.size();
     }
+
+    public String toString()
+    {
+        if (this.internalList.isEmpty())
+            return "Empty list\n";
+
+        String string = "";
+
+        for (TElem element : this.internalList)
+            string += element.toString() + '\n';
+
+        return string;
+    }
 }

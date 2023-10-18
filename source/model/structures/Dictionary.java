@@ -7,6 +7,11 @@ public class Dictionary<TKey, TValue> implements IDictionary<TKey, TValue>
 {
     private HashMap<TKey, TValue> internalDictionary;
 
+    public Dictionary()
+    {
+        this.internalDictionary = new HashMap<>();
+    }
+
     public Boolean containsKey(TKey key)
     {
         return this.internalDictionary.containsKey(key);
@@ -34,6 +39,9 @@ public class Dictionary<TKey, TValue> implements IDictionary<TKey, TValue>
 
     public String toString()
     {
+        if (this.internalDictionary.isEmpty())
+            return "Empty dictionary\n";
+
         String string = "";
 
         for (Map.Entry<TKey, TValue> pair : this.internalDictionary.entrySet())

@@ -52,6 +52,6 @@ public class VariableDeclarationStatement implements IStatement
     @Override
     public String toString()
     {
-        return this.type.toString() + " " + this.name;
+        return this.type.toString() + " " + this.name + ";\n";
     }
 }

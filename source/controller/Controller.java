@@ -17,6 +17,11 @@ public class Controller
         this.repository = repository;
     }
 
+    public String getProgramStateString()
+    {
+        return this.repository.getProgramStateString();
+    }
+
     public ProgramState oneStep() throws EmptyStackException, StatementException, ExpressionException  
     {
         ProgramState programState = this.repository.getCurrentProgram();
@@ -25,5 +30,13 @@ public class Controller
         IStatement currentStatement = executionStack.pop();
 
         return currentStatement.execute(programState);
+    }
+
+    public void allSteps() throws EmptyStackException, StatementException, ExpressionException  
+    {
+        ProgramState programState = this.repository.getCurrentProgram();
+
+        while (programState.getExecutionStack().isEmpty() == false)
+            this.oneStep(); 
     }
 }

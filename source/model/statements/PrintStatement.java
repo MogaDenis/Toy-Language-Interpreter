@@ -32,6 +32,6 @@ public class PrintStatement implements IStatement
     @Override
     public String toString()
     {
-        return "print(" + this.expression.toString() + ")";
+        return "print(" + this.expression.toString() + ");\n";
     }
 }
