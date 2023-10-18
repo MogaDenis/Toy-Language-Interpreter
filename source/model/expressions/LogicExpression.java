@@ -13,6 +13,13 @@ public class LogicExpression implements Expression
     private Expression expression2;
     private int operation; // 1 - AND, 2 - OR
 
+    public LogicExpression(Expression expression1, Expression expression2, int operation)
+    {
+        this.expression1 = expression1;
+        this.expression2 = expression2;
+        this.operation = operation;
+    }
+
     public Value evaluate(IDictionary<String, Value> symbolTable) throws ExpressionException, StatementException
     {
         Value value1, value2;

@@ -8,6 +8,11 @@ public class VariableExpression implements Expression
 {
     private String id;
 
+    public VariableExpression(String id)
+    {
+        this.id = id;
+    }
+
     public Value evaluate(IDictionary<String, Value> symbolTable) throws ExpressionException
     {
         if (symbolTable.containsKey(id) == false)

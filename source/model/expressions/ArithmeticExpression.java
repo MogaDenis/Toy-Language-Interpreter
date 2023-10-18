@@ -49,9 +49,9 @@ public class ArithmeticExpression implements Expression
         if (this.operation == 3) // Multiplication
             return new IntValue(number1 * number2);
 
-        if (this.operation == 4) // Division
-            if (number2 == 0)
-                throw new ExpressionException("Division by zero.");
+        // Division
+        if (this.operation == 4 && number2 == 0) 
+            throw new ExpressionException("Division by zero.");
 
         return new IntValue(number1 / number2);
     }

@@ -7,6 +7,11 @@ public class ValueExpression implements Expression
 {
     Value value;
 
+    public ValueExpression(Value value)
+    {
+        this.value = value;
+    }
+
     public Value evaluate(IDictionary<String, Value> symbolTable)
     {
         return this.value;

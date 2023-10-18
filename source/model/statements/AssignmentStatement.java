@@ -30,11 +30,11 @@ public class AssignmentStatement implements IStatement
     {
         IDictionary<String, Value> symbolTable = programState.getSymbolTable();
 
-        if (symbolTable.containsKey(id) == false)
+        if (symbolTable.containsKey(this.id) == false)
             throw new StatementException("The used variable " + this.id + " was not declared.");
 
         Value value = this.expression.evaluate(symbolTable);
-        Type type = symbolTable.get(id).getType();
+        Type type = symbolTable.get(this.id).getType();
 
         if (value.getType().equals(type))
             symbolTable.put(id, value);
