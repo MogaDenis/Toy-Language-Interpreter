@@ -12,11 +12,13 @@ public class ValueExpression implements Expression
         this.value = value;
     }
 
+    @Override
     public Value evaluate(IDictionary<String, Value> symbolTable)
     {
         return this.value;
     }
 
+    @Override
     public String toString()
     {
         return this.value.toString();

@@ -20,6 +20,7 @@ public class LogicExpression implements Expression
         this.operation = operation;
     }
 
+    @Override
     public Value evaluate(IDictionary<String, Value> symbolTable) throws ExpressionException, StatementException
     {
         Value value1, value2;
@@ -47,6 +48,7 @@ public class LogicExpression implements Expression
         return new BoolValue(boolean1 || boolean2);
     }
 
+    @Override
     public String toString()
     {
         String operator = "&&";

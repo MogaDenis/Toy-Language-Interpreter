@@ -13,6 +13,7 @@ public class VariableExpression implements Expression
         this.id = id;
     }
 
+    @Override
     public Value evaluate(IDictionary<String, Value> symbolTable) throws ExpressionException
     {
         if (symbolTable.containsKey(id) == false)
@@ -21,11 +22,9 @@ public class VariableExpression implements Expression
         return symbolTable.get(id);
     }
 
+    @Override
     public String toString()
     {
         return this.id;
     }
-
-    // TODO
-    // Implement toString...
 }

@@ -20,6 +20,7 @@ public class ArithmeticExpression implements Expression
         this.operation = operation;
     }
 
+    @Override
     public Value evaluate(IDictionary<String, Value> symbolTable) throws ExpressionException, StatementException
     {
         Value value1, value2;
@@ -56,6 +57,7 @@ public class ArithmeticExpression implements Expression
         return new IntValue(number1 / number2);
     }
 
+    @Override
     public String toString()
     {
         return this.expression1.toString() + " " + this.operation + " " + this.expression2.toString();
