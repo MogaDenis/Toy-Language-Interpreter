@@ -51,7 +51,7 @@ public class IfStatement implements IStatement
     @Override 
     public String toString()
     {
-        return "if (" + this.expression.toString() + ") then\n  " + this.thenStatement.toString() + 
-                "else\n  " + this.elseStatement.toString();
+        return "if (" + this.expression.toString() + ") then {\n" + this.thenStatement.toString() + 
+                "}\nelse {\n" + this.elseStatement.toString() + "}\n";
     }
 }

@@ -43,6 +43,14 @@ public class ConsoleView
             IntValue(2))), new AssignmentStatement("v", new ValueExpression(new IntValue(3)))), new PrintStatement(new
             VariableExpression("v"))))));
 
+    private IStatement example4 = new CompoundStatement(new VariableDeclarationStatement("x", new IntType()), 
+            new CompoundStatement(new VariableDeclarationStatement("a", new BoolType()),
+            new CompoundStatement(new AssignmentStatement("a", new ValueExpression(new BoolValue(true))), 
+            new WhileStatement(new VariableExpression("a"), new CompoundStatement(new AssignmentStatement("x", 
+            new ArithmeticExpression('+', new VariableExpression("x"), new ValueExpression(new IntValue(1)))), 
+            new CompoundStatement(new PrintStatement(new VariableExpression("x")), new AssignmentStatement("a", 
+            new ValueExpression(new BoolValue(false)))))))));
+
     public ConsoleView()
     {
         this.scanner = new Scanner(System.in);
@@ -75,6 +83,7 @@ public class ConsoleView
         System.out.println("1 - Program 1");
         System.out.println("2 - Program 2");
         System.out.println("3 - Program 3");
+        System.out.println("4 - program 4");
         System.out.println("0 - Cancel\n");
     }
 
@@ -98,7 +107,7 @@ public class ConsoleView
     public void changeCurrentProgram()
     {
         Vector<Integer> validProgramOptions = new Vector<>();
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
             validProgramOptions.add(i);
 
         Integer programChoice = 0;
@@ -131,6 +140,11 @@ public class ConsoleView
         {
             this.currentProgram = new ProgramState(this.example3);
             this.chosenExampleProgram = this.example3;
+        }
+        else if (programChoice == 4)
+        {
+            this.currentProgram = new ProgramState(this.example4);
+            this.chosenExampleProgram = this.example4;
         }
 
         this.repository = new InMemoryRepository(this.currentProgram);

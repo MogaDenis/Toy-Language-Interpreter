@@ -45,7 +45,7 @@ public class Dictionary<TKey, TValue> implements IDictionary<TKey, TValue>
         String string = "";
 
         for (Map.Entry<TKey, TValue> pair : this.internalDictionary.entrySet())
-            string += pair.getKey().toString() + " - " + pair.getValue().toString() + '\n';
+            string += pair.getKey().toString() + " -> " + pair.getValue().toString() + '\n';
 
         return string;
     }

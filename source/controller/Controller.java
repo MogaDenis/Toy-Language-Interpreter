@@ -22,7 +22,7 @@ public class Controller
         return this.repository.getProgramStateString();
     }
 
-    public ProgramState oneStep() throws EmptyStackException, StatementException, ExpressionException  
+    public ProgramState oneStep() throws EmptyStackException, StatementException, ExpressionException
     {
         ProgramState programState = this.repository.getCurrentProgram();
 
@@ -32,7 +32,7 @@ public class Controller
         return currentStatement.execute(programState);
     }
 
-    public void allSteps() throws EmptyStackException, StatementException, ExpressionException  
+    public void allSteps() throws EmptyStackException, StatementException, ExpressionException
     {
         ProgramState programState = this.repository.getCurrentProgram();
 
