@@ -38,7 +38,7 @@ public class IntValue implements Value
         IntValue intValue = (IntValue)otherValue;
 
         return new BoolValue(this.value == intValue.getValue());
-    }
+    };
 
     @Override
     public BoolValue notEqual(Value otherValue)

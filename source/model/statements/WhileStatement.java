@@ -30,6 +30,7 @@ public class WhileStatement implements IStatement
 
         Value expressionValue = this.expression.evaluate(symbolTable);
 
+
         if (expressionValue.getType().equals(new BoolType()) == false)
             throw new StatementException("The expression is not a logic expression.");
 

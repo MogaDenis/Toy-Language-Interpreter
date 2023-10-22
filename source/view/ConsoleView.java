@@ -7,8 +7,10 @@ import source.model.ProgramState;
 import source.model.statements.*;
 import source.model.expressions.*;
 import source.model.types.BoolType;
+import source.model.types.CharType;
 import source.model.types.IntType;
 import source.model.values.BoolValue;
+import source.model.values.CharValue;
 import source.model.values.IntValue;
 import source.repository.*;
 
@@ -60,6 +62,10 @@ public class ConsoleView
             "!="), new CompoundStatement(new PrintStatement(new VariableExpression("var")), new AssignmentStatement("var", 
             new ArithmeticExpression('-', new VariableExpression("var"), new ValueExpression(new IntValue(1))))))));
 
+    private IStatement example7 = new CompoundStatement(new VariableDeclarationStatement("letter", new CharType()),
+            new CompoundStatement(new AssignmentStatement("letter", new ValueExpression(new CharValue('a'))), 
+            new PrintStatement(new VariableExpression("letter"))));
+
     public ConsoleView()
     {
         this.scanner = new Scanner(System.in);
@@ -95,6 +101,7 @@ public class ConsoleView
         System.out.println("4 - program 4");
         System.out.println("5 - program 5");
         System.out.println("6 - program 6");
+        System.out.println("7 - program 7");
         System.out.println("0 - Cancel\n");
     }
 
@@ -118,7 +125,7 @@ public class ConsoleView
     public void changeCurrentProgram()
     {
         Vector<Integer> validProgramOptions = new Vector<>();
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 8; i++)
             validProgramOptions.add(i);
 
         Integer programChoice = 0;
@@ -166,6 +173,11 @@ public class ConsoleView
         {
             this.currentProgram = new ProgramState(this.example6);
             this.chosenExampleProgram = this.example6;
+        }
+        else if (programChoice == 7)
+        {
+            this.currentProgram = new ProgramState(this.example7);
+            this.chosenExampleProgram = this.example7;
         }
 
         this.repository = new InMemoryRepository(this.currentProgram);
