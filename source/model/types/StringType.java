@@ -1,11 +1,11 @@
 package source.model.types;
 
-public class IntType implements Type
+public class StringType implements Type
 {
     @Override
     public boolean equals(Object anotherObject)
     {
-        if (anotherObject instanceof IntType)
+        if (anotherObject instanceof StringType)
             return true;
 
         return false;
@@ -14,6 +14,6 @@ public class IntType implements Type
     @Override
     public String toString()
     {
-        return "int";
+        return "string";
     }
 }

@@ -9,9 +9,11 @@ import source.model.expressions.*;
 import source.model.types.BoolType;
 import source.model.types.CharType;
 import source.model.types.IntType;
+import source.model.types.StringType;
 import source.model.values.BoolValue;
 import source.model.values.CharValue;
 import source.model.values.IntValue;
+import source.model.values.StringValue;
 import source.repository.*;
 
 
@@ -64,7 +66,10 @@ public class ConsoleView
 
     private IStatement example7 = new CompoundStatement(new VariableDeclarationStatement("letter", new CharType()),
             new CompoundStatement(new AssignmentStatement("letter", new ValueExpression(new CharValue('a'))), 
-            new PrintStatement(new VariableExpression("letter"))));
+            new CompoundStatement(new VariableDeclarationStatement("str", new StringType()), 
+            new CompoundStatement(new AssignmentStatement("str", new ValueExpression(new StringValue("Hello, World!"))), 
+            new CompoundStatement(new PrintStatement(new VariableExpression("letter")), 
+            new PrintStatement(new VariableExpression("str")))))));
 
     public ConsoleView()
     {
