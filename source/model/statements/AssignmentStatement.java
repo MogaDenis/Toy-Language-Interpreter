@@ -6,6 +6,7 @@ import source.model.values.Value;
 import source.model.ProgramState;
 import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
+import source.model.exceptions.ValueException;
 import source.model.types.Type;
 
 public class AssignmentStatement implements IStatement
@@ -26,7 +27,7 @@ public class AssignmentStatement implements IStatement
     }
 
     @Override
-    public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException
+    public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException
     {
         IDictionary<String, Value> symbolTable = programState.getSymbolTable();
 

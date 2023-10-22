@@ -6,6 +6,7 @@ import source.model.types.BoolType;
 import source.model.ProgramState;
 import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
+import source.model.exceptions.ValueException;
 import source.model.values.BoolValue;
 import source.model.values.Value;
 
@@ -29,7 +30,7 @@ public class IfStatement implements IStatement
     }
 
     @Override
-    public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException
+    public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException
     {
         IStack<IStatement> executionStack = programState.getExecutionStack();
 

@@ -3,6 +3,7 @@ package source.controller;
 import source.model.exceptions.EmptyStackException;
 import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
+import source.model.exceptions.ValueException;
 import source.model.ProgramState;
 import source.model.statements.IStatement;
 import source.repository.Repository;
@@ -22,7 +23,7 @@ public class Controller
         return this.repository.getProgramStateString();
     }
 
-    public ProgramState oneStep() throws EmptyStackException, StatementException, ExpressionException
+    public ProgramState oneStep() throws EmptyStackException, StatementException, ExpressionException, ValueException
     {
         ProgramState programState = this.repository.getCurrentProgram();
 
@@ -32,7 +33,7 @@ public class Controller
         return currentStatement.execute(programState);
     }
 
-    public void allSteps() throws EmptyStackException, StatementException, ExpressionException
+    public void allSteps() throws EmptyStackException, StatementException, ExpressionException, ValueException
     {
         ProgramState programState = this.repository.getCurrentProgram();
 

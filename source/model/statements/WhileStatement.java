@@ -8,6 +8,7 @@ import source.model.types.BoolType;
 import source.model.values.BoolValue;
 import source.model.values.Value;
 import source.model.exceptions.StatementException;
+import source.model.exceptions.ValueException;
 import source.model.exceptions.ExpressionException;
 
 public class WhileStatement implements IStatement
@@ -22,7 +23,7 @@ public class WhileStatement implements IStatement
     }
 
     @Override
-    public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException
+    public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException
     {
         IStack<IStatement> executionStack = programState.getExecutionStack();
         IDictionary<String, Value> symbolTable = programState.getSymbolTable();
@@ -43,6 +44,7 @@ public class WhileStatement implements IStatement
         return programState;
     }
 
+    @Override
     public IStatement deepCopyStatement()
     {
         return new WhileStatement(this.expression, this.statement);

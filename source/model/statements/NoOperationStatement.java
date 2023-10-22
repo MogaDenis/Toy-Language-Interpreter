@@ -4,11 +4,9 @@ import source.model.ProgramState;
 
 public class NoOperationStatement implements IStatement
 {
-    public NoOperationStatement()
-    {
+    public NoOperationStatement() {}
 
-    }
-
+    @Override
     public ProgramState execute(ProgramState programState)
     {
         return programState;
@@ -18,5 +16,11 @@ public class NoOperationStatement implements IStatement
     public IStatement deepCopyStatement()
     {
         return new NoOperationStatement();
+    }
+
+    @Override
+    public String toString()
+    {
+        return "";
     }
 }
