@@ -13,6 +13,7 @@ public class Stack<TElem> implements IStack<TElem>
         this.internalStack = new Vector<TElem>();
     }
 
+    @Override
     public TElem pop() throws EmptyStackException
     {
         if (this.internalStack.size() == 0)
@@ -25,16 +26,19 @@ public class Stack<TElem> implements IStack<TElem>
         return element;
     }
 
+    @Override
     public void push(TElem element)
     {
         this.internalStack.add(element);
     }
 
+    @Override
     public Boolean isEmpty()
     {
         return this.internalStack.isEmpty();
     }
 
+    @Override
     public String toString()
     {
         if (this.internalStack.isEmpty())

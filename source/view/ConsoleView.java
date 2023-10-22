@@ -100,13 +100,13 @@ public class ConsoleView
     {
         System.out.println("\n~ Choose program ~\n");
 
-        System.out.println("1 - Program 1");
-        System.out.println("2 - Program 2");
-        System.out.println("3 - Program 3");
-        System.out.println("4 - program 4");
-        System.out.println("5 - program 5");
-        System.out.println("6 - program 6");
-        System.out.println("7 - program 7");
+        System.out.println("1 - Program 1 - Basic declaration and print.");
+        System.out.println("2 - Program 2 - Arithmetic expressions.");
+        System.out.println("3 - Program 3 - If else statement.");
+        System.out.println("4 - program 4 - While statement.");
+        System.out.println("5 - program 5 - While (infinite loop).");
+        System.out.println("6 - program 6 - While (print numbers).");
+        System.out.println("7 - program 7 - String and Char.");
         System.out.println("0 - Cancel\n");
     }
 

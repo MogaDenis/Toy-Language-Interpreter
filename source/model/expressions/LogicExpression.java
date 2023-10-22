@@ -12,9 +12,9 @@ public class LogicExpression implements Expression
 {
     private Expression expression1;
     private Expression expression2;
-    private int operation; // 1 - AND, 2 - OR
+    private String operation;
 
-    public LogicExpression(Expression expression1, Expression expression2, int operation)
+    public LogicExpression(Expression expression1, Expression expression2, String operation)
     {
         this.expression1 = expression1;
         this.expression2 = expression2;
@@ -42,7 +42,10 @@ public class LogicExpression implements Expression
         boolean boolean1 = boolValue1.getValue();
         boolean boolean2 = boolValue2.getValue();
 
-        if (this.operation == 1) // AND
+        if (this.operation != "&&" && this.operation != "||")
+            throw new ExpressionException("Invalid operator.");
+
+        if (this.operation == "&&") // AND
             return new BoolValue(boolean1 && boolean2);
         
         // OR
@@ -52,11 +55,6 @@ public class LogicExpression implements Expression
     @Override
     public String toString()
     {
-        String operator = "&&";
-
-        if (this.operation == 2)
-            operator = "||";
-
-        return this.expression1.toString() + " " + operator + " " + this.expression2.toString();
+        return this.expression1.toString() + " " + this.operation + " " + this.expression2.toString();
     }
 }

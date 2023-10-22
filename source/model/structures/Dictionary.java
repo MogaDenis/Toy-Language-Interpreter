@@ -12,31 +12,37 @@ public class Dictionary<TKey, TValue> implements IDictionary<TKey, TValue>
         this.internalDictionary = new HashMap<>();
     }
 
+    @Override
     public Boolean containsKey(TKey key)
     {
         return this.internalDictionary.containsKey(key);
     }   
 
+    @Override
     public Boolean containsValue(TValue value)
     {
         return this.internalDictionary.containsValue(value);
     }
 
+    @Override
     public TValue get(TKey key)
     {
         return this.internalDictionary.get(key);
     }
 
+    @Override
     public void put(TKey key, TValue value)
     {
         this.internalDictionary.put(key, value);
     }
 
+    @Override
     public TValue remove(TKey key)
     {
         return this.internalDictionary.remove(key);
     }
 
+    @Override
     public String toString()
     {
         if (this.internalDictionary.isEmpty())
