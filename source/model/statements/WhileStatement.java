@@ -9,6 +9,7 @@ import source.model.values.BoolValue;
 import source.model.values.Value;
 import source.model.exceptions.StatementException;
 import source.model.exceptions.ValueException;
+import source.model.exceptions.EmptyStackException;
 import source.model.exceptions.ExpressionException;
 
 public class WhileStatement implements IStatement
@@ -23,7 +24,7 @@ public class WhileStatement implements IStatement
     }
 
     @Override
-    public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException
+    public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException, EmptyStackException
     {
         IStack<IStatement> executionStack = programState.getExecutionStack();
         IDictionary<String, Value> symbolTable = programState.getSymbolTable();
@@ -42,7 +43,10 @@ public class WhileStatement implements IStatement
             executionStack.push(this.statement);
         }
 
-        return programState;
+         // If something breaks, remove this.
+        return executionStack.pop().execute(programState);
+
+        // return programState;
     }
 
     @Override

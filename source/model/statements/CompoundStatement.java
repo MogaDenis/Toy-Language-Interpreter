@@ -1,6 +1,11 @@
 package source.model.statements;
 
+import source.model.exceptions.EmptyStackException;
+
 import source.model.ProgramState;
+import source.model.exceptions.ExpressionException;
+import source.model.exceptions.StatementException;
+import source.model.exceptions.ValueException;
 import source.model.structures.IStack;
 
 public class CompoundStatement implements IStatement
@@ -27,13 +32,16 @@ public class CompoundStatement implements IStatement
     }
 
     @Override
-    public ProgramState execute(ProgramState programState)
+    public ProgramState execute(ProgramState programState) throws StatementException, ValueException, ExpressionException, EmptyStackException
     {
         IStack<IStatement> stack = programState.getExecutionStack();
 
         stack.push(second);
         stack.push(first);
 
-        return programState;
+        // If something breaks, remove this.
+        return stack.pop().execute(programState);
+
+        // return programState;
     }
 }

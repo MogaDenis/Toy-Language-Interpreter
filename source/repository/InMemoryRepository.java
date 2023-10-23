@@ -4,16 +4,19 @@ import java.util.Vector;
 
 import source.model.ProgramState;
 
-public class InMemoryRepository implements Repository {
+public class InMemoryRepository implements Repository 
+{
     private Vector<ProgramState> programStates;
 
-    public InMemoryRepository(ProgramState programState) {
+    public InMemoryRepository(ProgramState programState) 
+    {
         this.programStates = new Vector<ProgramState>();
         this.programStates.add(programState);
     }
 
     @Override
-    public ProgramState getCurrentProgram() {
+    public ProgramState getCurrentProgram() 
+    {
         if (this.programStates.isEmpty())
             return null;
 
@@ -21,7 +24,8 @@ public class InMemoryRepository implements Repository {
     }
 
     @Override
-    public String getProgramStateString() {
+    public String getProgramStateString() 
+    {
         return this.programStates.get(0).toString();
     }
 }

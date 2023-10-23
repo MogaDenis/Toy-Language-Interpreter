@@ -71,6 +71,16 @@ public class ConsoleView
             new CompoundStatement(new PrintStatement(new VariableExpression("letter")), 
             new PrintStatement(new VariableExpression("str")))))));
 
+    private IStatement example8 = new CompoundStatement(new VariableDeclarationStatement("text", new StringType()), 
+            new CompoundStatement(new VariableDeclarationStatement("letter", new CharType()), 
+            new CompoundStatement(new AssignmentStatement("text", new ValueExpression(new StringValue("Hello,"))), 
+            new CompoundStatement(new AssignmentStatement("letter", new ValueExpression(new CharValue('a'))),
+            new CompoundStatement(new AssignmentStatement("text", new ArithmeticExpression('+', 
+            new VariableExpression("text"), new ValueExpression(new StringValue(" World!")))), 
+            new CompoundStatement(new AssignmentStatement("letter", new ArithmeticExpression('+', 
+            new VariableExpression("letter"), new ValueExpression(new IntValue(1)))), 
+            new CompoundStatement(new PrintStatement(new VariableExpression("text")), new PrintStatement(new VariableExpression("letter")))))))));
+
     public ConsoleView()
     {
         this.scanner = new Scanner(System.in);
@@ -107,6 +117,7 @@ public class ConsoleView
         System.out.println("5 - program 5 - While (infinite loop).");
         System.out.println("6 - program 6 - While (print numbers).");
         System.out.println("7 - program 7 - String and Char.");
+        System.out.println("8 - program 8 - String and Char arithmetic.");
         System.out.println("0 - Cancel\n");
     }
 
@@ -130,7 +141,7 @@ public class ConsoleView
     public void changeCurrentProgram()
     {
         Vector<Integer> validProgramOptions = new Vector<>();
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 9; i++)
             validProgramOptions.add(i);
 
         Integer programChoice = 0;
@@ -183,6 +194,11 @@ public class ConsoleView
         {
             this.currentProgram = new ProgramState(this.example7);
             this.chosenExampleProgram = this.example7;
+        }
+        else if (programChoice == 8)
+        {
+            this.currentProgram = new ProgramState(this.example8);
+            this.chosenExampleProgram = this.example8;
         }
 
         this.repository = new InMemoryRepository(this.currentProgram);
