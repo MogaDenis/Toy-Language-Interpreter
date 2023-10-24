@@ -39,9 +39,6 @@ public class CompoundStatement implements IStatement
         stack.push(second);
         stack.push(first);
 
-        // If something breaks, remove this.
-        return stack.pop().execute(programState);
-
-        // return programState;
+        return programState;
     }
 }

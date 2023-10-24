@@ -43,10 +43,7 @@ public class WhileStatement implements IStatement
             executionStack.push(this.statement);
         }
 
-         // If something breaks, remove this.
-        return executionStack.pop().execute(programState);
-
-        // return programState;
+        return programState;
     }
 
     @Override

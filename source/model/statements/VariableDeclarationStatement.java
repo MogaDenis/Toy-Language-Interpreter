@@ -3,15 +3,7 @@ package source.model.statements;
 import source.model.ProgramState;
 import source.model.exceptions.StatementException;
 import source.model.structures.IDictionary;
-import source.model.types.BoolType;
-import source.model.types.CharType;
-import source.model.types.IntType;
-import source.model.types.StringType;
 import source.model.types.Type;
-import source.model.values.BoolValue;
-import source.model.values.CharValue;
-import source.model.values.IntValue;
-import source.model.values.StringValue;
 import source.model.values.Value;
 
 public class VariableDeclarationStatement implements IStatement
@@ -39,18 +31,7 @@ public class VariableDeclarationStatement implements IStatement
         if (symbolTable.containsKey(name) == true)
             throw new StatementException("Variable " + this.name + " was already defined.");
 
-        Value defaultValue = null;
-
-        if (this.type.equals(new IntType()))
-            defaultValue = new IntValue(0);
-        else if (this.type.equals(new BoolType()))
-            defaultValue = new BoolValue(false);
-        else if (this.type.equals(new CharType()))
-            defaultValue = new CharValue('\0');
-        else if (this.type.equals(new StringType()))
-            defaultValue = new StringValue("");
-
-        symbolTable.put(this.name, defaultValue);
+        symbolTable.put(this.name, this.type.defaultValue());
 
         return programState;
     }

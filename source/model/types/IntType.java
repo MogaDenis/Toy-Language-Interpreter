@@ -1,7 +1,16 @@
 package source.model.types;
 
+import source.model.values.Value;
+import source.model.values.IntValue;
+
 public class IntType implements Type
 {
+    @Override
+    public Value defaultValue()
+    {
+        return new IntValue(0);
+    }
+
     @Override
     public boolean equals(Object anotherObject)
     {
