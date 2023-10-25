@@ -47,7 +47,7 @@ public class Stack<TElem> implements IStack<TElem>
         String string = new String();
 
         for (int i = this.internalStack.size() - 1; i >= 0; i--)
-            string += this.internalStack.get(i).toString();
+            string += "-> " + this.internalStack.get(i).toString();
 
         return string;
     }

@@ -1,14 +1,14 @@
 package source.model.structures;
 
-import java.util.ArrayList;
+import java.util.Vector;
 
 public class List<TElem> implements IList<TElem>
 {
-    private ArrayList<TElem> internalList;
+    private Vector<TElem> internalList;
 
     public List()
     {
-        this.internalList = new ArrayList<TElem>();
+        this.internalList = new Vector<TElem>();
     }
 
     @Override
