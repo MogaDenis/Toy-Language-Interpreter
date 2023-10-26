@@ -85,6 +85,14 @@ public class ArithmeticExpression implements Expression
 
         // If the operand types are different, allow only addition/subtraction of chars with ints.
 
+        if (firstValueType.equals(new StringType()) && secondValueType.equals(new CharType()))
+        {
+            StringValue firstStringValue = (StringValue)firstValue;
+            CharValue secondCharValue = (CharValue)secondValue;
+
+            return new StringValue(firstStringValue.getValue() + secondCharValue.getValue());
+        }
+
         if (firstValueType.equals(new CharType()) == false || secondValueType.equals(new IntType()) == false)
             throw new ExpressionException("Incompatible operands.");
 

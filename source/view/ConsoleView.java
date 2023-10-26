@@ -81,6 +81,13 @@ public class ConsoleView
             new VariableExpression("letter"), new ValueExpression(new IntValue(1)))), 
             new CompoundStatement(new PrintStatement(new VariableExpression("text")), new PrintStatement(new VariableExpression("letter")))))))));
 
+    private IStatement example9 = new CompoundStatement(new VariableDeclarationStatement("text", new StringType()), 
+            new CompoundStatement(new VariableDeclarationStatement("letter", new CharType()), 
+            new CompoundStatement(new AssignmentStatement("text", new ValueExpression(new StringValue("Hello "))), 
+            new CompoundStatement(new AssignmentStatement("letter", new ValueExpression(new CharValue('a'))), 
+            new CompoundStatement(new AssignmentStatement("text", new ArithmeticExpression('+', new VariableExpression("text"),
+            new VariableExpression("letter"))), new PrintStatement(new VariableExpression("text")))))));
+
     public ConsoleView()
     {
         this.scanner = new Scanner(System.in);
@@ -118,6 +125,7 @@ public class ConsoleView
         System.out.println("6 - program 6 - While (print numbers).");
         System.out.println("7 - program 7 - String and Char.");
         System.out.println("8 - program 8 - String and Char arithmetic.");
+        System.out.println("9 - program 9 - String and Char concatenation.");
         System.out.println("0 - Cancel\n");
     }
 
@@ -141,7 +149,7 @@ public class ConsoleView
     public void changeCurrentProgram()
     {
         Vector<Integer> validProgramOptions = new Vector<>();
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 10; i++)
             validProgramOptions.add(i);
 
         Integer programChoice = 0;
@@ -199,6 +207,11 @@ public class ConsoleView
         {
             this.currentProgram = new ProgramState(this.example8);
             this.chosenExampleProgram = this.example8;
+        }
+        else if (programChoice == 9)
+        {
+            this.currentProgram = new ProgramState(this.example9);
+            this.chosenExampleProgram = this.example9;
         }
 
         this.repository = new InMemoryRepository(this.currentProgram);
