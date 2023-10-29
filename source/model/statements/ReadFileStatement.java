@@ -15,12 +15,12 @@ import source.model.values.IntValue;
 import source.model.values.StringValue;
 import source.model.values.Value;
 
-public class ReadFile implements IStatement
+public class ReadFileStatement implements IStatement
 {
     private Expression expression;
     private String variableName;
 
-    public ReadFile(Expression expression, String variableName)
+    public ReadFileStatement(Expression expression, String variableName)
     {
         this.expression = expression;
         this.variableName = variableName;
@@ -77,6 +77,6 @@ public class ReadFile implements IStatement
 
     public IStatement deepCopyStatement()
     {
-        return new ReadFile(this.expression, this.variableName);
+        return new ReadFileStatement(this.expression, this.variableName);
     }
 }

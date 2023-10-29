@@ -14,11 +14,11 @@ import source.model.types.StringType;
 import source.model.values.StringValue;
 import source.model.values.Value;
 
-public class OpenRFile implements IStatement
+public class OpenReadFileStatement implements IStatement
 {
     private Expression expression;
 
-    public OpenRFile(Expression expression)
+    public OpenReadFileStatement(Expression expression)
     {
         this.expression = expression;
     }
@@ -54,6 +54,6 @@ public class OpenRFile implements IStatement
 
     public IStatement deepCopyStatement()
     {
-        return new OpenRFile(this.expression);
+        return new OpenReadFileStatement(this.expression);
     }
 }
