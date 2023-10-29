@@ -4,22 +4,22 @@ import java.util.Vector;
 
 import source.model.exceptions.EmptyStackException;
 
-public class Stack<TElem> implements IStack<TElem>
+public class Stack<T> implements IStack<T>
 {
-    private Vector<TElem> internalStack;
+    private Vector<T> internalStack;
 
     public Stack()
     {
-        this.internalStack = new Vector<TElem>();
+        this.internalStack = new Vector<T>();
     }
 
     @Override
-    public TElem pop() throws EmptyStackException
+    public T pop() throws EmptyStackException
     {
         if (this.internalStack.size() == 0)
             throw new EmptyStackException("Empty stack!");
 
-        TElem element = this.internalStack.get(this.internalStack.size() - 1);
+        T element = this.internalStack.get(this.internalStack.size() - 1);
 
         this.internalStack.remove(this.internalStack.size() - 1);
 
@@ -27,7 +27,7 @@ public class Stack<TElem> implements IStack<TElem>
     }
 
     @Override
-    public void push(TElem element)
+    public void push(T element)
     {
         this.internalStack.add(element);
     }

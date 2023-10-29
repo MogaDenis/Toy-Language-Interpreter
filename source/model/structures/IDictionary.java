@@ -1,11 +1,11 @@
 package source.model.structures;
 
-public interface IDictionary<TKey, TValue> 
+public interface IDictionary<K, V> 
 {
-    public Boolean containsKey(TKey key);
-    public Boolean containsValue(TValue value);    
-    public TValue get(TKey key);
-    public void put(TKey key, TValue value);
-    public TValue remove(TKey key);
+    public Boolean containsKey(K key);
+    public Boolean containsValue(V value);    
+    public V get(K key);
+    public void put(K key, V value);
+    public V remove(K key);
     public String toString();
 }

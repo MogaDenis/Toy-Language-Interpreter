@@ -3,9 +3,9 @@ package source.model.structures;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Dictionary<TKey, TValue> implements IDictionary<TKey, TValue>
+public class Dictionary<K, V> implements IDictionary<K, V>
 {
-    private HashMap<TKey, TValue> internalDictionary;
+    private HashMap<K, V> internalDictionary;
 
     public Dictionary()
     {
@@ -13,31 +13,31 @@ public class Dictionary<TKey, TValue> implements IDictionary<TKey, TValue>
     }
 
     @Override
-    public Boolean containsKey(TKey key)
+    public Boolean containsKey(K key)
     {
         return this.internalDictionary.containsKey(key);
     }   
 
     @Override
-    public Boolean containsValue(TValue value)
+    public Boolean containsValue(V value)
     {
         return this.internalDictionary.containsValue(value);
     }
 
     @Override
-    public TValue get(TKey key)
+    public V get(K key)
     {
         return this.internalDictionary.get(key);
     }
 
     @Override
-    public void put(TKey key, TValue value)
+    public void put(K key, V value)
     {
         this.internalDictionary.put(key, value);
     }
 
     @Override
-    public TValue remove(TKey key)
+    public V remove(K key)
     {
         return this.internalDictionary.remove(key);
     }
@@ -50,7 +50,7 @@ public class Dictionary<TKey, TValue> implements IDictionary<TKey, TValue>
 
         String string = "";
 
-        for (Map.Entry<TKey, TValue> pair : this.internalDictionary.entrySet())
+        for (Map.Entry<K, V> pair : this.internalDictionary.entrySet())
             string += pair.getKey().toString() + " -> " + pair.getValue().toString() + '\n';
 
         return string;

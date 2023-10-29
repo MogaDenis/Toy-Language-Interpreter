@@ -1,5 +1,6 @@
 package source.view;
 
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.Vector;
 import source.controller.Controller;
@@ -146,7 +147,7 @@ public class ConsoleView
         System.out.println(this.controller.getProgramStateString());
     }
 
-    public void changeCurrentProgram()
+    public void changeCurrentProgram() throws IOException
     {
         Vector<Integer> validProgramOptions = new Vector<>();
         for (int i = 0; i < 10; i++)
@@ -214,16 +215,16 @@ public class ConsoleView
             this.chosenExampleProgram = this.example9;
         }
 
-        this.repository = new InMemoryRepository(this.currentProgram);
+        this.repository = new InMemoryRepository(this.currentProgram, "log.txt");
         this.controller = new Controller(this.repository);
     }
 
-    public void run()
+    public void run() throws IOException
     {
         this.currentProgram = new ProgramState(this.example1);
         this.chosenExampleProgram = this.example1;
 
-        this.repository = new InMemoryRepository(this.currentProgram);
+        this.repository = new InMemoryRepository(this.currentProgram, "log.txt");
         this.controller = new Controller(this.repository);
 
         while (true)

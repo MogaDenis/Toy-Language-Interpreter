@@ -2,65 +2,65 @@ package source.model.structures;
 
 import java.util.Vector;
 
-public class List<TElem> implements IList<TElem>
+public class List<T> implements IList<T>
 {
-    private Vector<TElem> internalList;
+    private Vector<T> internalList;
 
     public List()
     {
-        this.internalList = new Vector<TElem>();
+        this.internalList = new Vector<T>();
     }
 
     @Override
-    public void add(TElem element)
+    public void add(T element)
     {
         this.internalList.add(element);
     }
 
     @Override
-    public void add(int index, TElem element)
+    public void add(int index, T element)
     {
         this.internalList.add(index, element);
     }
     
     @Override
-    public void set(int index, TElem element)
+    public void set(int index, T element)
     {
         this.internalList.set(index, element);
     }
     
     @Override
-    public Integer indexOf(TElem element)
+    public Integer indexOf(T element)
     {
         return this.internalList.indexOf(element);
     }
     
     @Override
-    public Integer lastIndexOf(TElem element)
+    public Integer lastIndexOf(T element)
     {
         return this.internalList.lastIndexOf(element);
     }
     
     @Override
-    public Boolean remove(TElem element)
+    public Boolean remove(T element)
     {
         return this.internalList.remove(element);
     }
     
     @Override
-    public TElem remove(int index)
+    public T remove(int index)
     {
         return this.internalList.remove(index);
     }
     
     @Override
-    public TElem get(int index)
+    public T get(int index)
     {
         return this.internalList.get(index);
     }
     
     @Override
-    public Boolean contains(TElem element)
+    public Boolean contains(T element)
     {
         return this.internalList.contains(element);
     }
@@ -85,7 +85,7 @@ public class List<TElem> implements IList<TElem>
 
         String string = "";
 
-        for (TElem element : this.internalList)
+        for (T element : this.internalList)
             string += element.toString() + '\n';
 
         return string;

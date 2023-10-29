@@ -36,8 +36,12 @@ public class Controller
     public void allSteps() throws EmptyStackException, StatementException, ExpressionException, ValueException
     {
         ProgramState programState = this.repository.getCurrentProgram();
+        this.repository.logProgramStateExecution();
 
         while (programState.getExecutionStack().isEmpty() == false)
+        {
             this.oneStep(); 
+            this.repository.logProgramStateExecution();
+        }
     }
 }

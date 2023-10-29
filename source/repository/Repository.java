@@ -7,4 +7,6 @@ public interface Repository
     public ProgramState getCurrentProgram();
 
     public String getProgramStateString();
+
+    public void logProgramStateExecution();
 }
