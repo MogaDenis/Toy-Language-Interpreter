@@ -57,7 +57,7 @@ public class CloseFileStatement implements IStatement
     @Override
     public IStatement deepCopy()
     {
-        return new CloseFileStatement(this.expression);
+        return new CloseFileStatement(this.expression.deepCopy());
     }
 
     @Override

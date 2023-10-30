@@ -76,4 +76,10 @@ public class BoolValue implements Value
     {
         throw new ValueException("Relation '>=' is undefined for BoolValue.");
     }
+
+    @Override
+    public Value deepCopy()
+    {
+        return new BoolValue(this.truthValue);
+    }
 }

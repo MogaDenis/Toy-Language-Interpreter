@@ -75,4 +75,10 @@ public class StringValue implements Value
     {
         return "\"" + this.string + "\"";
     }
+
+    @Override
+    public Value deepCopy()
+    {
+        return new StringValue(this.string);
+    }
 }

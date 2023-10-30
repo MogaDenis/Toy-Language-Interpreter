@@ -94,4 +94,10 @@ public class CharValue implements Value
     {
         return "'" + String.valueOf(this.character) + "'";
     }
+
+    @Override
+    public Value deepCopy()
+    {
+        return new CharValue(this.character);
+    }
 }

@@ -13,4 +13,6 @@ public interface Value
     public BoolValue lessThanOrEqual(Value otherValue) throws ValueException;
     public BoolValue greaterThan(Value otherValue) throws ValueException;
     public BoolValue greaterThanOrEqual(Value otherValue) throws ValueException;
+
+    public Value deepCopy();
 }

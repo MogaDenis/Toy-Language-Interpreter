@@ -78,7 +78,7 @@ public class ReadFileStatement implements IStatement
     @Override
     public IStatement deepCopy()
     {
-        return new ReadFileStatement(this.expression, this.variableName);
+        return new ReadFileStatement(this.expression.deepCopy(), this.variableName);
     }
 
     @Override

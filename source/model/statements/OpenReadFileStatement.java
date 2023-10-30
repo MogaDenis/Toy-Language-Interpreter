@@ -55,7 +55,7 @@ public class OpenReadFileStatement implements IStatement
     @Override
     public IStatement deepCopy()
     {
-        return new OpenReadFileStatement(this.expression);
+        return new OpenReadFileStatement(this.expression.deepCopy());
     }
 
     @Override

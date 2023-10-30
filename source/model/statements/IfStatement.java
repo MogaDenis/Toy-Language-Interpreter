@@ -26,7 +26,7 @@ public class IfStatement implements IStatement
     @Override
     public IStatement deepCopy()
     {
-        return new IfStatement(this.expression, this.thenStatement.deepCopy(), this.elseStatement.deepCopy());
+        return new IfStatement(this.expression.deepCopy(), this.thenStatement.deepCopy(), this.elseStatement.deepCopy());
     }
 
     @Override

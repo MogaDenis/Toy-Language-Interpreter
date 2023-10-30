@@ -94,4 +94,10 @@ public class IntValue implements Value
 
         return new BoolValue(this.value >= intValue.getValue());
     }
+
+    @Override
+    public Value deepCopy()
+    {
+        return new IntValue(this.value);
+    }
 }

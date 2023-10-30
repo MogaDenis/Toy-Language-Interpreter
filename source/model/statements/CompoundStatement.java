@@ -1,11 +1,6 @@
 package source.model.statements;
 
-import source.model.exceptions.EmptyStackException;
-
 import source.model.ProgramState;
-import source.model.exceptions.ExpressionException;
-import source.model.exceptions.StatementException;
-import source.model.exceptions.ValueException;
 import source.model.structures.IStack;
 
 public class CompoundStatement implements IStatement
@@ -22,7 +17,7 @@ public class CompoundStatement implements IStatement
     @Override
     public IStatement deepCopy()
     {
-        return new CompoundStatement(this.first, this.second);
+        return new CompoundStatement(this.first.deepCopy(), this.second.deepCopy());
     }
 
     @Override
@@ -32,7 +27,7 @@ public class CompoundStatement implements IStatement
     }
 
     @Override
-    public ProgramState execute(ProgramState programState) throws StatementException, ValueException, ExpressionException, EmptyStackException
+    public ProgramState execute(ProgramState programState)
     {
         IStack<IStatement> stack = programState.getExecutionStack();
 

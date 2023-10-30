@@ -23,7 +23,7 @@ public class AssignmentStatement implements IStatement
     @Override
     public IStatement deepCopy()
     {
-        return new AssignmentStatement(this.id, this.expression);
+        return new AssignmentStatement(this.id, this.expression.deepCopy());
     }
 
     @Override
