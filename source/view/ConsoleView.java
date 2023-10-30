@@ -89,6 +89,16 @@ public class ConsoleView
             new CompoundStatement(new AssignmentStatement("text", new ArithmeticExpression('+', new VariableExpression("text"),
             new VariableExpression("letter"))), new PrintStatement(new VariableExpression("text")))))));
 
+    private IStatement example10 = new CompoundStatement(new VariableDeclarationStatement("filePath", new StringType()),
+            new CompoundStatement(new AssignmentStatement("filePath", new ValueExpression(new StringValue("test.in"))),
+            new CompoundStatement(new OpenReadFileStatement(new VariableExpression("filePath")), 
+            new CompoundStatement(new VariableDeclarationStatement("value", new IntType()), 
+            new CompoundStatement(new ReadFileStatement(new VariableExpression("filePath"), "value"),
+            new CompoundStatement(new PrintStatement(new VariableExpression("value")),
+            new CompoundStatement(new ReadFileStatement(new VariableExpression("filePath"), "value"),
+            new CompoundStatement(new PrintStatement(new VariableExpression("value")), 
+            new CloseFileStatement(new VariableExpression("filePath"))))))))));
+
     public ConsoleView()
     {
         this.scanner = new Scanner(System.in);
@@ -127,6 +137,7 @@ public class ConsoleView
         System.out.println("7 - program 7 - String and Char.");
         System.out.println("8 - program 8 - String and Char arithmetic.");
         System.out.println("9 - program 9 - String and Char concatenation.");
+        System.out.println("10 - program 10 - Read from file.");
         System.out.println("0 - Cancel\n");
     }
 
@@ -150,7 +161,7 @@ public class ConsoleView
     public void changeCurrentProgram() throws IOException
     {
         Vector<Integer> validProgramOptions = new Vector<>();
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 11; i++)
             validProgramOptions.add(i);
 
         Integer programChoice = 0;
@@ -213,6 +224,11 @@ public class ConsoleView
         {
             this.currentProgram = new ProgramState(this.example9);
             this.chosenExampleProgram = this.example9;
+        }
+        else if (programChoice == 10)
+        {
+            this.currentProgram = new ProgramState(this.example10);
+            this.chosenExampleProgram = this.example10;
         }
 
         this.repository = new InMemoryRepository(this.currentProgram, "log.txt");

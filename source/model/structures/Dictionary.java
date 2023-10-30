@@ -55,4 +55,18 @@ public class Dictionary<K, V> implements IDictionary<K, V>
 
         return string;
     }
+
+    @Override
+    public String toStringKeySet()
+    {
+        if (this.internalDictionary.isEmpty())
+            return "Empty dictionary\n";
+
+        String string = "";
+
+        for (Map.Entry<K, V> pair : this.internalDictionary.entrySet())
+            string += pair.getKey().toString() + '\n';
+
+        return string;
+    }
 }

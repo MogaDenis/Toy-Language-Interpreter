@@ -9,4 +9,6 @@ import source.model.values.Value;
 public interface Expression
 {
     public Value evaluate(IDictionary<String, Value> symbolTable) throws StatementException, ExpressionException, ValueException;
+
+    public Expression deepCopy();
 }

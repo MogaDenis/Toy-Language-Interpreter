@@ -23,6 +23,12 @@ public class VariableExpression implements Expression
     }
 
     @Override
+    public Expression deepCopy()
+    {
+        return new VariableExpression(this.id);
+    }
+
+    @Override
     public String toString()
     {
         return this.id;

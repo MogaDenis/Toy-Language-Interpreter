@@ -13,11 +13,11 @@ import source.model.values.Value;
 import source.model.structures.IDictionary;
 import source.model.types.StringType;
 
-public class CloseFile implements IStatement
+public class CloseFileStatement implements IStatement
 {
     private Expression expression;
 
-    public CloseFile(Expression expression)
+    public CloseFileStatement(Expression expression)
     {
         this.expression = expression;
     }
@@ -28,7 +28,7 @@ public class CloseFile implements IStatement
 
         Value expressionValue = this.expression.evaluate(symbolTable);
 
-        if (expressionValue.getType() != new StringType())
+        if (expressionValue.getType().equals(new StringType()) == false)
             throw new StatementException("The given expression is not of StringType");
 
         StringValue stringFileName = (StringValue)expressionValue;
@@ -54,8 +54,15 @@ public class CloseFile implements IStatement
         return programState;
     }
 
-    public IStatement deepCopyStatement()
+    @Override
+    public IStatement deepCopy()
     {
-        return new CloseFile(this.expression);
+        return new CloseFileStatement(this.expression);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "closeReadFile(" + this.expression.toString() + ");\n";
     }
 }

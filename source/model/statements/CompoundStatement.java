@@ -20,7 +20,7 @@ public class CompoundStatement implements IStatement
     }
 
     @Override
-    public IStatement deepCopyStatement()
+    public IStatement deepCopy()
     {
         return new CompoundStatement(this.first, this.second);
     }

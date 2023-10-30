@@ -8,4 +8,5 @@ public interface IDictionary<K, V>
     public void put(K key, V value);
     public V remove(K key);
     public String toString();
+    public String toStringKeySet();
 }

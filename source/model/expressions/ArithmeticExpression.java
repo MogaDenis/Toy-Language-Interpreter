@@ -146,6 +146,12 @@ public class ArithmeticExpression implements Expression
     }
 
     @Override
+    public Expression deepCopy()
+    {
+        return new ArithmeticExpression(this.operation, this.expression1.deepCopy(), this.expression2.deepCopy());
+    }
+
+    @Override
     public String toString()
     {
         return this.expression1.toString() + " " + this.operation + " " + this.expression2.toString();

@@ -17,7 +17,7 @@ public class PrintStatement implements IStatement
     }
 
     @Override
-    public IStatement deepCopyStatement()
+    public IStatement deepCopy()
     {
         return new PrintStatement(this.expression);
     }

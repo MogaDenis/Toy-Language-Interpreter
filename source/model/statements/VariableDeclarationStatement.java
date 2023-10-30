@@ -18,7 +18,7 @@ public class VariableDeclarationStatement implements IStatement
     }
 
     @Override
-    public IStatement deepCopyStatement()
+    public IStatement deepCopy()
     {
         return new VariableDeclarationStatement(this.name, this.type);
     }

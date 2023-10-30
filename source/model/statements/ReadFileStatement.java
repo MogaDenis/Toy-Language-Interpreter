@@ -35,14 +35,14 @@ public class ReadFileStatement implements IStatement
 
         Value variableValue = symbolTable.get(variableName);
 
-        if (variableValue.getType() != new IntType())
+        if (variableValue.getType().equals(new IntType()) == false)
             throw new StatementException("The given variable is not of IntType.");
 
         IntValue integerValue = (IntValue)variableValue;
 
         Value expressionValue = this.expression.evaluate(symbolTable);
 
-        if (expressionValue.getType() != new StringType())
+        if (expressionValue.getType().equals(new StringType()) == false)
             throw new StatementException("The given expression is not of StringType.");
 
         StringValue stringFileName = (StringValue)expressionValue;
@@ -75,8 +75,15 @@ public class ReadFileStatement implements IStatement
         return programState;
     }
 
-    public IStatement deepCopyStatement()
+    @Override
+    public IStatement deepCopy()
     {
         return new ReadFileStatement(this.expression, this.variableName);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "readFile(" + this.expression.toString() + ", " + this.variableName + ");\n";
     }
 }

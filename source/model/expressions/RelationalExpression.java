@@ -42,6 +42,12 @@ public class RelationalExpression implements Expression
     }
 
     @Override
+    public Expression deepCopy()
+    {
+        return new RelationalExpression(this.expression1.deepCopy(), this.expression2.deepCopy(), this.relation);
+    }
+
+    @Override
     public String toString()
     {
         return this.expression1.toString() + " " + this.relation + " " + this.expression2.toString();

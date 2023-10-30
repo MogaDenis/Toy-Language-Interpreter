@@ -28,7 +28,7 @@ public class OpenReadFileStatement implements IStatement
         IDictionary<String, Value> symbolTable = programState.getSymbolTable();
         Value expressionValue = this.expression.evaluate(symbolTable);
 
-        if (expressionValue.getType() != new StringType())
+        if (expressionValue.getType().equals(new StringType()) == false)
             throw new StatementException("The given expression is not of StringType.");
 
         StringValue fileName = (StringValue)expressionValue;
@@ -52,8 +52,15 @@ public class OpenReadFileStatement implements IStatement
         return programState;
     }
 
-    public IStatement deepCopyStatement()
+    @Override
+    public IStatement deepCopy()
     {
         return new OpenReadFileStatement(this.expression);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "openReadFile(" + this.expression.toString() + ");\n";
     }
 }

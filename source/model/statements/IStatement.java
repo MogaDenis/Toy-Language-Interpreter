@@ -10,5 +10,5 @@ public interface IStatement
 {
     public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException, EmptyStackException;
 
-    public IStatement deepCopyStatement();
+    public IStatement deepCopy();
 }

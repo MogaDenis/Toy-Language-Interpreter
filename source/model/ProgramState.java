@@ -27,7 +27,7 @@ public class ProgramState
         this.output = new List<Value>();
         this.fileTable = new Dictionary<>();
 
-        this.originalProgram = program.deepCopyStatement();
+        this.originalProgram = program.deepCopy();
 
         this.executionStack.push(program);
     }
@@ -60,7 +60,8 @@ public class ProgramState
     @Override
     public String toString()
     {
-        return "\n~Current program state~\nExecution stack:\n" + this.executionStack.toString() + "\nSymbol table:\n" + 
-            this.symbolTabel.toString() + "\nOutput list:\n" + this.output.toString() + "\nFile table:\n" + this.fileTable.toString();
+        return "\n#####################\n\n~Current program state~\nExecution stack:\n" + this.executionStack.toString() + 
+            "\nSymbol table:\n" + this.symbolTabel.toString() + "\nOutput list:\n" + this.output.toString() + "\nFile table:\n" + 
+            this.fileTable.toStringKeySet() + "\n#####################";
     }
 }

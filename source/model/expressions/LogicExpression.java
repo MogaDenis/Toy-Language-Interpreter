@@ -53,6 +53,12 @@ public class LogicExpression implements Expression
     }
 
     @Override
+    public Expression deepCopy()
+    {
+        return new LogicExpression(this.expression1.deepCopy(), this.expression2.deepCopy(), this.operation);
+    }
+
+    @Override
     public String toString()
     {
         return this.expression1.toString() + " " + this.operation + " " + this.expression2.toString();

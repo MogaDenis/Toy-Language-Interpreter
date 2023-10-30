@@ -19,6 +19,12 @@ public class ValueExpression implements Expression
     }
 
     @Override
+    public Expression deepCopy()
+    {
+        return new ValueExpression(this.value);
+    }
+
+    @Override
     public String toString()
     {
         return this.value.toString();

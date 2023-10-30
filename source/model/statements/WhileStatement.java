@@ -47,9 +47,9 @@ public class WhileStatement implements IStatement
     }
 
     @Override
-    public IStatement deepCopyStatement()
+    public IStatement deepCopy()
     {
-        return new WhileStatement(this.expression, this.statement);
+        return new WhileStatement(this.expression, this.statement.deepCopy());
     }
 
     @Override
