@@ -38,7 +38,6 @@ public class BoolValue implements Value
 
         BoolValue boolValue = (BoolValue)otherValue;
 
-
         return new BoolValue(this.truthValue == boolValue.getValue());
     }
 

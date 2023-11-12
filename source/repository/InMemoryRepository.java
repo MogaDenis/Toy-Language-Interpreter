@@ -8,18 +8,16 @@ import java.util.Vector;
 
 import source.model.ProgramState;
 
-public class InMemoryRepository implements Repository, AutoCloseable
+public class InMemoryRepository implements Repository
 {
     private Vector<ProgramState> programStates;
-    private PrintWriter logFile;
     private String filePath;
 
-    public InMemoryRepository(ProgramState programState, String filePath) throws IOException
+    public InMemoryRepository(ProgramState programState, String filePath)
     {
         this.programStates = new Vector<ProgramState>();
         this.programStates.add(programState);
         this.filePath = filePath;
-        this.logFile = new PrintWriter(new BufferedWriter(new FileWriter(this.filePath, true)));
     }
 
     @Override
@@ -41,14 +39,15 @@ public class InMemoryRepository implements Repository, AutoCloseable
     public void logProgramStateExecution()
     {
         String string = this.getProgramStateString();
-        this.logFile.write(string);
-        this.logFile.flush();
-    }
-
-    @Override
-    public void close()
-    {
-        System.out.println("Closing");
-        this.logFile.close();
+        
+        try (PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(this.filePath, true))))
+        {
+            printWriter.write(string);
+            printWriter.flush();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

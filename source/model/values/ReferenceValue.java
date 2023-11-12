@@ -1,0 +1,67 @@
+package source.model.values;
+
+import source.model.exceptions.ValueException;
+import source.model.types.Type;
+import source.model.types.ReferenceType;
+
+public class ReferenceValue implements Value
+{
+    private Integer address;
+    private Type locationType;
+
+    public ReferenceValue(Integer address, Type locationType)
+    {
+        this.address = address;
+        this.locationType = locationType;
+    }
+
+    public Type getType()
+    {
+        return new ReferenceType(this.locationType);
+    }
+
+    public Integer getAddress()
+    {
+        return this.address;
+    }
+
+    public BoolValue equal(Value otherValue)
+    {
+        if (!(otherValue instanceof ReferenceValue))
+            return new BoolValue(false);
+
+        ReferenceValue referenceValue = (ReferenceValue)otherValue;
+
+        return new BoolValue(this.address == referenceValue.address && this.locationType.equals(referenceValue.locationType));
+    }
+
+    public BoolValue notEqual(Value otherValue)
+    {
+        return new BoolValue(!this.equal(otherValue).getValue());
+    }
+
+    public BoolValue lessThan(Value otherValue) throws ValueException
+    {
+        throw new ValueException("Relation '<' is undefined for ReferenceValue.");
+    }
+
+    public BoolValue lessThanOrEqual(Value otherValue) throws ValueException
+    {
+        throw new ValueException("Relation '<' is undefined for ReferenceValue.");
+    }
+
+    public BoolValue greaterThan(Value otherValue) throws ValueException
+    {
+        throw new ValueException("Relation '<' is undefined for ReferenceValue.");
+    }
+
+    public BoolValue greaterThanOrEqual(Value otherValue) throws ValueException
+    {
+        throw new ValueException("Relation '<' is undefined for ReferenceValue.");
+    }
+
+    public Value deepCopy()
+    {
+        return new ReferenceValue(this.address, this.locationType);
+    }
+}
