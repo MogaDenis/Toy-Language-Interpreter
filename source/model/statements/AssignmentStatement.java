@@ -34,7 +34,7 @@ public class AssignmentStatement implements IStatement
         if (symbolTable.containsKey(this.id) == false)
             throw new StatementException("The used variable " + this.id + " was not declared.");
 
-        Value value = this.expression.evaluate(symbolTable);
+        Value value = this.expression.evaluate(symbolTable, programState.getHeap());
         Type type = symbolTable.get(this.id).getType();
 
         if (value.getType().equals(type))

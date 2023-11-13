@@ -6,7 +6,7 @@ public class RunExampleCommand extends Command
 {
     private Controller controller;
 
-    public RunExampleCommand(String key, String description, Controller controller)
+    public RunExampleCommand(Integer key, String description, Controller controller)
     {
         super(key, description);
         this.controller = controller;

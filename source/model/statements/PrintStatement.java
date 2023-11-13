@@ -25,7 +25,7 @@ public class PrintStatement implements IStatement
     @Override
     public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException
     {
-        Value evaluation = this.expression.evaluate(programState.getSymbolTable());
+        Value evaluation = this.expression.evaluate(programState.getSymbolTable(), programState.getHeap());
         programState.getOutput().add(evaluation);
         return programState;
     }

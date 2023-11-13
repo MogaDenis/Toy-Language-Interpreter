@@ -4,6 +4,7 @@ import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
 import source.model.exceptions.ValueException;
 import source.model.structures.IDictionary;
+import source.model.structures.IHeap;
 import source.model.types.Type;
 import source.model.types.CharType;
 import source.model.types.IntType;
@@ -27,10 +28,10 @@ public class ArithmeticExpression implements Expression
     }
 
     @Override
-    public Value evaluate(IDictionary<String, Value> symbolTable) throws ExpressionException, StatementException, ValueException
+    public Value evaluate(IDictionary<String, Value> symbolTable, IHeap heap) throws ExpressionException, StatementException, ValueException
     {
-        Value firstValue = expression1.evaluate(symbolTable);
-        Value secondValue = expression2.evaluate(symbolTable);
+        Value firstValue = expression1.evaluate(symbolTable, heap);
+        Value secondValue = expression2.evaluate(symbolTable, heap);
 
         Type firstValueType = firstValue.getType();
         Type secondValueType = secondValue.getType();

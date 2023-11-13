@@ -28,7 +28,7 @@ public class WhileStatement implements IStatement
         IStack<IStatement> executionStack = programState.getExecutionStack();
         IDictionary<String, Value> symbolTable = programState.getSymbolTable();
 
-        Value expressionValue = this.expression.evaluate(symbolTable);
+        Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
 
         if (expressionValue.getType().equals(new BoolType()) == false)

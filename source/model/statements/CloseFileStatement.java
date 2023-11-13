@@ -26,7 +26,7 @@ public class CloseFileStatement implements IStatement
     {
         IDictionary<String, Value> symbolTable = programState.getSymbolTable();
 
-        Value expressionValue = this.expression.evaluate(symbolTable);
+        Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
         if (expressionValue.getType().equals(new StringType()) == false)
             throw new StatementException("The given expression is not of StringType");

@@ -1,6 +1,7 @@
 package source.model.statements;
 
 import source.model.expressions.Expression;
+import source.model.structures.IHeap;
 import source.model.structures.IStack;
 import source.model.types.BoolType;
 import source.model.ProgramState;
@@ -33,11 +34,12 @@ public class IfStatement implements IStatement
     public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException
     {
         IStack<IStatement> executionStack = programState.getExecutionStack();
+        IHeap heap = programState.getHeap();
 
-        if (this.expression.evaluate(programState.getSymbolTable()).getType().equals(new BoolType()) == false)
+        if (this.expression.evaluate(programState.getSymbolTable(), heap).getType().equals(new BoolType()) == false)
             throw new StatementException("The expression is not a logic expression.");
 
-        Value evaluation = this.expression.evaluate(programState.getSymbolTable());
+        Value evaluation = this.expression.evaluate(programState.getSymbolTable(), heap);
 
         BoolValue evaluationTruthValue = (BoolValue)evaluation;
 

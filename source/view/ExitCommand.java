@@ -2,7 +2,7 @@ package source.view;
 
 public class ExitCommand extends Command
 {
-    public ExitCommand(String key, String description)
+    public ExitCommand(Integer key, String description)
     {
         super(key, description);
     }

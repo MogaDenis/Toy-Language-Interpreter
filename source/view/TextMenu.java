@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class TextMenu 
 {
-    private Map<String, Command> commands;    
+    private Map<Integer, Command> commands;    
     private Scanner scanner;
 
     public TextMenu()
@@ -35,7 +35,7 @@ public class TextMenu
             System.out.print(">> ");
             String key = this.scanner.nextLine();
 
-            Command commandToExecute = this.commands.get(key);
+            Command commandToExecute = this.commands.get(Integer.parseInt(key));
 
             if (commandToExecute == null)
             {

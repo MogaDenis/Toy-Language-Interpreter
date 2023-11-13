@@ -4,6 +4,7 @@ import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
 import source.model.exceptions.ValueException;
 import source.model.structures.IDictionary;
+import source.model.structures.IHeap;
 import source.model.types.BoolType;
 import source.model.values.Value;
 import source.model.values.BoolValue;
@@ -22,16 +23,16 @@ public class LogicExpression implements Expression
     }
 
     @Override
-    public Value evaluate(IDictionary<String, Value> symbolTable) throws ExpressionException, StatementException, ValueException
+    public Value evaluate(IDictionary<String, Value> symbolTable, IHeap heap) throws ExpressionException, StatementException, ValueException
     {
         Value value1, value2;
 
-        value1 = expression1.evaluate(symbolTable);
+        value1 = expression1.evaluate(symbolTable, heap);
 
         if (value1.getType().equals(new BoolType()) == false)
             throw new ExpressionException("First operand is not a logic expression.");
 
-        value2 = expression2.evaluate(symbolTable);
+        value2 = expression2.evaluate(symbolTable, heap);
 
         if (value2.getType().equals(new BoolType()) == false)
             throw new ExpressionException("Second operand is not a logic expression.");

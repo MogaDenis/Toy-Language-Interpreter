@@ -2,16 +2,16 @@ package source.view;
 
 public abstract class Command 
 {
-    private String key;
+    private Integer key;
     private String description;
     
-    public Command(String key, String description)
+    public Command(Integer key, String description)
     {
         this.key = key;
         this.description = description;
     }
 
-    public String getKey()
+    public Integer getKey()
     {
         return this.key;
     }

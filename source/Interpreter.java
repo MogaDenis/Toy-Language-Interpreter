@@ -11,6 +11,7 @@ import source.model.statements.CloseFileStatement;
 import source.model.statements.CompoundStatement;
 import source.model.statements.IStatement;
 import source.model.statements.IfStatement;
+import source.model.statements.NewStatement;
 import source.model.statements.OpenReadFileStatement;
 import source.model.statements.PrintStatement;
 import source.model.statements.ReadFileStatement;
@@ -19,6 +20,7 @@ import source.model.statements.WhileStatement;
 import source.model.types.BoolType;
 import source.model.types.CharType;
 import source.model.types.IntType;
+import source.model.types.ReferenceType;
 import source.model.types.StringType;
 import source.model.values.BoolValue;
 import source.model.values.CharValue;
@@ -103,6 +105,10 @@ public class Interpreter
             new CompoundStatement(new PrintStatement(new VariableExpression("value")), 
             new CloseFileStatement(new VariableExpression("filePath"))))))))));
 
+    private static IStatement example11 = new CompoundStatement(new VariableDeclarationStatement("v", new ReferenceType(new IntType())), 
+            new CompoundStatement(new NewStatement("v", new ValueExpression(new IntValue(10))), 
+            new PrintStatement(new VariableExpression("v"))));
+
     public static void main(String[] args) throws Exception
     {
         ProgramState program1 = new ProgramState(example1);        
@@ -115,6 +121,7 @@ public class Interpreter
         ProgramState program8 = new ProgramState(example8);        
         ProgramState program9 = new ProgramState(example9);        
         ProgramState program10 = new ProgramState(example10);  
+        ProgramState program11 = new ProgramState(example11);
 
         Repository repository1 = new InMemoryRepository(program1, "log1.txt");
         Repository repository2 = new InMemoryRepository(program2, "log2.txt");
@@ -126,6 +133,7 @@ public class Interpreter
         Repository repository8 = new InMemoryRepository(program8, "log8.txt");
         Repository repository9 = new InMemoryRepository(program9, "log9.txt");
         Repository repository10 = new InMemoryRepository(program10, "log10.txt");
+        Repository repository11 = new InMemoryRepository(program11, "log11.txt");
 
         Controller controller1 = new Controller(repository1);
         Controller controller2 = new Controller(repository2);
@@ -137,19 +145,21 @@ public class Interpreter
         Controller controller8 = new Controller(repository8);
         Controller controller9 = new Controller(repository9);
         Controller controller10 = new Controller(repository10);
+        Controller controller11 = new Controller(repository11);
 
         TextMenu textMenu = new TextMenu();
-        textMenu.addCommand(new ExitCommand("0", "Exit the application."));
-        textMenu.addCommand(new RunExampleCommand("1", example1.toString(), controller1));
-        textMenu.addCommand(new RunExampleCommand("2", example2.toString(), controller2));
-        textMenu.addCommand(new RunExampleCommand("3", example3.toString(), controller3));
-        textMenu.addCommand(new RunExampleCommand("4", example4.toString(), controller4));
-        textMenu.addCommand(new RunExampleCommand("5", example5.toString(), controller5));
-        textMenu.addCommand(new RunExampleCommand("6", example6.toString(), controller6));
-        textMenu.addCommand(new RunExampleCommand("7", example7.toString(), controller7));
-        textMenu.addCommand(new RunExampleCommand("8", example8.toString(), controller8));
-        textMenu.addCommand(new RunExampleCommand("9", example9.toString(), controller9));
-        textMenu.addCommand(new RunExampleCommand("10", example10.toString(), controller10));
+        textMenu.addCommand(new ExitCommand(0, "Exit the application."));
+        textMenu.addCommand(new RunExampleCommand(1, example1.toString(), controller1));
+        textMenu.addCommand(new RunExampleCommand(2, example2.toString(), controller2));
+        textMenu.addCommand(new RunExampleCommand(3, example3.toString(), controller3));
+        textMenu.addCommand(new RunExampleCommand(4, example4.toString(), controller4));
+        textMenu.addCommand(new RunExampleCommand(5, example5.toString(), controller5));
+        textMenu.addCommand(new RunExampleCommand(6, example6.toString(), controller6));
+        textMenu.addCommand(new RunExampleCommand(7, example7.toString(), controller7));
+        textMenu.addCommand(new RunExampleCommand(8, example8.toString(), controller8));
+        textMenu.addCommand(new RunExampleCommand(9, example9.toString(), controller9));
+        textMenu.addCommand(new RunExampleCommand(10, example10.toString(), controller10));
+        textMenu.addCommand(new RunExampleCommand(11, example11.toString(), controller11));
 
         textMenu.show();
     }

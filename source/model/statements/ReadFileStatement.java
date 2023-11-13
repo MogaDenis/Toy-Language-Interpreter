@@ -40,7 +40,7 @@ public class ReadFileStatement implements IStatement
 
         IntValue integerValue = (IntValue)variableValue;
 
-        Value expressionValue = this.expression.evaluate(symbolTable);
+        Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
         if (expressionValue.getType().equals(new StringType()) == false)
             throw new StatementException("The given expression is not of StringType.");

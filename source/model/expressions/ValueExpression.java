@@ -1,6 +1,7 @@
 package source.model.expressions;
 
 import source.model.structures.IDictionary;
+import source.model.structures.IHeap;
 import source.model.values.Value;
 
 public class ValueExpression implements Expression
@@ -13,7 +14,7 @@ public class ValueExpression implements Expression
     }
 
     @Override
-    public Value evaluate(IDictionary<String, Value> symbolTable)
+    public Value evaluate(IDictionary<String, Value> symbolTable, IHeap heap)
     {
         return this.value;
     }
