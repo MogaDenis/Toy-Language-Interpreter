@@ -15,18 +15,6 @@ public class CompoundStatement implements IStatement
     }
 
     @Override
-    public IStatement deepCopy()
-    {
-        return new CompoundStatement(this.first.deepCopy(), this.second.deepCopy());
-    }
-
-    @Override
-    public String toString()
-    {
-        return first.toString() + second.toString();  
-    }
-
-    @Override
     public ProgramState execute(ProgramState programState)
     {
         IStack<IStatement> stack = programState.getExecutionStack();
@@ -35,5 +23,17 @@ public class CompoundStatement implements IStatement
         stack.push(first);
 
         return programState;
+    }
+    
+    @Override
+    public IStatement deepCopy()
+    {
+        return new CompoundStatement(this.first.deepCopy(), this.second.deepCopy());
+    }
+    
+    @Override
+    public String toString()
+    {
+        return first.toString() + second.toString();  
     }
 }

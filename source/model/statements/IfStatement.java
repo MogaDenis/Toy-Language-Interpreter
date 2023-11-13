@@ -25,12 +25,6 @@ public class IfStatement implements IStatement
     }
 
     @Override
-    public IStatement deepCopy()
-    {
-        return new IfStatement(this.expression.deepCopy(), this.thenStatement.deepCopy(), this.elseStatement.deepCopy());
-    }
-
-    @Override
     public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException
     {
         IStack<IStatement> executionStack = programState.getExecutionStack();
@@ -49,6 +43,12 @@ public class IfStatement implements IStatement
             executionStack.push(this.elseStatement);
 
         return programState;
+    }
+    
+    @Override
+    public IStatement deepCopy()
+    {
+        return new IfStatement(this.expression.deepCopy(), this.thenStatement.deepCopy(), this.elseStatement.deepCopy());
     }
 
     @Override 
