@@ -13,6 +13,12 @@ public class Dictionary<K, V> implements IDictionary<K, V>
     }
 
     @Override
+    public Map<K, V> getContent()
+    {
+        return this.internalDictionary;
+    }
+
+    @Override
     public Boolean containsKey(K key)
     {
         return this.internalDictionary.containsKey(key);

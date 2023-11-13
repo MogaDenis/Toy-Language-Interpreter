@@ -12,15 +12,15 @@ public class RunExampleCommand extends Command
         this.controller = controller;
     }
 
-    public void execute()
+    public void execute() throws Exception
     {
-        try 
-        {
+        // try 
+        // {
             this.controller.allSteps();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        // }
+        // catch (Exception e)
+        // {
+        //     e.printStackTrace();
+        // }
     }
 }

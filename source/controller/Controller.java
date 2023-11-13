@@ -4,10 +4,19 @@ import source.model.exceptions.EmptyStackException;
 import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
 import source.model.exceptions.ValueException;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import source.model.ProgramState;
 import source.model.statements.IStatement;
 import source.repository.Repository;
-import source.model.structures.IStack;;
+import source.model.structures.IHeap;
+import source.model.structures.IStack;
+import source.model.values.ReferenceValue;
+import source.model.values.Value;;
 
 public class Controller 
 {
@@ -42,6 +51,25 @@ public class Controller
         {
             this.oneStep(); 
             this.repository.logProgramStateExecution();
+
+            programState.getHeap().setContent(this.unsafeGarbageCollector(
+                this.getAddressesFromSymbolTable(programState.getSymbolTable().getContent().values()), 
+                programState.getHeap()));
         }
+    }
+
+    private List<Integer> getAddressesFromSymbolTable(Collection<Value> symbolTableValues)
+    {
+        return symbolTableValues.stream()
+            .filter(v->v instanceof ReferenceValue)
+            .map(v->{ ReferenceValue refValue = (ReferenceValue)v; return refValue.getAddress();})
+            .collect(Collectors.toList());
+    }
+
+    private Map<Integer, Value> unsafeGarbageCollector(List<Integer> symbolTableAddresses, IHeap heap)
+    {
+        return heap.getContent().entrySet().stream()
+            .filter(e->{ return symbolTableAddresses.contains(e.getKey()) || heap.isUsed(e.getKey()); })
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

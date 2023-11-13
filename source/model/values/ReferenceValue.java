@@ -76,6 +76,6 @@ public class ReferenceValue implements Value
     @Override
     public String toString()
     {
-        return "(" + String.valueOf(this.address) + ", " + this.locationType.toString() + ")\n";
+        return "(" + String.valueOf(this.address) + ", " + this.locationType.toString() + ")";
     }
 }

@@ -26,7 +26,7 @@ public class TextMenu
             System.out.println(command);
     }
 
-    public void show()
+    public void show() throws Exception
     {
         while (true)
         {

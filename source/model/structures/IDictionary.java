@@ -1,5 +1,7 @@
 package source.model.structures;
 
+import java.util.Map;
+
 public interface IDictionary<K, V> 
 {
     public Boolean containsKey(K key);
@@ -9,4 +11,5 @@ public interface IDictionary<K, V>
     public V remove(K key);
     public String toString();
     public String toStringKeySet();
+    public Map<K, V> getContent();
 }
