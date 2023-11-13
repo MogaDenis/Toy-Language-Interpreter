@@ -3,6 +3,7 @@ package source;
 import source.controller.Controller;
 import source.model.ProgramState;
 import source.model.expressions.ArithmeticExpression;
+import source.model.expressions.ReadHeapExpression;
 import source.model.expressions.RelationalExpression;
 import source.model.expressions.ValueExpression;
 import source.model.expressions.VariableExpression;
@@ -17,6 +18,7 @@ import source.model.statements.PrintStatement;
 import source.model.statements.ReadFileStatement;
 import source.model.statements.VariableDeclarationStatement;
 import source.model.statements.WhileStatement;
+import source.model.statements.WriteHeapStatement;
 import source.model.types.BoolType;
 import source.model.types.CharType;
 import source.model.types.IntType;
@@ -109,6 +111,13 @@ public class Interpreter
             new CompoundStatement(new NewStatement("v", new ValueExpression(new IntValue(10))), 
             new PrintStatement(new VariableExpression("v"))));
 
+    private static IStatement example12 = new CompoundStatement(new VariableDeclarationStatement("v", new ReferenceType(new IntType())), 
+            new CompoundStatement(new NewStatement("v", new ValueExpression(new IntValue(20))), 
+            new CompoundStatement(new PrintStatement(new ReadHeapExpression(new VariableExpression("v"))), 
+            new CompoundStatement(new WriteHeapStatement("v", new ValueExpression(new IntValue(30))), 
+            new PrintStatement(new ArithmeticExpression('+', new ReadHeapExpression(new VariableExpression("v")), 
+            new ValueExpression(new IntValue(5))))))));
+
     public static void main(String[] args) throws Exception
     {
         ProgramState program1 = new ProgramState(example1);        
@@ -122,6 +131,7 @@ public class Interpreter
         ProgramState program9 = new ProgramState(example9);        
         ProgramState program10 = new ProgramState(example10);  
         ProgramState program11 = new ProgramState(example11);
+        ProgramState program12 = new ProgramState(example12);
 
         Repository repository1 = new InMemoryRepository(program1, "log1.txt");
         Repository repository2 = new InMemoryRepository(program2, "log2.txt");
@@ -134,6 +144,7 @@ public class Interpreter
         Repository repository9 = new InMemoryRepository(program9, "log9.txt");
         Repository repository10 = new InMemoryRepository(program10, "log10.txt");
         Repository repository11 = new InMemoryRepository(program11, "log11.txt");
+        Repository repository12 = new InMemoryRepository(program12, "log12.txt");
 
         Controller controller1 = new Controller(repository1);
         Controller controller2 = new Controller(repository2);
@@ -146,6 +157,7 @@ public class Interpreter
         Controller controller9 = new Controller(repository9);
         Controller controller10 = new Controller(repository10);
         Controller controller11 = new Controller(repository11);
+        Controller controller12 = new Controller(repository12);
 
         TextMenu textMenu = new TextMenu();
         textMenu.addCommand(new ExitCommand(0, "Exit the application."));
@@ -160,6 +172,7 @@ public class Interpreter
         textMenu.addCommand(new RunExampleCommand(9, example9.toString(), controller9));
         textMenu.addCommand(new RunExampleCommand(10, example10.toString(), controller10));
         textMenu.addCommand(new RunExampleCommand(11, example11.toString(), controller11));
+        textMenu.addCommand(new RunExampleCommand(12, example12.toString(), controller12));
 
         textMenu.show();
     }

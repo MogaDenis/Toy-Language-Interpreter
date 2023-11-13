@@ -38,4 +38,10 @@ public class ReadHeapExpression implements Expression
     {
         return new ReadHeapExpression(this.expression.deepCopy());
     }
+
+    @Override
+    public String toString()
+    {
+        return "readHeap(" + this.expression.toString() + ")";
+    }
 }
