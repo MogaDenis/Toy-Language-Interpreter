@@ -52,7 +52,7 @@ public class Controller
             this.oneStep(); 
             this.repository.logProgramStateExecution();
 
-            programState.getHeap().setContent(this.unsafeGarbageCollector(
+            programState.getHeap().setContent(this.safeGarbageCollector(
                 this.getAddressesFromSymbolTable(programState.getSymbolTable().getContent().values()), 
                 programState.getHeap()));
         }
@@ -66,7 +66,7 @@ public class Controller
             .collect(Collectors.toList());
     }
 
-    private Map<Integer, Value> unsafeGarbageCollector(List<Integer> symbolTableAddresses, IHeap heap)
+    private Map<Integer, Value> safeGarbageCollector(List<Integer> symbolTableAddresses, IHeap heap)
     {
         return heap.getContent().entrySet().stream()
             .filter(e->{ return symbolTableAddresses.contains(e.getKey()) || heap.isUsed(e.getKey()); })
