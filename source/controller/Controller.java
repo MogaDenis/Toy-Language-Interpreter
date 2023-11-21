@@ -1,30 +1,29 @@
 package source.controller;
 
-import source.model.exceptions.EmptyStackException;
-import source.model.exceptions.ExpressionException;
-import source.model.exceptions.StatementException;
-import source.model.exceptions.ValueException;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
-
 import source.model.ProgramState;
-import source.model.statements.IStatement;
-import source.repository.Repository;
 import source.model.structures.IHeap;
-import source.model.structures.IStack;
 import source.model.values.ReferenceValue;
-import source.model.values.Value;;
+import source.model.values.Value;
+import source.repository.Repository;
+
 
 public class Controller 
 {
     private Repository repository;
+    private ExecutorService executor;
     
     public Controller(Repository repository)
     {
         this.repository = repository;
+        this.executor = null;
     }
 
     public String getProgramStateString()
@@ -32,30 +31,62 @@ public class Controller
         return this.repository.getProgramStateString();
     }
 
-    public ProgramState oneStep() throws EmptyStackException, StatementException, ExpressionException, ValueException
+    public void oneStepForAllPrograms(List<ProgramState> programs) throws InterruptedException
     {
-        ProgramState programState = this.repository.getCurrentProgram();
+        programs.forEach(program -> this.repository.logProgramStateExecution(program));
 
-        IStack<IStatement> executionStack = programState.getExecutionStack();
-        IStatement currentStatement = executionStack.pop();
+        List<Callable<ProgramState>> callList = programs.stream()
+        .map(program -> (Callable<ProgramState>)( () -> { return program.oneStep();} ))
+        .collect(Collectors.toList());
 
-        return currentStatement.execute(programState);
+        List<ProgramState> newProgramsList = this.executor.invokeAll(callList).stream()
+        .map(future -> { 
+                try 
+                {
+                    return future.get();
+                }
+                catch(InterruptedException | ExecutionException e)
+                {
+                    throw new RuntimeException(e);
+                }
+            })
+        .filter(program -> program != null)
+        .collect(Collectors.toList());
+
+        programs.addAll(newProgramsList);
+
+        this.repository.setProgramsList(programs);
+
+        programs.forEach(program -> this.repository.logProgramStateExecution(program));
     }
 
-    public void allSteps() throws EmptyStackException, StatementException, ExpressionException, ValueException
+    public void allSteps() throws InterruptedException
     {
-        ProgramState programState = this.repository.getCurrentProgram();
-        this.repository.logProgramStateExecution();
+        this.executor = Executors.newFixedThreadPool(2);
+        
+        List<ProgramState> programsList = this.removeCompletedPrograms(this.repository.getProgramsList());
 
-        while (programState.getExecutionStack().isEmpty() == false)
+        while (programsList.isEmpty() == false)
         {
-            this.oneStep(); 
-            this.repository.logProgramStateExecution();
+            // Garbage collecting...
+            programsList
+            .forEach(program -> this.safeGarbageCollector(
+                this.getAddressesFromSymbolTable(program.getSymbolTable().getContent().values()), 
+                program.getHeap()));
 
-            programState.getHeap().setContent(this.safeGarbageCollector(
-                this.getAddressesFromSymbolTable(programState.getSymbolTable().getContent().values()), 
-                programState.getHeap()));
+            this.oneStepForAllPrograms(programsList);
+
+            programsList = this.removeCompletedPrograms(this.repository.getProgramsList());
         }
+
+        this.executor.shutdownNow();
+
+        this.repository.setProgramsList(programsList);
+    }
+
+    public List<ProgramState> removeCompletedPrograms(List<ProgramState> programs)
+    {
+        return programs.stream().filter(program -> program.isNotCompleted()).collect(Collectors.toList());
     }
 
     private List<Integer> getAddressesFromSymbolTable(Collection<Value> symbolTableValues)

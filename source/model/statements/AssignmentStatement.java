@@ -1,7 +1,7 @@
 package source.model.statements;
 
 import source.model.expressions.Expression;
-import source.model.structures.IDictionary;
+import source.model.structures.SymbolTable;
 import source.model.values.Value;
 import source.model.ProgramState;
 import source.model.exceptions.ExpressionException;
@@ -29,7 +29,7 @@ public class AssignmentStatement implements IStatement
     @Override
     public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException
     {
-        IDictionary<String, Value> symbolTable = programState.getSymbolTable();
+        SymbolTable symbolTable = programState.getSymbolTable();
 
         if (symbolTable.containsKey(this.id) == false)
             throw new StatementException("The used variable " + this.id + " was not declared.");
@@ -42,7 +42,7 @@ public class AssignmentStatement implements IStatement
         else
             throw new StatementException("Declared type of variable " + this.id + " and type of assigned expression do not match.");
 
-        return programState;
+        return null;
     }
 
     @Override

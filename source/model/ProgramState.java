@@ -1,39 +1,84 @@
 package source.model;
 
-import java.io.BufferedReader;
+import java.util.Vector;
 
+import source.model.exceptions.EmptyStackException;
+import source.model.exceptions.ExpressionException;
+import source.model.exceptions.StatementException;
+import source.model.exceptions.ValueException;
 import source.model.statements.IStatement;
 import source.model.structures.IList;
 import source.model.structures.IStack;
 import source.model.structures.Stack;
-import source.model.values.StringValue;
+import source.model.structures.SymbolTable;
 import source.model.values.Value;
-import source.model.structures.Dictionary;
+import source.model.structures.FileTable;
 import source.model.structures.Heap;
-import source.model.structures.IDictionary;
 import source.model.structures.IHeap;
 import source.model.structures.List;
 
 public class ProgramState 
 {
     private IStack<IStatement> executionStack;
-    private IDictionary<String, Value> symbolTabel;
+    private SymbolTable symbolTable;
     private IList<Value> output;
-    private IDictionary<StringValue, BufferedReader> fileTable;
+    private FileTable fileTable;
     private IHeap heap;
     private IStatement originalProgram;
+    private Integer id;
+    private static Vector<Integer> usedIDs = new Vector<>();
+
+    private Integer getUnusedID()
+    {
+        Integer newID = 1;
+
+        while (usedIDs.contains(newID))
+            newID++;
+
+        return newID;
+    }
 
     public ProgramState(IStatement program)
     {
         this.executionStack = new Stack<IStatement>();
-        this.symbolTabel = new Dictionary<String, Value>();
+        this.symbolTable = new SymbolTable();
         this.output = new List<Value>();
-        this.fileTable = new Dictionary<>();
+        this.fileTable = new FileTable();
         this.heap = new Heap();
 
         this.originalProgram = program.deepCopy();
 
-        this.executionStack.push(program);
+        this.executionStack.push(this.originalProgram);
+
+        this.id = this.getUnusedID();
+        usedIDs.add(this.id);
+    }
+
+    public ProgramState(IStack<IStatement> stack, SymbolTable symbolTable, IList<Value> output, FileTable fileTable, IHeap heap, IStatement statement)
+    {
+        this.executionStack = stack;
+        this.symbolTable = symbolTable;
+        this.output = output;
+        this.fileTable = fileTable;
+        this.heap = heap;
+        this.originalProgram = statement.deepCopy();
+
+        this.executionStack.push(this.originalProgram);
+
+        this.id = this.getUnusedID();
+        usedIDs.add(this.id);
+    }
+
+    public ProgramState oneStep() throws EmptyStackException, StatementException, ExpressionException, ValueException
+    {
+        IStatement currentStatement = this.executionStack.pop();
+
+        return currentStatement.execute(this);
+    }
+
+    public Boolean isNotCompleted()
+    {
+        return this.executionStack.isEmpty() == false;
     }
 
     public IStack<IStatement> getExecutionStack()
@@ -41,9 +86,9 @@ public class ProgramState
         return this.executionStack;
     }
 
-    public IDictionary<String, Value> getSymbolTable()
+    public SymbolTable getSymbolTable()
     {
-        return this.symbolTabel;
+        return this.symbolTable;
     }
 
     public IList<Value> getOutput()
@@ -51,7 +96,7 @@ public class ProgramState
         return this.output;
     }
 
-    public IDictionary<StringValue, BufferedReader> getFileTable()
+    public FileTable getFileTable()
     {
         return this.fileTable;
     }
@@ -69,9 +114,9 @@ public class ProgramState
     @Override
     public String toString()
     {
-        return "\n#####################\n\n~Current program state~\nExecution stack:\n" + 
+        return "\n#####################\n\n~Program state ID: " + this.id + " ~\nExecution stack:\n" + 
             this.executionStack.toString() + "\nSymbol table:\n" + 
-            this.symbolTabel.toString() + "\nOutput list:\n" + 
+            this.symbolTable.toString() + "\nOutput list:\n" + 
             this.output.toString() + "\nFile table:\n" + 
             this.fileTable.toStringKeySet() + "\nHeap:\n" + 
             this.heap.toString() +

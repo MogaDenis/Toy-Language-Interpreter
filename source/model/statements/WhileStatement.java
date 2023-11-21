@@ -2,8 +2,8 @@ package source.model.statements;
 
 import source.model.ProgramState;
 import source.model.expressions.Expression;
-import source.model.structures.IDictionary;
 import source.model.structures.IStack;
+import source.model.structures.SymbolTable;
 import source.model.types.BoolType;
 import source.model.values.BoolValue;
 import source.model.values.Value;
@@ -26,7 +26,7 @@ public class WhileStatement implements IStatement
     public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException
     {
         IStack<IStatement> executionStack = programState.getExecutionStack();
-        IDictionary<String, Value> symbolTable = programState.getSymbolTable();
+        SymbolTable symbolTable = programState.getSymbolTable();
 
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
@@ -42,7 +42,7 @@ public class WhileStatement implements IStatement
             executionStack.push(this.statement);
         }
 
-        return programState;
+        return null;
     }
 
     @Override

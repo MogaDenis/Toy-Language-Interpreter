@@ -5,8 +5,8 @@ import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
 import source.model.exceptions.ValueException;
 import source.model.expressions.Expression;
-import source.model.structures.IDictionary;
 import source.model.structures.IHeap;
+import source.model.structures.SymbolTable;
 import source.model.types.ReferenceType;
 import source.model.values.ReferenceValue;
 import source.model.values.Value;
@@ -25,7 +25,7 @@ public class NewStatement implements IStatement
     @Override
     public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException
     {
-        IDictionary<String, Value> symbolTable = programState.getSymbolTable();
+        SymbolTable symbolTable = programState.getSymbolTable();
         
         if (symbolTable.containsKey(this.variableName) == false)
             throw new StatementException("The given variable was not defined.");
@@ -46,7 +46,7 @@ public class NewStatement implements IStatement
 
         symbolTable.put(variableName, new ReferenceValue(address, expressionValue.getType()));
 
-        return programState;
+        return null;
     }
 
     @Override

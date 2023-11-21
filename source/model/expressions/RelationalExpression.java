@@ -3,8 +3,8 @@ package source.model.expressions;
 import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
 import source.model.exceptions.ValueException;
-import source.model.structures.IDictionary;
 import source.model.structures.IHeap;
+import source.model.structures.SymbolTable;
 import source.model.values.Value;
 
 public class RelationalExpression implements Expression
@@ -21,7 +21,7 @@ public class RelationalExpression implements Expression
     }
 
     @Override
-    public Value evaluate(IDictionary<String, Value> symbolTable, IHeap heap) throws StatementException, ExpressionException, ValueException
+    public Value evaluate(SymbolTable symbolTable, IHeap heap) throws StatementException, ExpressionException, ValueException
     {
         Value firstExpressionValue = this.expression1.evaluate(symbolTable, heap);
         Value secondExpressionValue = this.expression2.evaluate(symbolTable, heap);

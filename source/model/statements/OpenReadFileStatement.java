@@ -9,7 +9,8 @@ import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
 import source.model.exceptions.ValueException;
 import source.model.expressions.Expression;
-import source.model.structures.IDictionary;
+import source.model.structures.FileTable;
+import source.model.structures.SymbolTable;
 import source.model.types.StringType;
 import source.model.values.StringValue;
 import source.model.values.Value;
@@ -26,7 +27,7 @@ public class OpenReadFileStatement implements IStatement
     @Override
     public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException
     {
-        IDictionary<String, Value> symbolTable = programState.getSymbolTable();
+        SymbolTable symbolTable = programState.getSymbolTable();
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
         if (expressionValue.getType().equals(new StringType()) == false)
@@ -47,10 +48,10 @@ public class OpenReadFileStatement implements IStatement
             throw new StatementException(e.getMessage());
         }
 
-        IDictionary<StringValue, BufferedReader> fileTable = programState.getFileTable();
+        FileTable fileTable = programState.getFileTable();
         fileTable.put(fileName, bufferedReader);
 
-        return programState;
+        return null;
     }
 
     @Override

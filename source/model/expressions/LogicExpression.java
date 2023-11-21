@@ -3,8 +3,8 @@ package source.model.expressions;
 import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
 import source.model.exceptions.ValueException;
-import source.model.structures.IDictionary;
 import source.model.structures.IHeap;
+import source.model.structures.SymbolTable;
 import source.model.types.BoolType;
 import source.model.values.Value;
 import source.model.values.BoolValue;
@@ -23,7 +23,7 @@ public class LogicExpression implements Expression
     }
 
     @Override
-    public Value evaluate(IDictionary<String, Value> symbolTable, IHeap heap) throws ExpressionException, StatementException, ValueException
+    public Value evaluate(SymbolTable symbolTable, IHeap heap) throws ExpressionException, StatementException, ValueException
     {
         Value value1, value2;
 

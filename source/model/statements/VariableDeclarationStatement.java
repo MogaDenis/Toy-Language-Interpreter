@@ -2,9 +2,8 @@ package source.model.statements;
 
 import source.model.ProgramState;
 import source.model.exceptions.StatementException;
-import source.model.structures.IDictionary;
+import source.model.structures.SymbolTable;
 import source.model.types.Type;
-import source.model.values.Value;
 
 public class VariableDeclarationStatement implements IStatement
 {
@@ -26,14 +25,14 @@ public class VariableDeclarationStatement implements IStatement
     @Override
     public ProgramState execute(ProgramState programState) throws StatementException
     {
-        IDictionary<String, Value> symbolTable = programState.getSymbolTable();
+        SymbolTable symbolTable = programState.getSymbolTable();
 
         if (symbolTable.containsKey(name) == true)
             throw new StatementException("Variable " + this.name + " was already defined.");
 
         symbolTable.put(this.name, this.type.defaultValue());
 
-        return programState;
+        return null;
     }
 
     @Override

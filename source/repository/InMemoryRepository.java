@@ -4,13 +4,14 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Vector;
 
 import source.model.ProgramState;
 
 public class InMemoryRepository implements Repository
 {
-    private Vector<ProgramState> programStates;
+    private List<ProgramState> programStates;
     private String filePath;
 
     public InMemoryRepository(ProgramState programState, String filePath)
@@ -19,16 +20,7 @@ public class InMemoryRepository implements Repository
         this.programStates.add(programState);
         this.filePath = filePath;
     }
-
-    @Override
-    public ProgramState getCurrentProgram() 
-    {
-        if (this.programStates.isEmpty())
-            return null;
-
-        return this.programStates.get(0);
-    }
-
+    
     @Override
     public String getProgramStateString() 
     {
@@ -36,9 +28,9 @@ public class InMemoryRepository implements Repository
     }
 
     @Override
-    public void logProgramStateExecution()
+    public void logProgramStateExecution(ProgramState program)
     {
-        String string = this.getProgramStateString();
+        String string = program.toString();
         
         try (PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(this.filePath, true))))
         {
@@ -49,5 +41,17 @@ public class InMemoryRepository implements Repository
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Vector<ProgramState> getProgramsList()
+    {
+        return new Vector<>(this.programStates);
+    }
+
+    @Override
+    public void setProgramsList(List<ProgramState> programs)
+    {
+        this.programStates = programs;
     }
 }

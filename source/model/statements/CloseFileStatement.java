@@ -10,7 +10,8 @@ import source.model.exceptions.ValueException;
 import source.model.expressions.Expression;
 import source.model.values.StringValue;
 import source.model.values.Value;
-import source.model.structures.IDictionary;
+import source.model.structures.FileTable;
+import source.model.structures.SymbolTable;
 import source.model.types.StringType;
 
 public class CloseFileStatement implements IStatement
@@ -25,7 +26,7 @@ public class CloseFileStatement implements IStatement
     @Override
     public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException
     {
-        IDictionary<String, Value> symbolTable = programState.getSymbolTable();
+        SymbolTable symbolTable = programState.getSymbolTable();
 
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
@@ -34,7 +35,7 @@ public class CloseFileStatement implements IStatement
 
         StringValue stringFileName = (StringValue)expressionValue;
 
-        IDictionary<StringValue, BufferedReader> fileTable = programState.getFileTable();
+        FileTable fileTable = programState.getFileTable();
 
         BufferedReader bufferedReader = fileTable.get(stringFileName);
 
@@ -52,7 +53,7 @@ public class CloseFileStatement implements IStatement
 
         fileTable.remove(stringFileName);
 
-        return programState;
+        return null;
     }
 
     @Override

@@ -27,7 +27,7 @@ public class PrintStatement implements IStatement
     {
         Value evaluation = this.expression.evaluate(programState.getSymbolTable(), programState.getHeap());
         programState.getOutput().add(evaluation);
-        return programState;
+        return null;
     }
 
     @Override
