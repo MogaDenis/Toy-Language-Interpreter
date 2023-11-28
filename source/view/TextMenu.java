@@ -43,7 +43,14 @@ public class TextMenu
                 continue;
             }
 
-            commandToExecute.execute();
+            try 
+            {
+                commandToExecute.execute();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 }
