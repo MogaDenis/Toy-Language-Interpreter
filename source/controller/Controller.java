@@ -3,6 +3,7 @@ package source.controller;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -50,8 +51,8 @@ public class Controller
                     throw new RuntimeException(e);
                 }
             })
-        .filter(program -> program != null)
-        .collect(Collectors.toList());
+        .filter(Objects::nonNull)
+        .toList();
 
         programs.addAll(newProgramsList);
 

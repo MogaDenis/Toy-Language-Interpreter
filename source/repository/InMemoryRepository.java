@@ -12,7 +12,7 @@ import source.model.ProgramState;
 public class InMemoryRepository implements Repository
 {
     private List<ProgramState> programStates;
-    private String filePath;
+    private final String filePath;
 
     public InMemoryRepository(ProgramState programState, String filePath)
     {
