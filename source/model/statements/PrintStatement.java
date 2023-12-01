@@ -3,8 +3,11 @@ package source.model.statements;
 import source.model.ProgramState;
 import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
+import source.model.exceptions.TypeException;
 import source.model.exceptions.ValueException;
 import source.model.expressions.Expression;
+import source.model.structures.IDictionary;
+import source.model.types.Type;
 import source.model.values.Value;
 
 public class PrintStatement implements IStatement
@@ -28,6 +31,12 @@ public class PrintStatement implements IStatement
         Value evaluation = this.expression.evaluate(programState.getSymbolTable(), programState.getHeap());
         programState.getOutput().add(evaluation);
         return null;
+    }
+
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException
+    {
+        this.expression.typecheck(typeEnvironment);
+        return typeEnvironment;
     }
 
     @Override

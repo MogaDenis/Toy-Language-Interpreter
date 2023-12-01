@@ -2,7 +2,9 @@ package source.model.expressions;
 
 import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
+import source.model.exceptions.TypeException;
 import source.model.exceptions.ValueException;
+import source.model.structures.IDictionary;
 import source.model.structures.IHeap;
 import source.model.structures.SymbolTable;
 import source.model.types.Type;
@@ -38,8 +40,8 @@ public class ArithmeticExpression implements Expression
 
         if (firstValueType.equals(secondValueType))
         {
-            if (firstValueType.equals(new IntType()) && firstValueType.equals(new StringType()))
-                throw new ExpressionException("Operation " + this.operation + " is not defined for the given operand types: " 
+            if (!firstValueType.equals(new IntType()) && !firstValueType.equals(new StringType()))
+                throw new ExpressionException("Operation " + this.operation + " is not defined for the given operand types: "
                                                 + firstValueType.toString() + ", " + secondValueType.toString());
 
             if (firstValueType.equals(new StringType()) && this.operation != '+')
@@ -82,7 +84,8 @@ public class ArithmeticExpression implements Expression
             return new IntValue(number1 / number2);
         }
 
-        // If the operand types are different, allow only addition/subtraction of chars with ints.
+        // If the operand types are different, allow only concatenation of chars to strings and
+        // addition/subtraction of chars with ints.
 
         if (firstValueType.equals(new StringType()) && secondValueType.equals(new CharType()))
         {
@@ -92,7 +95,7 @@ public class ArithmeticExpression implements Expression
             return new StringValue(firstStringValue.getValue() + secondCharValue.getValue());
         }
 
-        if (firstValueType.equals(new CharType()) == false || secondValueType.equals(new IntType()) == false)
+        if (!firstValueType.equals(new CharType()) || !secondValueType.equals(new IntType()))
             throw new ExpressionException("Incompatible operands.");
 
         if (this.operation != '+' && this.operation != '-')
@@ -106,6 +109,46 @@ public class ArithmeticExpression implements Expression
             return new CharValue((char)(firstCharValue.getValue() + secondIntValue.getValue()));
 
         return new CharValue((char)(firstCharValue.getValue() - secondIntValue.getValue()));
+    }
+
+    @Override
+    public Type typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException
+    {
+        Type firstExpressionType = this.expression1.typecheck(typeEnvironment);
+        Type secondExpressionType = this.expression2.typecheck(typeEnvironment);
+
+        // If the expression have the same type, allow only concatenation(+) of strings and all operations with ints.
+        if (firstExpressionType.equals(secondExpressionType))
+        {
+            if (!(firstExpressionType instanceof IntType) && !(firstExpressionType instanceof StringType))
+                throw new TypeException("Operation " + this.operation + " is not defined for the given operand types: "
+                        + firstExpressionType + ", " + firstExpressionType);
+
+            if ((firstExpressionType instanceof StringType) && this.operation != '+')
+                throw new TypeException("Operation " + this.operation + " is not defined for StringType.");
+
+            if (firstExpressionType instanceof StringType)
+                return new StringType();
+
+            return new IntType();
+        }
+
+        // If the operand types are different, allow only concatenation of chars to strings and
+        // addition/subtraction of chars with ints.
+
+        // String + Char
+        if ((firstExpressionType instanceof StringType) && (secondExpressionType instanceof CharType))
+            return new StringType();
+
+        // Allow only Char +/- Int.
+        if (!(firstExpressionType instanceof CharType) || !(secondExpressionType instanceof IntType))
+            throw new TypeException("Incompatible operands.");
+
+        if (this.operation != '+' && this.operation != '-')
+            throw new TypeException("Operation " + this.operation + " is not defined for the given operands types: "
+                    + firstExpressionType + ", " + secondExpressionType);
+
+        return new CharType();
     }
 
     @Override

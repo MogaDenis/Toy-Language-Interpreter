@@ -3,59 +3,59 @@ package source.model.structures;
 import java.util.HashMap;
 import java.util.Map;
 
-import source.model.values.Value;
+import source.model.types.Type;
 
-public class SymbolTable implements IDictionary<String, Value>
+public class TypeTable implements IDictionary<String, Type>
 {
-    private Map<String, Value> internalDictionary;
+    private Map<String, Type> internalDictionary;
 
-    public SymbolTable()
+    public TypeTable()
     {
         this.internalDictionary = new HashMap<>();
     }
 
     @Override
-    public Map<String, Value> getContent()
+    public Map<String, Type> getContent()
     {
         return this.internalDictionary;
     }
 
-    public SymbolTable deepCopy()
+    public TypeTable deepCopy()
     {
-        SymbolTable symbolTable = new SymbolTable();
+        TypeTable typeTable = new TypeTable();
 
-        for (Map.Entry<String, Value> pair : this.internalDictionary.entrySet())
-            symbolTable.put(pair.getKey(), pair.getValue().deepCopy());
+        for (Map.Entry<String, Type> pair : this.internalDictionary.entrySet())
+            typeTable.put(pair.getKey(), pair.getValue().deepCopy());
 
-        return symbolTable;
+        return typeTable;
     }
 
     @Override
     public Boolean containsKey(String key)
     {
         return this.internalDictionary.containsKey(key);
-    }   
+    }
 
     @Override
-    public Boolean containsValue(Value value)
+    public Boolean containsValue(Type value)
     {
         return this.internalDictionary.containsValue(value);
     }
 
     @Override
-    public Value get(String key)
+    public Type get(String key)
     {
         return this.internalDictionary.get(key);
     }
 
     @Override
-    public void put(String key, Value value)
+    public void put(String key, Type type)
     {
-        this.internalDictionary.put(key, value);
+        this.internalDictionary.put(key, type);
     }
 
     @Override
-    public Value remove(String key)
+    public Type remove(String key)
     {
         return this.internalDictionary.remove(key);
     }
@@ -68,7 +68,7 @@ public class SymbolTable implements IDictionary<String, Value>
 
         String string = "";
 
-        for (Map.Entry<String, Value> pair : this.internalDictionary.entrySet())
+        for (Map.Entry<String, Type> pair : this.internalDictionary.entrySet())
             string += pair.getKey().toString() + " -> " + pair.getValue().toString() + '\n';
 
         return string;
@@ -82,7 +82,7 @@ public class SymbolTable implements IDictionary<String, Value>
 
         String string = "";
 
-        for (Map.Entry<String, Value> pair : this.internalDictionary.entrySet())
+        for (Map.Entry<String, Type> pair : this.internalDictionary.entrySet())
             string += pair.getKey().toString() + '\n';
 
         return string;

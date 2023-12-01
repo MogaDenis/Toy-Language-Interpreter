@@ -6,8 +6,12 @@ import java.io.IOException;
 import source.model.ProgramState;
 import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
+import source.model.exceptions.TypeException;
 import source.model.exceptions.ValueException;
 import source.model.expressions.Expression;
+import source.model.structures.Dictionary;
+import source.model.structures.IDictionary;
+import source.model.types.Type;
 import source.model.values.StringValue;
 import source.model.values.Value;
 import source.model.structures.FileTable;
@@ -54,6 +58,16 @@ public class CloseFileStatement implements IStatement
         fileTable.remove(stringFileName);
 
         return null;
+    }
+
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException
+    {
+        Type expressionType = this.expression.typecheck(typeEnvironment);
+
+        if (!(expressionType instanceof StringType))
+            throw new TypeException("The given expression is not of StringType");
+
+        return typeEnvironment;
     }
 
     @Override

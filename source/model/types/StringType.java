@@ -14,10 +14,13 @@ public class StringType implements Type
     @Override
     public boolean equals(Object anotherObject)
     {
-        if (anotherObject instanceof StringType)
-            return true;
+        return anotherObject instanceof StringType;
+    }
 
-        return false;
+    @Override
+    public Type deepCopy()
+    {
+        return new StringType();
     }
 
     @Override

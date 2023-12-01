@@ -3,15 +3,18 @@ package source.model.statements;
 import source.model.ProgramState;
 import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
+import source.model.exceptions.TypeException;
 import source.model.exceptions.ValueException;
 import source.model.expressions.Expression;
+import source.model.structures.IDictionary;
 import source.model.structures.IHeap;
 import source.model.structures.SymbolTable;
 import source.model.types.ReferenceType;
+import source.model.types.Type;
 import source.model.values.ReferenceValue;
 import source.model.values.Value;
 
-public class WriteHeapStatement implements IStatement
+public class    WriteHeapStatement implements IStatement
 {
     private String variableName;
     private Expression expression;
@@ -53,6 +56,16 @@ public class WriteHeapStatement implements IStatement
         return null;
     }
 
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException
+    {
+        Type variableType = typeEnvironment.get(this.variableName);
+        Type expressionType = this.expression.typecheck(typeEnvironment);
+
+        if (!expressionType.equals(((ReferenceType)variableType).getInner()))
+            throw new TypeException("WriteHeap: Declared type of variable " + this.variableName + " and type of assigned reference expression do not match.");
+
+        return typeEnvironment;
+    }
     @Override
     public IStatement deepCopy()
     {

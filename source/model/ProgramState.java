@@ -2,20 +2,10 @@ package source.model;
 
 import java.util.Vector;
 
-import source.model.exceptions.EmptyStackException;
-import source.model.exceptions.ExpressionException;
-import source.model.exceptions.StatementException;
-import source.model.exceptions.ValueException;
+import source.model.exceptions.*;
 import source.model.statements.IStatement;
-import source.model.structures.IList;
-import source.model.structures.IStack;
-import source.model.structures.Stack;
-import source.model.structures.SymbolTable;
+import source.model.structures.*;
 import source.model.values.Value;
-import source.model.structures.FileTable;
-import source.model.structures.Heap;
-import source.model.structures.IHeap;
-import source.model.structures.List;
 
 public class ProgramState 
 {
@@ -28,6 +18,8 @@ public class ProgramState
     private Integer id;
     private static Vector<Integer> usedIDs = new Vector<>();
 
+    private TypeTable typeTable;
+
     private Integer getUnusedID()
     {
         Integer newID = 1;
@@ -38,15 +30,17 @@ public class ProgramState
         return newID;
     }
 
-    public ProgramState(IStatement program)
+    public ProgramState(IStatement program) throws TypeException
     {
         this.executionStack = new Stack<IStatement>();
         this.symbolTable = new SymbolTable();
         this.output = new List<Value>();
         this.fileTable = new FileTable();
         this.heap = new Heap();
+        this.typeTable = new TypeTable();
 
         this.originalProgram = program.deepCopy();
+        this.originalProgram.typecheck(this.typeTable);
 
         this.executionStack.push(this.originalProgram);
 
@@ -54,7 +48,7 @@ public class ProgramState
         usedIDs.add(this.id);
     }
 
-    public ProgramState(IStack<IStatement> stack, SymbolTable symbolTable, IList<Value> output, FileTable fileTable, IHeap heap, IStatement statement)
+    public ProgramState(IStack<IStatement> stack, SymbolTable symbolTable, IList<Value> output, FileTable fileTable, IHeap heap, IStatement statement) throws TypeException
     {
         this.executionStack = stack;
         this.symbolTable = symbolTable;
@@ -63,13 +57,15 @@ public class ProgramState
         this.heap = heap;
         this.originalProgram = statement.deepCopy();
 
+        this.originalProgram.typecheck(this.typeTable);
+
         this.executionStack.push(this.originalProgram);
 
         this.id = this.getUnusedID();
         usedIDs.add(this.id);
     }
     
-    public ProgramState oneStep() throws EmptyStackException, StatementException, ExpressionException, ValueException
+    public ProgramState oneStep() throws EmptyStackException, StatementException, ExpressionException, ValueException, TypeException
     {
         IStatement currentStatement = this.executionStack.pop();
 

@@ -2,9 +2,14 @@ package source.model.expressions;
 
 import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
+import source.model.exceptions.TypeException;
 import source.model.exceptions.ValueException;
+import source.model.structures.Dictionary;
+import source.model.structures.IDictionary;
 import source.model.structures.IHeap;
 import source.model.structures.SymbolTable;
+import source.model.types.ReferenceType;
+import source.model.types.Type;
 import source.model.values.ReferenceValue;
 import source.model.values.Value;
 
@@ -31,6 +36,17 @@ public class ReadHeapExpression implements Expression
             throw new StatementException("The given address is not in the heap.");
 
         return heap.get(referenceValue.getAddress());
+    }
+
+    @Override
+    public Type typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException
+    {
+        Type expressionType = this.expression.typecheck(typeEnvironment);
+
+        if (!(expressionType instanceof ReferenceType))
+            throw new TypeException("The given expression is not of type ReferenceType.");
+
+        return ((ReferenceType)(expressionType)).getInner();
     }
 
     @Override

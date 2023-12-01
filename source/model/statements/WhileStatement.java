@@ -1,10 +1,14 @@
 package source.model.statements;
 
 import source.model.ProgramState;
+import source.model.exceptions.TypeException;
 import source.model.expressions.Expression;
+import source.model.structures.IDictionary;
 import source.model.structures.IStack;
 import source.model.structures.SymbolTable;
+import source.model.structures.TypeTable;
 import source.model.types.BoolType;
+import source.model.types.Type;
 import source.model.values.BoolValue;
 import source.model.values.Value;
 import source.model.exceptions.StatementException;
@@ -30,7 +34,6 @@ public class WhileStatement implements IStatement
 
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
-
         if (expressionValue.getType().equals(new BoolType()) == false)
             throw new StatementException("The expression is not a logic expression.");
 
@@ -43,6 +46,16 @@ public class WhileStatement implements IStatement
         }
 
         return null;
+    }
+
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException
+    {
+        Type expressionType = this.expression.typecheck(typeEnvironment);
+
+        if (!(expressionType instanceof BoolType))
+            throw new TypeException("The expression is not a logic expression.");
+
+        return this.statement.typecheck(((TypeTable)typeEnvironment).deepCopy());
     }
 
     @Override

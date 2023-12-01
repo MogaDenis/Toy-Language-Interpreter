@@ -1,9 +1,11 @@
 package source.repository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import source.model.ProgramState;
+import source.model.exceptions.TypeException;
 import source.model.expressions.ArithmeticExpression;
 import source.model.expressions.ReadHeapExpression;
 import source.model.expressions.RelationalExpression;
@@ -135,7 +137,7 @@ public class ProgramsRepository
             new CompoundStatement(new PrintStatement(new VariableExpression("v")), 
             new PrintStatement(new ReadHeapExpression(new VariableExpression("a")))))))));
 
-    private List<IStatement> programs;
+    private final List<IStatement> programs;
 
     public ProgramsRepository()
     {
@@ -145,6 +147,21 @@ public class ProgramsRepository
 
     public List<ProgramState> getProgramsStates()
     {
-        return this.programs.stream().map(program -> new ProgramState(program)).toList();
+        List<ProgramState> programsStates = new ArrayList<>();
+
+        for (IStatement program : programs)
+        {
+            try
+            {
+                ProgramState newProgramState = new ProgramState(program);
+                programsStates.add(newProgramState);
+            }
+            catch (TypeException ignored)
+            {
+
+            }
+        }
+
+        return programsStates;
     }
 }

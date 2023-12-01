@@ -32,6 +32,12 @@ public class ReferenceType implements Type
     }
 
     @Override
+    public Type deepCopy()
+    {
+        return new ReferenceType(this.inner.deepCopy());
+    }
+
+    @Override
     public Value defaultValue()
     {
         return new ReferenceValue(0, this.inner);

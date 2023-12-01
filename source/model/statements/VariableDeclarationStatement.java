@@ -2,6 +2,7 @@ package source.model.statements;
 
 import source.model.ProgramState;
 import source.model.exceptions.StatementException;
+import source.model.structures.IDictionary;
 import source.model.structures.SymbolTable;
 import source.model.types.Type;
 
@@ -33,6 +34,13 @@ public class VariableDeclarationStatement implements IStatement
         symbolTable.put(this.name, this.type.defaultValue());
 
         return null;
+    }
+
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment)
+    {
+        typeEnvironment.put(this.name, this.type);
+
+        return typeEnvironment;
     }
 
     @Override

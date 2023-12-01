@@ -14,10 +14,13 @@ public class BoolType implements Type
     @Override
     public boolean equals(Object anotherObject)
     {
-        if (anotherObject instanceof BoolType)
-            return true;
+        return anotherObject instanceof BoolType;
+    }
 
-        return false;
+    @Override
+    public Type deepCopy()
+    {
+        return new BoolType();
     }
 
     @Override

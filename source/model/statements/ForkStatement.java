@@ -1,11 +1,11 @@
 package source.model.statements;
 
 import source.model.ProgramState;
-import source.model.structures.FileTable;
-import source.model.structures.IHeap;
-import source.model.structures.Stack;
-import source.model.structures.SymbolTable;
-import source.model.structures.IList;
+import source.model.exceptions.ExpressionException;
+import source.model.exceptions.StatementException;
+import source.model.exceptions.TypeException;
+import source.model.structures.*;
+import source.model.types.Type;
 import source.model.values.Value;
 
 public class ForkStatement implements IStatement
@@ -18,7 +18,7 @@ public class ForkStatement implements IStatement
     }
 
     @Override
-    public ProgramState execute(ProgramState programState)
+    public ProgramState execute(ProgramState programState) throws TypeException
     {
         // Heap, fileTable and output are shared. 
         // symbolTable is copied. 
@@ -32,6 +32,11 @@ public class ForkStatement implements IStatement
         ProgramState newProgramState = new ProgramState(new Stack<IStatement>(), symbolTableDeepCopy, output, fileTable, heap, statement);
 
         return newProgramState;
+    }
+
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException
+    {
+        return this.statement.typecheck(typeEnvironment);
     }
 
     @Override

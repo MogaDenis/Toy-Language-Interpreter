@@ -1,6 +1,9 @@
 package source.model.statements;
 
+import source.model.exceptions.TypeException;
 import source.model.expressions.Expression;
+import source.model.structures.Dictionary;
+import source.model.structures.IDictionary;
 import source.model.structures.SymbolTable;
 import source.model.values.Value;
 import source.model.ProgramState;
@@ -43,6 +46,17 @@ public class AssignmentStatement implements IStatement
             throw new StatementException("Declared type of variable " + this.id + " and type of assigned expression do not match.");
 
         return null;
+    }
+
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException
+    {
+        Type variableType = typeEnvironment.get(this.id);
+        Type expressionType = this.expression.typecheck(typeEnvironment);
+
+        if (!variableType.equals(expressionType))
+            throw new TypeException("Declared type of variable \" + this.id + \" and type of assigned expression do not match.");
+
+        return typeEnvironment;
     }
 
     @Override

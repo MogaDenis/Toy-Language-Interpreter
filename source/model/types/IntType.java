@@ -14,10 +14,13 @@ public class IntType implements Type
     @Override
     public boolean equals(Object anotherObject)
     {
-        if (anotherObject instanceof IntType)
-            return true;
+        return anotherObject instanceof IntType;
+    }
 
-        return false;
+    @Override
+    public Type deepCopy()
+    {
+        return new IntType();
     }
 
     @Override

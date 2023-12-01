@@ -1,13 +1,14 @@
 package source.model.statements;
 
+import source.model.exceptions.TypeException;
 import source.model.expressions.Expression;
-import source.model.structures.IHeap;
-import source.model.structures.IStack;
+import source.model.structures.*;
 import source.model.types.BoolType;
 import source.model.ProgramState;
 import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
 import source.model.exceptions.ValueException;
+import source.model.types.Type;
 import source.model.values.BoolValue;
 import source.model.values.Value;
 
@@ -43,6 +44,19 @@ public class IfStatement implements IStatement
             executionStack.push(this.elseStatement);
 
         return null;
+    }
+
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException
+    {
+        Type expressionType = this.expression.typecheck(typeEnvironment);
+
+        if (!(expressionType instanceof BoolType))
+            throw new TypeException("The expression is not a logic expression.");
+
+        this.thenStatement.typecheck(((TypeTable)typeEnvironment).deepCopy());
+        this.elseStatement.typecheck(((TypeTable)typeEnvironment).deepCopy());
+
+        return typeEnvironment;
     }
     
     @Override

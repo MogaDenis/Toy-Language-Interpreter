@@ -14,10 +14,13 @@ public class CharType implements Type
     @Override
     public boolean equals(Object anotherObject)
     {
-        if (anotherObject instanceof CharType)
-            return true;
+        return anotherObject instanceof CharType;
+    }
 
-        return false;
+    @Override
+    public Type deepCopy()
+    {
+        return new CharType();
     }
 
     @Override

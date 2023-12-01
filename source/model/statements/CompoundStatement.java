@@ -1,7 +1,13 @@
 package source.model.statements;
 
 import source.model.ProgramState;
+import source.model.exceptions.ExpressionException;
+import source.model.exceptions.StatementException;
+import source.model.exceptions.TypeException;
+import source.model.structures.Dictionary;
+import source.model.structures.IDictionary;
 import source.model.structures.IStack;
+import source.model.types.Type;
 
 public class CompoundStatement implements IStatement
 {
@@ -23,6 +29,11 @@ public class CompoundStatement implements IStatement
         stack.push(first);
 
         return null;
+    }
+
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException
+    {
+        return this.second.typecheck(this.first.typecheck(typeEnvironment));
     }
     
     @Override
