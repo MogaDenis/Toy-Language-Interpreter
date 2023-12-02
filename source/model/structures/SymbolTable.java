@@ -7,7 +7,7 @@ import source.model.values.Value;
 
 public class SymbolTable implements IDictionary<String, Value>
 {
-    private Map<String, Value> internalDictionary;
+    private final Map<String, Value> internalDictionary;
 
     public SymbolTable()
     {

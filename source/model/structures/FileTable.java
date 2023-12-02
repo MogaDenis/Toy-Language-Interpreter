@@ -8,7 +8,7 @@ import source.model.values.StringValue;
 
 public class FileTable implements IDictionary<StringValue, BufferedReader>
 {
-    private HashMap<StringValue, BufferedReader> internalDictionary;
+    private final HashMap<StringValue, BufferedReader> internalDictionary;
 
     public FileTable()
     {

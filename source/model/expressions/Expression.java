@@ -12,9 +12,9 @@ import source.model.values.Value;
 
 public interface Expression
 {
-    public Value evaluate(SymbolTable symbolTable, IHeap heap) throws StatementException, ExpressionException, ValueException;
+    Value evaluate(SymbolTable symbolTable, IHeap heap) throws StatementException, ExpressionException, ValueException;
 
-    public Expression deepCopy();
+    Expression deepCopy();
 
-    public Type typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException;
+    Type typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException;
 }

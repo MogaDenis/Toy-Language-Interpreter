@@ -17,8 +17,8 @@ import source.model.exceptions.ExpressionException;
 
 public class WhileStatement implements IStatement
 {
-    private Expression expression;
-    private IStatement statement;
+    private final Expression expression;
+    private final IStatement statement;
 
     public WhileStatement(Expression expression, IStatement statement)
     {
@@ -34,12 +34,12 @@ public class WhileStatement implements IStatement
 
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
-        if (expressionValue.getType().equals(new BoolType()) == false)
-            throw new StatementException("The expression is not a logic expression.");
+//        if (!expressionValue.getType().equals(new BoolType()))
+//            throw new StatementException("The expression is not a logic expression.");
 
         BoolValue expressionTruthValue = (BoolValue)expressionValue;
 
-        if (expressionTruthValue.getValue() == true)
+        if (expressionTruthValue.getValue())
         {
             executionStack.push(this);
             executionStack.push(this.statement);

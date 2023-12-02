@@ -14,9 +14,9 @@ import source.model.values.Value;
 
 public class IfStatement implements IStatement
 {
-    private Expression expression;
-    private IStatement thenStatement;
-    private IStatement elseStatement;
+    private final Expression expression;
+    private final IStatement thenStatement;
+    private final IStatement elseStatement;
 
     public IfStatement(Expression expression, IStatement thenStatement, IStatement elseStatement)
     {
@@ -31,14 +31,14 @@ public class IfStatement implements IStatement
         IStack<IStatement> executionStack = programState.getExecutionStack();
         IHeap heap = programState.getHeap();
 
-        if (this.expression.evaluate(programState.getSymbolTable(), heap).getType().equals(new BoolType()) == false)
-            throw new StatementException("The expression is not a logic expression.");
+//        if (!this.expression.evaluate(programState.getSymbolTable(), heap).getType().equals(new BoolType()))
+//            throw new StatementException("The expression is not a logic expression.");
 
         Value evaluation = this.expression.evaluate(programState.getSymbolTable(), heap);
 
         BoolValue evaluationTruthValue = (BoolValue)evaluation;
 
-        if (evaluationTruthValue.getValue() == true)
+        if (evaluationTruthValue.getValue())
             executionStack.push(this.thenStatement);
         else
             executionStack.push(this.elseStatement);

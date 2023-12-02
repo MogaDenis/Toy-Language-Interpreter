@@ -1,18 +1,15 @@
 package source.model.statements;
 
 import source.model.ProgramState;
-import source.model.exceptions.ExpressionException;
-import source.model.exceptions.StatementException;
 import source.model.exceptions.TypeException;
-import source.model.structures.Dictionary;
 import source.model.structures.IDictionary;
 import source.model.structures.IStack;
 import source.model.types.Type;
 
 public class CompoundStatement implements IStatement
 {
-    private IStatement first;
-    private IStatement second;
+    private final IStatement first;
+    private final IStatement second;
 
     public CompoundStatement(IStatement firstStatement, IStatement secondStatement)
     {

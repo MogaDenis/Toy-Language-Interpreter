@@ -8,8 +8,8 @@ import source.model.types.Type;
 
 public class VariableDeclarationStatement implements IStatement
 {
-    private String name;
-    private Type type;
+    private final String name;
+    private final Type type;
 
     public VariableDeclarationStatement(String name, Type type)
     {
@@ -28,7 +28,7 @@ public class VariableDeclarationStatement implements IStatement
     {
         SymbolTable symbolTable = programState.getSymbolTable();
 
-        if (symbolTable.containsKey(name) == true)
+        if (symbolTable.containsKey(name))
             throw new StatementException("Variable " + this.name + " was already defined.");
 
         symbolTable.put(this.name, this.type.defaultValue());

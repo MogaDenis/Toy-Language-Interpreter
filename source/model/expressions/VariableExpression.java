@@ -1,7 +1,6 @@
 package source.model.expressions;
 
 import source.model.exceptions.ExpressionException;
-import source.model.structures.Dictionary;
 import source.model.structures.IDictionary;
 import source.model.structures.IHeap;
 import source.model.structures.SymbolTable;
@@ -10,7 +9,7 @@ import source.model.values.Value;
 
 public class VariableExpression implements Expression
 {
-    private String id;
+    private final String id;
 
     public VariableExpression(String id)
     {

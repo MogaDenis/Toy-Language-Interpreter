@@ -1,6 +1,5 @@
 package source.model.expressions;
 
-import source.model.structures.Dictionary;
 import source.model.structures.IDictionary;
 import source.model.structures.IHeap;
 import source.model.structures.SymbolTable;

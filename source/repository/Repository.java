@@ -6,11 +6,11 @@ import java.util.Vector;
 
 public interface Repository 
 {
-    public String getProgramStateString();
+    String getProgramStateString();
 
-    public void logProgramStateExecution(ProgramState program);
+    void logProgramStateExecution(ProgramState program);
 
-    public Vector<ProgramState> getProgramsList();
+    Vector<ProgramState> getProgramsList();
 
-    public void setProgramsList(List<ProgramState> programs);
+    void setProgramsList(List<ProgramState> programs);
 }

@@ -16,7 +16,7 @@ public class InMemoryRepository implements Repository
 
     public InMemoryRepository(ProgramState programState, String filePath)
     {
-        this.programStates = new Vector<ProgramState>();
+        this.programStates = new Vector<>();
         this.programStates.add(programState);
         this.filePath = filePath;
     }

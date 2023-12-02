@@ -4,7 +4,7 @@ import java.util.Vector;
 
 public class List<T> implements IList<T>
 {
-    private Vector<T> internalList;
+    private final Vector<T> internalList;
 
     public List()
     {

@@ -7,7 +7,7 @@ import source.model.types.Type;
 
 public class TypeTable implements IDictionary<String, Type>
 {
-    private Map<String, Type> internalDictionary;
+    private final Map<String, Type> internalDictionary;
 
     public TypeTable()
     {

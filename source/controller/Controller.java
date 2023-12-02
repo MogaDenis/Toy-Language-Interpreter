@@ -18,7 +18,7 @@ import source.repository.Repository;
 
 public class Controller 
 {
-    private Repository repository;
+    private final Repository repository;
     private ExecutorService executor;
     
     public Controller(Repository repository)
@@ -67,7 +67,7 @@ public class Controller
         
         List<ProgramState> programsList = this.removeCompletedPrograms(this.repository.getProgramsList());
 
-        while (programsList.isEmpty() == false)
+        while (!programsList.isEmpty())
         {
             // Garbage collecting...
             programsList

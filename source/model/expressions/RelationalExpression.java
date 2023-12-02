@@ -4,7 +4,6 @@ import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
 import source.model.exceptions.TypeException;
 import source.model.exceptions.ValueException;
-import source.model.structures.Dictionary;
 import source.model.structures.IDictionary;
 import source.model.structures.IHeap;
 import source.model.structures.SymbolTable;
@@ -13,9 +12,9 @@ import source.model.values.Value;
 
 public class RelationalExpression implements Expression
 {
-    private Expression expression1;
-    private Expression expression2;
-    private String relation;
+    private final Expression expression1;
+    private final Expression expression2;
+    private final String relation;
 
     public RelationalExpression(Expression exp1, Expression exp2, String relation)
     {
@@ -56,20 +55,6 @@ public class RelationalExpression implements Expression
             throw new TypeException("The given expressions have different types.");
 
         return new BoolType();
-
-//        if (firstExpressionType instanceof IntType)
-//            return new IntType();
-//
-//        if (firstExpressionType instanceof BoolType)
-//            return new BoolType();
-//
-//        if (firstExpressionType instanceof CharType)
-//            return new CharType();
-//
-//        if (firstExpressionType instanceof ReferenceType)
-//            return new ReferenceType(((ReferenceType) firstExpressionType).getInner());
-//
-//        return new StringType();
     }
 
     @Override

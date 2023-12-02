@@ -4,12 +4,12 @@ import java.util.Map;
 
 public interface IDictionary<K, V> 
 {
-    public Boolean containsKey(K key);
-    public Boolean containsValue(V value);    
-    public V get(K key);
-    public void put(K key, V value);
-    public V remove(K key);
-    public String toString();
-    public String toStringKeySet();
-    public Map<K, V> getContent();
+    Boolean containsKey(K key);
+    Boolean containsValue(V value);
+    V get(K key);
+    void put(K key, V value);
+    V remove(K key);
+    String toString();
+    String toStringKeySet();
+    Map<K, V> getContent();
 }

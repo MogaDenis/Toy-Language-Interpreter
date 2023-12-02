@@ -2,15 +2,15 @@ package source.model.structures;
 
 public interface IList<T>
 {
-    public void add(T element);
-    public void add(int index, T element);
-    public void set(int index, T element);
-    public Integer indexOf(T element);
-    public Integer lastIndexOf(T element);
-    public Boolean remove(T element);
-    public T remove(int index);  
-    public T get(int index);
-    public Boolean contains(T element);
-    public Boolean isEmpty();
-    public Integer size();
+    void add(T element);
+    void add(int index, T element);
+    void set(int index, T element);
+    Integer indexOf(T element);
+    Integer lastIndexOf(T element);
+    Boolean remove(T element);
+    T remove(int index);
+    T get(int index);
+    Boolean contains(T element);
+    Boolean isEmpty();
+    Integer size();
 }

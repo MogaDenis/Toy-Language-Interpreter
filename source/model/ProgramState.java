@@ -9,16 +9,16 @@ import source.model.values.Value;
 
 public class ProgramState 
 {
-    private IStack<IStatement> executionStack;
-    private SymbolTable symbolTable;
-    private IList<Value> output;
-    private FileTable fileTable;
-    private IHeap heap;
-    private IStatement originalProgram;
-    private Integer id;
-    private static Vector<Integer> usedIDs = new Vector<>();
+    private final IStack<IStatement> executionStack;
+    private final SymbolTable symbolTable;
+    private final IList<Value> output;
+    private final FileTable fileTable;
+    private final IHeap heap;
+    private final IStatement originalProgram;
+    private final Integer id;
+    private static final Vector<Integer> usedIDs = new Vector<>();
 
-    private TypeTable typeTable;
+    private final TypeTable typeTable;
 
     private Integer getUnusedID()
     {
@@ -32,9 +32,9 @@ public class ProgramState
 
     public ProgramState(IStatement program) throws TypeException
     {
-        this.executionStack = new Stack<IStatement>();
+        this.executionStack = new Stack<>();
         this.symbolTable = new SymbolTable();
-        this.output = new List<Value>();
+        this.output = new List<>();
         this.fileTable = new FileTable();
         this.heap = new Heap();
         this.typeTable = new TypeTable();
@@ -48,7 +48,7 @@ public class ProgramState
         usedIDs.add(this.id);
     }
 
-    public ProgramState(IStack<IStatement> stack, SymbolTable symbolTable, IList<Value> output, FileTable fileTable, IHeap heap, IStatement statement) throws TypeException
+    public ProgramState(IStack<IStatement> stack, SymbolTable symbolTable, IList<Value> output, FileTable fileTable, IHeap heap, IStatement statement, TypeTable typeTable) throws TypeException
     {
         this.executionStack = stack;
         this.symbolTable = symbolTable;
@@ -56,6 +56,7 @@ public class ProgramState
         this.fileTable = fileTable;
         this.heap = heap;
         this.originalProgram = statement.deepCopy();
+        this.typeTable = typeTable;
 
         this.originalProgram.typecheck(this.typeTable);
 
@@ -74,7 +75,7 @@ public class ProgramState
 
     public Boolean isNotCompleted()
     {
-        return this.executionStack.isEmpty() == false;
+        return !this.executionStack.isEmpty();
     }
 
     public IStack<IStatement> getExecutionStack()
@@ -100,6 +101,11 @@ public class ProgramState
     public IHeap getHeap()
     {
         return this.heap;
+    }
+
+    public TypeTable getTypeTable()
+    {
+        return this.typeTable;
     }
 
     public IStatement getOriginalProgram()

@@ -1,8 +1,6 @@
 package source.model.statements;
 
 import source.model.ProgramState;
-import source.model.exceptions.ExpressionException;
-import source.model.exceptions.StatementException;
 import source.model.exceptions.TypeException;
 import source.model.structures.*;
 import source.model.types.Type;
@@ -10,7 +8,7 @@ import source.model.values.Value;
 
 public class ForkStatement implements IStatement
 {
-    private IStatement statement;
+    private final IStatement statement;
 
     public ForkStatement(IStatement statement)
     {
@@ -21,17 +19,16 @@ public class ForkStatement implements IStatement
     public ProgramState execute(ProgramState programState) throws TypeException
     {
         // Heap, fileTable and output are shared. 
-        // symbolTable is copied. 
+        // symbolTable and typeTable are copied.
 
         IHeap heap = programState.getHeap();
         FileTable fileTable = programState.getFileTable();
         IList<Value> output = programState.getOutput();
 
         SymbolTable symbolTableDeepCopy = programState.getSymbolTable().deepCopy();
+        TypeTable typeTable = programState.getTypeTable().deepCopy();
 
-        ProgramState newProgramState = new ProgramState(new Stack<IStatement>(), symbolTableDeepCopy, output, fileTable, heap, statement);
-
-        return newProgramState;
+        return new ProgramState(new Stack<>(), symbolTableDeepCopy, output, fileTable, heap, statement, typeTable);
     }
 
     public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException

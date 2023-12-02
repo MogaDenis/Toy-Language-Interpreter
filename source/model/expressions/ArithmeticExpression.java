@@ -18,9 +18,9 @@ import source.model.values.StringValue;
 
 public class ArithmeticExpression implements Expression
 {
-    private Expression expression1;
-    private Expression expression2;
-    private Character operation;
+    private final Expression expression1;
+    private final Expression expression2;
+    private final Character operation;
 
     public ArithmeticExpression(Character operation, Expression exp1, Expression exp2)
     {
@@ -42,7 +42,7 @@ public class ArithmeticExpression implements Expression
         {
             if (!firstValueType.equals(new IntType()) && !firstValueType.equals(new StringType()))
                 throw new ExpressionException("Operation " + this.operation + " is not defined for the given operand types: "
-                                                + firstValueType.toString() + ", " + secondValueType.toString());
+                                                + firstValueType + ", " + secondValueType);
 
             if (firstValueType.equals(new StringType()) && this.operation != '+')
                 throw new ExpressionException("Operation " + this.operation + " is not defined for StringType.");
@@ -100,7 +100,7 @@ public class ArithmeticExpression implements Expression
 
         if (this.operation != '+' && this.operation != '-')
             throw new ExpressionException("Operation " + this.operation + " is not defined for the given operands types: " 
-                                            + firstValueType.toString() + ", " + secondValueType.toString());
+                                            + firstValueType + ", " + secondValueType);
 
         CharValue firstCharValue = (CharValue)firstValue;
         IntValue secondIntValue = (IntValue)secondValue;

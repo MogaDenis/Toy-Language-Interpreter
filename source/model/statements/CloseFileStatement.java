@@ -9,7 +9,6 @@ import source.model.exceptions.StatementException;
 import source.model.exceptions.TypeException;
 import source.model.exceptions.ValueException;
 import source.model.expressions.Expression;
-import source.model.structures.Dictionary;
 import source.model.structures.IDictionary;
 import source.model.types.Type;
 import source.model.values.StringValue;
@@ -20,7 +19,7 @@ import source.model.types.StringType;
 
 public class CloseFileStatement implements IStatement
 {
-    private Expression expression;
+    private final Expression expression;
 
     public CloseFileStatement(Expression expression)
     {
@@ -34,8 +33,8 @@ public class CloseFileStatement implements IStatement
 
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
-        if (expressionValue.getType().equals(new StringType()) == false)
-            throw new StatementException("The given expression is not of StringType");
+//        if (!expressionValue.getType().equals(new StringType()))
+//            throw new StatementException("The given expression is not of StringType");
 
         StringValue stringFileName = (StringValue)expressionValue;
 

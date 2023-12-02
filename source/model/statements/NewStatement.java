@@ -16,8 +16,8 @@ import source.model.values.Value;
 
 public class NewStatement implements IStatement
 {
-    private String variableName;
-    private Expression expression;
+    private final String variableName;
+    private final Expression expression;
 
     public NewStatement(String variableName, Expression expression)
     {
@@ -30,19 +30,19 @@ public class NewStatement implements IStatement
     {
         SymbolTable symbolTable = programState.getSymbolTable();
         
-        if (symbolTable.containsKey(this.variableName) == false)
+        if (!symbolTable.containsKey(this.variableName))
             throw new StatementException("The given variable was not defined.");
 
         if (!(symbolTable.get(this.variableName).getType() instanceof ReferenceType))
             throw new StatementException("The given variable is not of ReferenceType.");
 
-        Value referenceValue = symbolTable.get(this.variableName);
+//        Value referenceValue = symbolTable.get(this.variableName);
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
-        ReferenceType referenceType = (ReferenceType)referenceValue.getType();
+//        ReferenceType referenceType = (ReferenceType)referenceValue.getType();
 
-        if (referenceType.getInner().equals(expressionValue.getType()) == false)
-            throw new StatementException("The type of the variable and the type of the reference do not match.");
+//        if (!referenceType.getInner().equals(expressionValue.getType()))
+//            throw new StatementException("The type of the expression and the type of the reference do not match.");
 
         IHeap heap = programState.getHeap();
         Integer address = heap.allocate(expressionValue);
@@ -58,7 +58,7 @@ public class NewStatement implements IStatement
         Type expressionType = this.expression.typecheck(typeEnvironment);
 
         if (!variableType.equals(new ReferenceType(expressionType)))
-            throw new TypeException("Declared type of variable " + this.variableName + " and type of assigned reference expression do not match.");
+            throw new TypeException("The type of the expression and the type of the reference do not match.");
 
         return typeEnvironment;
     }

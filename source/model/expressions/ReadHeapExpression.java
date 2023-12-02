@@ -4,7 +4,6 @@ import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
 import source.model.exceptions.TypeException;
 import source.model.exceptions.ValueException;
-import source.model.structures.Dictionary;
 import source.model.structures.IDictionary;
 import source.model.structures.IHeap;
 import source.model.structures.SymbolTable;
@@ -15,7 +14,7 @@ import source.model.values.Value;
 
 public class ReadHeapExpression implements Expression
 {
-    private Expression expression;
+    private final Expression expression;
 
     public ReadHeapExpression(Expression expression)
     {
@@ -27,12 +26,10 @@ public class ReadHeapExpression implements Expression
     {
         Value expressionValue = this.expression.evaluate(symbolTable, heap);
 
-        if (!(expressionValue instanceof ReferenceValue))
+        if (!(expressionValue instanceof ReferenceValue referenceValue))
             throw new StatementException("The given expression does not evaluate to a ReferenceValue.");
 
-        ReferenceValue referenceValue = (ReferenceValue)expressionValue;
-
-        if (heap.isUsed(referenceValue.getAddress()) == false)
+        if (!heap.isUsed(((ReferenceValue)expressionValue).getAddress()))
             throw new StatementException("The given address is not in the heap.");
 
         return heap.get(referenceValue.getAddress());

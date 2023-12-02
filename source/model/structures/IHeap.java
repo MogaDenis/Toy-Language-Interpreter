@@ -7,11 +7,11 @@ import source.model.values.Value;
 
 public interface IHeap 
 {
-    public Integer allocate(Value value);
-    public void update(Integer address, Value value);
-    public Value get(Integer address);
-    public Boolean isUsed(Integer address);
-    public Map<Integer, Value> getContent();
-    public void setContent(Map<Integer, Value> newContent);
-    public List<Value> getValues();
+    Integer allocate(Value value);
+    void update(Integer address, Value value);
+    Value get(Integer address);
+    Boolean isUsed(Integer address);
+    Map<Integer, Value> getContent();
+    void setContent(Map<Integer, Value> newContent);
+    List<Value> getValues();
 }

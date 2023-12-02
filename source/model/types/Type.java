@@ -4,7 +4,7 @@ import source.model.values.Value;
 
 public interface Type 
 {
-    public Value defaultValue();
+    Value defaultValue();
 
-    public Type deepCopy();
+    Type deepCopy();
 }

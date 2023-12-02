@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class TextMenu 
 {
-    private Map<Integer, Command> commands;    
-    private Scanner scanner;
+    private final Map<Integer, Command> commands;
+    private final Scanner scanner;
 
     public TextMenu()
     {
@@ -26,7 +26,7 @@ public class TextMenu
             System.out.println(command);
     }
 
-    public void show() throws Exception
+    public void show()
     {
         while (true)
         {

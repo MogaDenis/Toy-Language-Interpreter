@@ -4,7 +4,6 @@ import source.model.exceptions.ExpressionException;
 import source.model.exceptions.StatementException;
 import source.model.exceptions.TypeException;
 import source.model.exceptions.ValueException;
-import source.model.structures.Dictionary;
 import source.model.structures.IDictionary;
 import source.model.structures.IHeap;
 import source.model.structures.SymbolTable;
@@ -15,9 +14,9 @@ import source.model.values.BoolValue;
 
 public class LogicExpression implements Expression
 {
-    private Expression expression1;
-    private Expression expression2;
-    private String operation;
+    private final Expression expression1;
+    private final Expression expression2;
+    private final String operation;
 
     public LogicExpression(Expression expression1, Expression expression2, String operation)
     {

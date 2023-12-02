@@ -13,7 +13,6 @@ import source.model.structures.FileTable;
 import source.model.structures.IDictionary;
 import source.model.structures.SymbolTable;
 import source.model.types.IntType;
-import source.model.types.ReferenceType;
 import source.model.types.StringType;
 import source.model.types.Type;
 import source.model.values.IntValue;
@@ -22,8 +21,8 @@ import source.model.values.Value;
 
 public class ReadFileStatement implements IStatement
 {
-    private Expression expression;
-    private String variableName;
+    private final Expression expression;
+    private final String variableName;
 
     public ReadFileStatement(Expression expression, String variableName)
     {
@@ -36,20 +35,18 @@ public class ReadFileStatement implements IStatement
     {
         SymbolTable symbolTable = programState.getSymbolTable();
 
-        if (symbolTable.containsKey(variableName) == false)
-            throw new StatementException("The variable '" + this.variableName + "' is undefined.");
+//        if (!symbolTable.containsKey(variableName))
+//            throw new StatementException("The variable '" + this.variableName + "' is undefined.");
 
-        Value variableValue = symbolTable.get(variableName);
+//        Value variableValue = symbolTable.get(variableName);
 
-        if (variableValue.getType().equals(new IntType()) == false)
-            throw new StatementException("The given variable is not of IntType.");
-
-        IntValue integerValue = (IntValue)variableValue;
+//        if (!variableValue.getType().equals(new IntType()))
+//            throw new StatementException("The given variable is not of IntType.");
 
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
-        if (expressionValue.getType().equals(new StringType()) == false)
-            throw new StatementException("The given expression is not of StringType.");
+//        if (!expressionValue.getType().equals(new StringType()))
+//            throw new StatementException("The given expression is not of StringType.");
 
         StringValue stringFileName = (StringValue)expressionValue;
 
@@ -60,23 +57,23 @@ public class ReadFileStatement implements IStatement
         if (bufferedReader == null)
             throw new StatementException("File with given name was not found.");
 
-        String readValue;
-
-        try 
+        try
         {
-            readValue = bufferedReader.readLine();
+            String readValue = bufferedReader.readLine();
+
+            IntValue integerValue;
+
+            if (readValue == null)
+                integerValue = new IntValue(0);
+            else
+                integerValue = new IntValue(Integer.parseInt(readValue));
+
+            symbolTable.put(this.variableName, integerValue);
         }
         catch (IOException e)
         {
             throw new StatementException(e.getMessage());
         }
-
-        if (readValue == null)
-            integerValue = new IntValue(0);
-        else 
-            integerValue = new IntValue(Integer.parseInt(readValue));
-
-        symbolTable.put(this.variableName, integerValue);        
 
         return null;
     }

@@ -20,7 +20,7 @@ import source.model.values.Value;
 
 public class OpenReadFileStatement implements IStatement
 {
-    private Expression expression;
+    private final Expression expression;
 
     public OpenReadFileStatement(Expression expression)
     {
@@ -33,15 +33,15 @@ public class OpenReadFileStatement implements IStatement
         SymbolTable symbolTable = programState.getSymbolTable();
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
-        if (expressionValue.getType().equals(new StringType()) == false)
-            throw new StatementException("The given expression is not of StringType.");
+//        if (!expressionValue.getType().equals(new StringType()))
+//            throw new StatementException("The given expression is not of StringType.");
 
         StringValue fileName = (StringValue)expressionValue;
 
         if (symbolTable.containsKey(fileName.getValue()))
             throw new StatementException("There already exists an opened file with the given name.");
 
-        BufferedReader bufferedReader = null;
+        BufferedReader bufferedReader;
         try 
         {
             bufferedReader = new BufferedReader(new FileReader(fileName.getValue()));

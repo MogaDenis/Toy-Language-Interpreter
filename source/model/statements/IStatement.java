@@ -7,9 +7,9 @@ import source.model.types.Type;
 
 public interface IStatement
 {
-    public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException, EmptyStackException, TypeException;
+    ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException, EmptyStackException, TypeException;
 
-    public IStatement deepCopy();
+    IStatement deepCopy();
 
-    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException;
+    IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException;
 }

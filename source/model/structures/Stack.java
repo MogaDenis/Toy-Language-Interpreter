@@ -6,7 +6,7 @@ import source.model.exceptions.EmptyStackException;
 
 public class Stack<T> implements IStack<T>
 {
-    private Vector<T> internalStack;
+    private final Vector<T> internalStack;
 
     public Stack()
     {
@@ -16,7 +16,7 @@ public class Stack<T> implements IStack<T>
     @Override
     public T pop() throws EmptyStackException
     {
-        if (this.internalStack.size() == 0)
+        if (this.internalStack.isEmpty())
             throw new EmptyStackException("Empty stack!");
 
         T element = this.internalStack.get(this.internalStack.size() - 1);
@@ -44,7 +44,7 @@ public class Stack<T> implements IStack<T>
         if (this.internalStack.isEmpty())
             return "Empty stack\n";
 
-        String string = new String();
+        String string = "";
 
         for (int i = this.internalStack.size() - 1; i >= 0; i--)
             string += this.internalStack.get(i).toString() + "-----------------\n";

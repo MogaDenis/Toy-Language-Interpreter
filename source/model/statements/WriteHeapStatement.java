@@ -16,8 +16,8 @@ import source.model.values.Value;
 
 public class    WriteHeapStatement implements IStatement
 {
-    private String variableName;
-    private Expression expression;
+    private final String variableName;
+    private final Expression expression;
 
     public WriteHeapStatement(String variableName, Expression expression)
     {
@@ -30,7 +30,7 @@ public class    WriteHeapStatement implements IStatement
     {
         SymbolTable symbolTable = programState.getSymbolTable();
 
-        if (symbolTable.containsKey(this.variableName) == false)
+        if (!symbolTable.containsKey(this.variableName))
             throw new StatementException("The given variable name is undefined.");
 
         Value variableValue = symbolTable.get(this.variableName);
@@ -42,13 +42,13 @@ public class    WriteHeapStatement implements IStatement
 
         IHeap heap = programState.getHeap();
 
-        if (heap.isUsed(referenceValue.getAddress()) == false)
+        if (!heap.isUsed(referenceValue.getAddress()))
             throw new StatementException("The address of the reference is not in the heap.");
 
         Value expressionValue = this.expression.evaluate(symbolTable, heap);
 
         ReferenceType referenceType = (ReferenceType)referenceValue.getType();
-        if (expressionValue.getType().equals(referenceType.getInner()) == false)
+        if (!expressionValue.getType().equals(referenceType.getInner()))
             throw new StatementException("The type of the variable and the type of the reference do not match.");
 
         heap.update(referenceValue.getAddress(), expressionValue);

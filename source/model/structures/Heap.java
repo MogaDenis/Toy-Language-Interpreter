@@ -75,7 +75,7 @@ public class Heap implements IHeap
         String string = "";
 
         for (Map.Entry<Integer, Value> pair : this.content.entrySet())
-            string += String.valueOf(pair.getKey()) + "->" + pair.getValue().toString() + "\n";
+            string += pair.getKey() + "->" + pair.getValue().toString() + "\n";
 
         return string;
     }

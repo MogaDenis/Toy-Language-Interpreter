@@ -2,8 +2,8 @@ package source.view;
 
 public abstract class Command 
 {
-    private Integer key;
-    private String description;
+    private final Integer key;
+    private final String description;
     
     public Command(Integer key, String description)
     {

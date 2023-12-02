@@ -12,7 +12,7 @@ import source.model.values.Value;
 
 public class PrintStatement implements IStatement
 {
-    private Expression expression;
+    private final Expression expression;
 
     public PrintStatement(Expression expression)
     {
