@@ -14,13 +14,6 @@ public class RunExampleCommand extends Command
 
     public void execute() throws Exception
     {
-        // try 
-        // {
-            this.controller.allSteps();
-        // }
-        // catch (Exception e)
-        // {
-        //     e.printStackTrace();
-        // }
+        this.controller.allSteps();
     }
 }

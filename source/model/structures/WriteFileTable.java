@@ -1,22 +1,22 @@
 package source.model.structures;
 
-import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import source.model.values.StringValue;
 
-public class FileTable implements IDictionary<StringValue, BufferedReader>
+public class WriteFileTable implements IDictionary<StringValue, BufferedWriter>
 {
-    private final HashMap<StringValue, BufferedReader> internalDictionary;
+    private final HashMap<StringValue, BufferedWriter> internalDictionary;
 
-    public FileTable()
+    public WriteFileTable()
     {
         this.internalDictionary = new HashMap<>();
     }
 
     @Override
-    public Map<StringValue, BufferedReader> getContent()
+    public Map<StringValue, BufferedWriter> getContent()
     {
         return this.internalDictionary;
     }
@@ -25,28 +25,28 @@ public class FileTable implements IDictionary<StringValue, BufferedReader>
     public Boolean containsKey(StringValue key)
     {
         return this.internalDictionary.containsKey(key);
-    }   
+    }
 
     @Override
-    public Boolean containsValue(BufferedReader value)
+    public Boolean containsValue(BufferedWriter value)
     {
         return this.internalDictionary.containsValue(value);
     }
 
     @Override
-    public BufferedReader get(StringValue key)
+    public BufferedWriter get(StringValue key)
     {
         return this.internalDictionary.get(key);
     }
 
     @Override
-    public void put(StringValue key, BufferedReader value)
+    public void put(StringValue key, BufferedWriter value)
     {
         this.internalDictionary.put(key, value);
     }
 
     @Override
-    public BufferedReader remove(StringValue key)
+    public BufferedWriter remove(StringValue key)
     {
         return this.internalDictionary.remove(key);
     }
@@ -59,7 +59,7 @@ public class FileTable implements IDictionary<StringValue, BufferedReader>
 
         String string = "";
 
-        for (Map.Entry<StringValue, BufferedReader> pair : this.internalDictionary.entrySet())
+        for (Map.Entry<StringValue, BufferedWriter> pair : this.internalDictionary.entrySet())
             string += pair.getKey().toString() + " -> " + pair.getValue().toString() + '\n';
 
         return string;
@@ -73,7 +73,7 @@ public class FileTable implements IDictionary<StringValue, BufferedReader>
 
         String string = "";
 
-        for (Map.Entry<StringValue, BufferedReader> pair : this.internalDictionary.entrySet())
+        for (Map.Entry<StringValue, BufferedWriter> pair : this.internalDictionary.entrySet())
             string += pair.getKey().toString() + '\n';
 
         return string;

@@ -6,7 +6,7 @@ import source.model.types.Type;
 
 public class StringValue implements Value
 {
-    private String string;
+    private final String string;
 
     public StringValue(String value)
     {
@@ -25,25 +25,39 @@ public class StringValue implements Value
     }
 
     @Override
+    public boolean equals(Object other)
+    {
+        if (this == other)
+            return true;
+
+        if (!(other instanceof StringValue stringValue))
+            return false;
+
+        return this.string.equals(stringValue.string);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return this.string.hashCode();
+    }
+
+    @Override
     public BoolValue equal(Value otherValue)
     {
-        if (!(otherValue instanceof StringValue))
+        if (!(otherValue instanceof StringValue stringValue))
             return new BoolValue(false);
 
-        StringValue stringValue = (StringValue)otherValue;
-
-        return new BoolValue(this.string == stringValue.getValue());
+        return new BoolValue(this.string.equals(stringValue.getValue()));
     }
 
     @Override
     public BoolValue notEqual(Value otherValue)
     {
-        if (!(otherValue instanceof StringValue))
+        if (!(otherValue instanceof StringValue stringValue))
             return new BoolValue(false);
 
-        StringValue stringValue = (StringValue)otherValue;
-
-        return new BoolValue(this.string != stringValue.getValue());
+        return new BoolValue(!this.string.equals(stringValue.getValue()));
     }
 
     @Override

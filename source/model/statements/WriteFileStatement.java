@@ -1,6 +1,6 @@
 package source.model.statements;
 
-import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 
 import source.model.ProgramState;
@@ -9,25 +9,27 @@ import source.model.exceptions.StatementException;
 import source.model.exceptions.TypeException;
 import source.model.exceptions.ValueException;
 import source.model.expressions.Expression;
-import source.model.structures.ReadFileTable;
 import source.model.structures.IDictionary;
 import source.model.structures.SymbolTable;
+import source.model.structures.WriteFileTable;
+import source.model.types.CharType;
 import source.model.types.IntType;
 import source.model.types.StringType;
 import source.model.types.Type;
+import source.model.values.CharValue;
 import source.model.values.IntValue;
 import source.model.values.StringValue;
 import source.model.values.Value;
 
-public class ReadFileStatement implements IStatement
+public class WriteFileStatement implements IStatement
 {
     private final Expression expression;
-    private final String variableName;
+    private final Expression expressionToWrite;
 
-    public ReadFileStatement(Expression expression, String variableName)
+    public WriteFileStatement(Expression expression, Expression expressionToWrite)
     {
         this.expression = expression;
-        this.variableName = variableName;
+        this.expressionToWrite = expressionToWrite;
     }
 
     @Override
@@ -36,28 +38,27 @@ public class ReadFileStatement implements IStatement
         SymbolTable symbolTable = programState.getSymbolTable();
 
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
-
         StringValue stringFileName = (StringValue)expressionValue;
 
-        ReadFileTable readFileTable = programState.getReadFileTable();
+        WriteFileTable writeFileTable = programState.getWriteFileTable();
 
-        BufferedReader bufferedReader = readFileTable.get(stringFileName);
+        BufferedWriter bufferedWriter = writeFileTable.get(stringFileName);
 
-        if (bufferedReader == null)
+        if (bufferedWriter == null)
             throw new StatementException("File with given name was not found.");
+
+        Value expressionToWriteValue = this.expressionToWrite.evaluate(symbolTable, programState.getHeap());
 
         try
         {
-            String readValue = bufferedReader.readLine();
-
-            IntValue integerValue;
-
-            if (readValue == null)
-                integerValue = new IntValue(0);
+            if (expressionToWriteValue instanceof IntValue)
+                bufferedWriter.write(String.valueOf(((IntValue) expressionToWriteValue).getValue()));
+            else if (expressionToWriteValue instanceof StringValue)
+                bufferedWriter.write(((StringValue) expressionToWriteValue).getValue());
             else
-                integerValue = new IntValue(Integer.parseInt(readValue));
+                bufferedWriter.write(((CharValue) expressionToWriteValue).getValue());
 
-            symbolTable.put(this.variableName, integerValue);
+            bufferedWriter.write('\n');
         }
         catch (IOException e)
         {
@@ -72,14 +73,13 @@ public class ReadFileStatement implements IStatement
         Type expressionType = this.expression.typecheck(typeEnvironment);
 
         if (!(expressionType instanceof StringType))
-            throw new TypeException("The given expression is not of type StringType");
+            throw new TypeException("The given expression is not of type StringType.");
 
-        if (!typeEnvironment.containsKey(this.variableName))
-            throw new TypeException("The given variable name is not defined!");
+        Type expressionToWriteType = this.expressionToWrite.typecheck(typeEnvironment);
 
-        Type variableType = typeEnvironment.get(this.variableName);
-        if (!(variableType instanceof IntType))
-            throw new TypeException("The given variable is not of type IntType.");
+        if (!(expressionToWriteType instanceof IntType) && !(expressionToWriteType instanceof StringType) &&
+                !(expressionToWriteType instanceof CharType))
+            throw new TypeException("The given expression type can't be written to a file.");
 
         return typeEnvironment;
     }
@@ -87,12 +87,12 @@ public class ReadFileStatement implements IStatement
     @Override
     public IStatement deepCopy()
     {
-        return new ReadFileStatement(this.expression.deepCopy(), this.variableName);
+        return new WriteFileStatement(this.expression.deepCopy(), this.expressionToWrite);
     }
 
     @Override
     public String toString()
     {
-        return "readFile(" + this.expression.toString() + ", " + this.variableName + ");\n";
+        return "writeFile(" + this.expression.toString() + ", " + this.expressionToWrite + ");\n";
     }
 }

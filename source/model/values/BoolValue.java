@@ -6,7 +6,7 @@ import source.model.types.Type;
 
 public class BoolValue implements Value 
 {
-    private Boolean truthValue;
+    private final Boolean truthValue;
 
     public BoolValue(boolean truthValue)
     {
@@ -33,10 +33,8 @@ public class BoolValue implements Value
     @Override
     public BoolValue equal(Value otherValue)
     {
-        if (!(otherValue instanceof BoolValue))
+        if (!(otherValue instanceof BoolValue boolValue))
             return new BoolValue(false);
-
-        BoolValue boolValue = (BoolValue)otherValue;
 
         return new BoolValue(this.truthValue == boolValue.getValue());
     }
@@ -44,10 +42,8 @@ public class BoolValue implements Value
     @Override
     public BoolValue notEqual(Value otherValue)
     {
-        if (!(otherValue instanceof BoolValue))
+        if (!(otherValue instanceof BoolValue boolValue))
             return new BoolValue(false);
-
-        BoolValue boolValue = (BoolValue)otherValue;
 
         return new BoolValue(this.truthValue != boolValue.getValue());
     }

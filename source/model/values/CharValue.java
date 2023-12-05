@@ -5,7 +5,7 @@ import source.model.types.CharType;
 
 public class CharValue implements Value
 {
-    private Character character;
+    private final Character character;
 
     public CharValue(Character character)
     {
@@ -26,10 +26,8 @@ public class CharValue implements Value
     @Override
     public BoolValue equal(Value otherValue)
     {
-        if (!(otherValue instanceof CharValue))
+        if (!(otherValue instanceof CharValue charValue))
             return new BoolValue(false);
-
-        CharValue charValue = (CharValue)otherValue;
 
         return new BoolValue(this.character == charValue.getValue());
     }
@@ -37,10 +35,8 @@ public class CharValue implements Value
     @Override
     public BoolValue notEqual(Value otherValue)
     {
-        if (!(otherValue instanceof CharValue))
+        if (!(otherValue instanceof CharValue charValue))
             return new BoolValue(false);
-
-        CharValue charValue = (CharValue)otherValue;
 
         return new BoolValue(this.character != charValue.getValue());
     }
@@ -48,10 +44,8 @@ public class CharValue implements Value
     @Override
     public BoolValue lessThan(Value otherValue)
     {
-        if (!(otherValue instanceof CharValue))
+        if (!(otherValue instanceof CharValue charValue))
             return new BoolValue(false);
-
-        CharValue charValue = (CharValue)otherValue;
 
         return new BoolValue(this.character < charValue.getValue());
     }
@@ -59,10 +53,8 @@ public class CharValue implements Value
     @Override
     public BoolValue lessThanOrEqual(Value otherValue)
     {
-        if (!(otherValue instanceof CharValue))
+        if (!(otherValue instanceof CharValue charValue))
             return new BoolValue(false);
-
-        CharValue charValue = (CharValue)otherValue;
 
         return new BoolValue(this.character <= charValue.getValue());
     }
@@ -70,10 +62,8 @@ public class CharValue implements Value
     @Override
     public BoolValue greaterThan(Value otherValue)
     {
-        if (!(otherValue instanceof CharValue))
+        if (!(otherValue instanceof CharValue charValue))
             return new BoolValue(false);
-
-        CharValue charValue = (CharValue)otherValue;
 
         return new BoolValue(this.character > charValue.getValue());
     }
@@ -81,10 +71,8 @@ public class CharValue implements Value
     @Override
     public BoolValue greaterThanOrEqual(Value otherValue)
     {
-        if (!(otherValue instanceof CharValue))
+        if (!(otherValue instanceof CharValue charValue))
             return new BoolValue(false);
-
-        CharValue charValue = (CharValue)otherValue;
 
         return new BoolValue(this.character >= charValue.getValue());
     }
@@ -92,7 +80,7 @@ public class CharValue implements Value
     @Override
     public String toString()
     {
-        return "'" + String.valueOf(this.character) + "'";
+        return "'" + this.character + "'";
     }
 
     @Override

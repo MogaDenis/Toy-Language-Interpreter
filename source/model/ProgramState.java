@@ -10,7 +10,8 @@ public class ProgramState
     private final IStack<IStatement> executionStack;
     private final SymbolTable symbolTable;
     private final IList<Value> output;
-    private final FileTable fileTable;
+    private final ReadFileTable readFileTable;
+    private final WriteFileTable writeFileTable;
     private final IHeap heap;
     private final IStatement originalProgram;
     private Integer id;
@@ -30,7 +31,8 @@ public class ProgramState
         this.executionStack = new Stack<>();
         this.symbolTable = new SymbolTable();
         this.output = new List<>();
-        this.fileTable = new FileTable();
+        this.readFileTable = new ReadFileTable();
+        this.writeFileTable = new WriteFileTable();
         this.heap = new Heap();
         this.typeTable = new TypeTable();
 
@@ -42,12 +44,13 @@ public class ProgramState
         this.setID();
     }
 
-    public ProgramState(IStack<IStatement> stack, SymbolTable symbolTable, IList<Value> output, FileTable fileTable, IHeap heap, IStatement statement, TypeTable typeTable) throws TypeException
+    public ProgramState(IStack<IStatement> stack, SymbolTable symbolTable, IList<Value> output, ReadFileTable readFileTable, WriteFileTable writeFileTable, IHeap heap, IStatement statement, TypeTable typeTable) throws TypeException
     {
         this.executionStack = stack;
         this.symbolTable = symbolTable;
         this.output = output;
-        this.fileTable = fileTable;
+        this.readFileTable = readFileTable;
+        this.writeFileTable = writeFileTable;
         this.heap = heap;
         this.originalProgram = statement.deepCopy();
         this.typeTable = typeTable;
@@ -86,9 +89,14 @@ public class ProgramState
         return this.output;
     }
 
-    public FileTable getFileTable()
+    public ReadFileTable getReadFileTable()
     {
-        return this.fileTable;
+        return this.readFileTable;
+    }
+
+    public WriteFileTable getWriteFileTable()
+    {
+        return this.writeFileTable;
     }
 
     public IHeap getHeap()
@@ -112,8 +120,9 @@ public class ProgramState
         return "\n#####################\n\n~Program state ID: " + this.id + " ~\nExecution stack:\n" + 
             this.executionStack.toString() + "\nSymbol table:\n" + 
             this.symbolTable.toString() + "\nOutput list:\n" + 
-            this.output.toString() + "\nFile table:\n" + 
-            this.fileTable.toStringKeySet() + "\nHeap:\n" + 
+            this.output.toString() + "\nReadFile table:\n" +
+            this.readFileTable.toStringKeySet() + "\nWriteFile table:\n" +
+            this.writeFileTable.toStringKeySet() +"\nHeap:\n" +
             this.heap.toString() +
             "\n#####################";
     }

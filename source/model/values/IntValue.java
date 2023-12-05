@@ -5,7 +5,7 @@ import source.model.types.IntType;
 
 public class IntValue implements Value
 {
-    private Integer value;
+    private final Integer value;
 
     public IntValue(int value)
     {
@@ -32,43 +32,35 @@ public class IntValue implements Value
     @Override
     public BoolValue equal(Value otherValue)
     {
-        if (!(otherValue instanceof IntValue))
+        if (!(otherValue instanceof IntValue intValue))
             return new BoolValue(false);
 
-        IntValue intValue = (IntValue)otherValue;
-
-        return new BoolValue(this.value == intValue.getValue());
-    };
+        return new BoolValue(this.value.equals(intValue.getValue()));
+    }
 
     @Override
     public BoolValue notEqual(Value otherValue)
     {
-        if (!(otherValue instanceof IntValue))
+        if (!(otherValue instanceof IntValue intValue))
             return new BoolValue(false);
 
-        IntValue intValue = (IntValue)otherValue;
-
-        return new BoolValue(this.value != intValue.getValue());
+        return new BoolValue(!this.value.equals(intValue.getValue()));
     }   
 
     @Override
     public BoolValue lessThan(Value otherValue)
     {
-        if (!(otherValue instanceof IntValue))
+        if (!(otherValue instanceof IntValue intValue))
             return new BoolValue(false);
 
-        IntValue intValue = (IntValue)otherValue;
-
-        return new BoolValue(this.value < intValue.getValue());    
+        return new BoolValue(this.value < intValue.getValue());
     }
 
     @Override
     public BoolValue lessThanOrEqual(Value otherValue)
     {
-        if (!(otherValue instanceof IntValue))
+        if (!(otherValue instanceof IntValue intValue))
             return new BoolValue(false);
-
-        IntValue intValue = (IntValue)otherValue;
 
         return new BoolValue(this.value <= intValue.getValue());
     }
@@ -76,10 +68,8 @@ public class IntValue implements Value
     @Override
     public BoolValue greaterThan(Value otherValue)
     {
-        if (!(otherValue instanceof IntValue))
+        if (!(otherValue instanceof IntValue intValue))
             return new BoolValue(false);
-
-        IntValue intValue = (IntValue)otherValue;
 
         return new BoolValue(this.value > intValue.getValue());
     }
@@ -87,10 +77,8 @@ public class IntValue implements Value
     @Override
     public BoolValue greaterThanOrEqual(Value otherValue)
     {
-        if (!(otherValue instanceof IntValue))
+        if (!(otherValue instanceof IntValue intValue))
             return new BoolValue(false);
-
-        IntValue intValue = (IntValue)otherValue;
 
         return new BoolValue(this.value >= intValue.getValue());
     }

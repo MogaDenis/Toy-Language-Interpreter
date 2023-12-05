@@ -6,8 +6,8 @@ import source.model.types.ReferenceType;
 
 public class ReferenceValue implements Value
 {
-    private Integer address;
-    private Type locationType;
+    private final Integer address;
+    private final Type locationType;
 
     public ReferenceValue(Integer address, Type locationType)
     {
@@ -29,12 +29,10 @@ public class ReferenceValue implements Value
     @Override
     public BoolValue equal(Value otherValue)
     {
-        if (!(otherValue instanceof ReferenceValue))
+        if (!(otherValue instanceof ReferenceValue referenceValue))
             return new BoolValue(false);
 
-        ReferenceValue referenceValue = (ReferenceValue)otherValue;
-
-        return new BoolValue(this.address == referenceValue.address && this.locationType.equals(referenceValue.locationType));
+        return new BoolValue(this.address.equals(referenceValue.address) && this.locationType.equals(referenceValue.locationType));
     }
 
     @Override
@@ -76,6 +74,6 @@ public class ReferenceValue implements Value
     @Override
     public String toString()
     {
-        return "(" + String.valueOf(this.address) + ", " + this.locationType.toString() + ")";
+        return "(" + this.address + ", " + this.locationType.toString() + ")";
     }
 }

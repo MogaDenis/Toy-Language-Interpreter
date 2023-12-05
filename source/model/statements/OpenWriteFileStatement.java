@@ -1,7 +1,7 @@
 package source.model.statements;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import source.model.ProgramState;
@@ -10,19 +10,19 @@ import source.model.exceptions.StatementException;
 import source.model.exceptions.TypeException;
 import source.model.exceptions.ValueException;
 import source.model.expressions.Expression;
-import source.model.structures.ReadFileTable;
 import source.model.structures.IDictionary;
 import source.model.structures.SymbolTable;
+import source.model.structures.WriteFileTable;
 import source.model.types.StringType;
 import source.model.types.Type;
 import source.model.values.StringValue;
 import source.model.values.Value;
 
-public class OpenReadFileStatement implements IStatement
+public class OpenWriteFileStatement implements IStatement
 {
     private final Expression expression;
 
-    public OpenReadFileStatement(Expression expression)
+    public OpenWriteFileStatement(Expression expression)
     {
         this.expression = expression;
     }
@@ -38,18 +38,18 @@ public class OpenReadFileStatement implements IStatement
         if (symbolTable.containsKey(fileName.getValue()))
             throw new StatementException("There already exists an opened file with the given name.");
 
-        BufferedReader bufferedReader;
-        try 
+        BufferedWriter bufferedWriter;
+        try
         {
-            bufferedReader = new BufferedReader(new FileReader(fileName.getValue()));
+            bufferedWriter = new BufferedWriter(new FileWriter(fileName.getValue()));
         }
         catch (IOException e)
         {
             throw new StatementException(e.getMessage());
         }
 
-        ReadFileTable readFileTable = programState.getReadFileTable();
-        readFileTable.put(fileName, bufferedReader);
+        WriteFileTable writeFileTable = programState.getWriteFileTable();
+        writeFileTable.put(fileName, bufferedWriter);
 
         return null;
     }
@@ -67,12 +67,12 @@ public class OpenReadFileStatement implements IStatement
     @Override
     public IStatement deepCopy()
     {
-        return new OpenReadFileStatement(this.expression.deepCopy());
+        return new OpenWriteFileStatement(this.expression.deepCopy());
     }
 
     @Override
     public String toString()
     {
-        return "openReadFile(" + this.expression.toString() + ");\n";
+        return "openWriteFile(" + this.expression.toString() + ");\n";
     }
 }

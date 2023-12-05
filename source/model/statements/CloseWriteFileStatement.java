@@ -1,6 +1,6 @@
 package source.model.statements;
 
-import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 
 import source.model.ProgramState;
@@ -10,18 +10,18 @@ import source.model.exceptions.TypeException;
 import source.model.exceptions.ValueException;
 import source.model.expressions.Expression;
 import source.model.structures.IDictionary;
+import source.model.structures.WriteFileTable;
 import source.model.types.Type;
 import source.model.values.StringValue;
 import source.model.values.Value;
-import source.model.structures.FileTable;
 import source.model.structures.SymbolTable;
 import source.model.types.StringType;
 
-public class CloseFileStatement implements IStatement
+public class CloseWriteFileStatement implements IStatement
 {
     private final Expression expression;
 
-    public CloseFileStatement(Expression expression)
+    public CloseWriteFileStatement(Expression expression)
     {
         this.expression = expression;
     }
@@ -35,23 +35,23 @@ public class CloseFileStatement implements IStatement
 
         StringValue stringFileName = (StringValue)expressionValue;
 
-        FileTable fileTable = programState.getFileTable();
+        WriteFileTable writeFileTable = programState.getWriteFileTable();
 
-        BufferedReader bufferedReader = fileTable.get(stringFileName);
+         BufferedWriter bufferedWriter = writeFileTable.get(stringFileName);
 
-        if (bufferedReader == null)
+        if (bufferedWriter == null)
             throw new StatementException("File with given name was not found.");
 
-        try 
+        try
         {
-            bufferedReader.close();
+            bufferedWriter.close();
         }
         catch (IOException e)
         {
             throw new StatementException(e.getMessage());
         }
 
-        fileTable.remove(stringFileName);
+        writeFileTable.remove(stringFileName);
 
         return null;
     }
@@ -69,12 +69,12 @@ public class CloseFileStatement implements IStatement
     @Override
     public IStatement deepCopy()
     {
-        return new CloseFileStatement(this.expression.deepCopy());
+        return new CloseWriteFileStatement(this.expression.deepCopy());
     }
 
     @Override
     public String toString()
     {
-        return "closeReadFile(" + this.expression.toString() + ");\n";
+        return "closeWriteFile(" + this.expression.toString() + ");\n";
     }
 }

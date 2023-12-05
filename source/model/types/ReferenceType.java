@@ -5,7 +5,7 @@ import source.model.values.Value;
 
 public class ReferenceType implements Type
 {
-    private Type inner;
+    private final Type inner;
 
     public ReferenceType(Type inner)
     {
@@ -23,10 +23,8 @@ public class ReferenceType implements Type
         if (this == object)
             return true;
 
-        if (!(object instanceof ReferenceType))
+        if (!(object instanceof ReferenceType referenceType))
             return false;
-
-        ReferenceType referenceType = (ReferenceType)object;
 
         return this.inner.equals(referenceType.inner);
     }

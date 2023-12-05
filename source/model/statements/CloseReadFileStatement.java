@@ -1,7 +1,6 @@
 package source.model.statements;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
 import source.model.ProgramState;
@@ -10,19 +9,19 @@ import source.model.exceptions.StatementException;
 import source.model.exceptions.TypeException;
 import source.model.exceptions.ValueException;
 import source.model.expressions.Expression;
-import source.model.structures.ReadFileTable;
 import source.model.structures.IDictionary;
-import source.model.structures.SymbolTable;
-import source.model.types.StringType;
 import source.model.types.Type;
 import source.model.values.StringValue;
 import source.model.values.Value;
+import source.model.structures.ReadFileTable;
+import source.model.structures.SymbolTable;
+import source.model.types.StringType;
 
-public class OpenReadFileStatement implements IStatement
+public class CloseReadFileStatement implements IStatement
 {
     private final Expression expression;
 
-    public OpenReadFileStatement(Expression expression)
+    public CloseReadFileStatement(Expression expression)
     {
         this.expression = expression;
     }
@@ -31,25 +30,28 @@ public class OpenReadFileStatement implements IStatement
     public ProgramState execute(ProgramState programState) throws StatementException, ExpressionException, ValueException
     {
         SymbolTable symbolTable = programState.getSymbolTable();
+
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
-        StringValue fileName = (StringValue)expressionValue;
+        StringValue stringFileName = (StringValue)expressionValue;
 
-        if (symbolTable.containsKey(fileName.getValue()))
-            throw new StatementException("There already exists an opened file with the given name.");
+        ReadFileTable readFileTable = programState.getReadFileTable();
 
-        BufferedReader bufferedReader;
+        BufferedReader bufferedReader = readFileTable.get(stringFileName);
+
+        if (bufferedReader == null)
+            throw new StatementException("File with given name was not found.");
+
         try 
         {
-            bufferedReader = new BufferedReader(new FileReader(fileName.getValue()));
+            bufferedReader.close();
         }
         catch (IOException e)
         {
             throw new StatementException(e.getMessage());
         }
 
-        ReadFileTable readFileTable = programState.getReadFileTable();
-        readFileTable.put(fileName, bufferedReader);
+        readFileTable.remove(stringFileName);
 
         return null;
     }
@@ -59,7 +61,7 @@ public class OpenReadFileStatement implements IStatement
         Type expressionType = this.expression.typecheck(typeEnvironment);
 
         if (!(expressionType instanceof StringType))
-            throw new TypeException("The given expression is not of type StringType.");
+            throw new TypeException("The given expression is not of StringType");
 
         return typeEnvironment;
     }
@@ -67,12 +69,12 @@ public class OpenReadFileStatement implements IStatement
     @Override
     public IStatement deepCopy()
     {
-        return new OpenReadFileStatement(this.expression.deepCopy());
+        return new CloseReadFileStatement(this.expression.deepCopy());
     }
 
     @Override
     public String toString()
     {
-        return "openReadFile(" + this.expression.toString() + ");\n";
+        return "closeReadFile(" + this.expression.toString() + ");\n";
     }
 }

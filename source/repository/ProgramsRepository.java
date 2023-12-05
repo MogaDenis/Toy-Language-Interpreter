@@ -93,7 +93,7 @@ public class ProgramsRepository
             new CompoundStatement(new PrintStatement(new VariableExpression("value")),
             new CompoundStatement(new ReadFileStatement(new VariableExpression("filePath"), "value"),
             new CompoundStatement(new PrintStatement(new VariableExpression("value")), 
-            new CloseFileStatement(new VariableExpression("filePath"))))))))));
+            new CloseReadFileStatement(new VariableExpression("filePath"))))))))));
 
     private static final IStatement example11 = new CompoundStatement(new VariableDeclarationStatement("v", new ReferenceType(new IntType())),
             new CompoundStatement(new NewStatement("v", new ValueExpression(new IntValue(10))), 
@@ -125,12 +125,28 @@ public class ProgramsRepository
             new CompoundStatement(new PrintStatement(new VariableExpression("v")), 
             new PrintStatement(new ReadHeapExpression(new VariableExpression("a")))))))));
 
+    private static final IStatement example15 = new CompoundStatement(new VariableDeclarationStatement("var", new IntType()),
+            new CompoundStatement(new AssignmentStatement("var", new ValueExpression(new IntValue(5))),
+            new CompoundStatement(new OpenWriteFileStatement(new ValueExpression(new StringValue("output15.txt"))),
+            new CompoundStatement(new WriteFileStatement(new ValueExpression(new StringValue("output15.txt")), new VariableExpression("var")),
+            new CompoundStatement(new WriteFileStatement(new ValueExpression(new StringValue("output15.txt")), new ValueExpression(new StringValue("Hello, World!"))),
+            new CloseWriteFileStatement(new ValueExpression(new StringValue("output15.txt"))))))));
+
+    private static final IStatement example16 = new CompoundStatement(new VariableDeclarationStatement("var", new IntType()),
+            new CompoundStatement(new VariableDeclarationStatement("filePath", new StringType()),
+            new CompoundStatement(new AssignmentStatement("filePath", new ValueExpression(new StringValue("output16.txt"))),
+            new CompoundStatement(new AssignmentStatement("var", new ValueExpression(new IntValue(5))),
+            new CompoundStatement(new OpenWriteFileStatement(new VariableExpression("filePath")),
+            new CompoundStatement(new WriteFileStatement(new VariableExpression("filePath"), new VariableExpression("var")),
+            new CompoundStatement(new WriteFileStatement(new VariableExpression("filePath"), new ValueExpression(new StringValue("Hello, World!"))),
+            new CloseWriteFileStatement(new VariableExpression("filePath")))))))));
+
     private final List<IStatement> programs;
 
     public ProgramsRepository()
     {
         this.programs = Arrays.asList(example1, example2, example3, example4, example5, example6, example7, example8, example9, 
-                                example10, example11, example12, example13, example14);
+                                example10, example11, example12, example13, example14, example15, example16);
     }
 
     public List<ProgramState> getProgramsStates()

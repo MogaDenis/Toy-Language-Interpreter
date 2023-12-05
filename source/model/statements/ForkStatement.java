@@ -22,13 +22,14 @@ public class ForkStatement implements IStatement
         // symbolTable and typeTable are copied.
 
         IHeap heap = programState.getHeap();
-        FileTable fileTable = programState.getFileTable();
+        ReadFileTable readFileTable = programState.getReadFileTable();
+        WriteFileTable writeFileTable = programState.getWriteFileTable();
         IList<Value> output = programState.getOutput();
 
         SymbolTable symbolTableDeepCopy = programState.getSymbolTable().deepCopy();
         TypeTable typeTable = programState.getTypeTable().deepCopy();
 
-        return new ProgramState(new Stack<>(), symbolTableDeepCopy, output, fileTable, heap, statement, typeTable);
+        return new ProgramState(new Stack<>(), symbolTableDeepCopy, output, readFileTable, writeFileTable, heap, statement, typeTable);
     }
 
     public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException
