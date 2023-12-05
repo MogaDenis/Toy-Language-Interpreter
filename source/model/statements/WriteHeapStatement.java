@@ -35,9 +35,6 @@ public class    WriteHeapStatement implements IStatement
 
         Value variableValue = symbolTable.get(this.variableName);
 
-        if (!(variableValue.getType() instanceof ReferenceType))
-            throw new StatementException("The given variable is not of ReferenceType.");
-
         ReferenceValue referenceValue = (ReferenceValue)variableValue;
 
         IHeap heap = programState.getHeap();
@@ -46,10 +43,6 @@ public class    WriteHeapStatement implements IStatement
             throw new StatementException("The address of the reference is not in the heap.");
 
         Value expressionValue = this.expression.evaluate(symbolTable, heap);
-
-        ReferenceType referenceType = (ReferenceType)referenceValue.getType();
-        if (!expressionValue.getType().equals(referenceType.getInner()))
-            throw new StatementException("The type of the variable and the type of the reference do not match.");
 
         heap.update(referenceValue.getAddress(), expressionValue);
 
@@ -60,6 +53,9 @@ public class    WriteHeapStatement implements IStatement
     {
         Type variableType = typeEnvironment.get(this.variableName);
         Type expressionType = this.expression.typecheck(typeEnvironment);
+
+        if (!(variableType instanceof ReferenceType))
+            throw new TypeException("The given variable is not of ReferenceType.");
 
         if (!expressionType.equals(((ReferenceType)variableType).getInner()))
             throw new TypeException("WriteHeap: Declared type of variable " + this.variableName + " and type of assigned reference expression do not match.");

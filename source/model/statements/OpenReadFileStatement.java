@@ -33,9 +33,6 @@ public class OpenReadFileStatement implements IStatement
         SymbolTable symbolTable = programState.getSymbolTable();
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
-//        if (!expressionValue.getType().equals(new StringType()))
-//            throw new StatementException("The given expression is not of StringType.");
-
         StringValue fileName = (StringValue)expressionValue;
 
         if (symbolTable.containsKey(fileName.getValue()))

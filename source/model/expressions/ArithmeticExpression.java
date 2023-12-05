@@ -40,13 +40,6 @@ public class ArithmeticExpression implements Expression
 
         if (firstValueType.equals(secondValueType))
         {
-            if (!firstValueType.equals(new IntType()) && !firstValueType.equals(new StringType()))
-                throw new ExpressionException("Operation " + this.operation + " is not defined for the given operand types: "
-                                                + firstValueType + ", " + secondValueType);
-
-            if (firstValueType.equals(new StringType()) && this.operation != '+')
-                throw new ExpressionException("Operation " + this.operation + " is not defined for StringType.");
-
             if (firstValueType.equals(new StringType()))
             {
                 StringValue firstStringValue = (StringValue)firstValue;
@@ -94,13 +87,6 @@ public class ArithmeticExpression implements Expression
 
             return new StringValue(firstStringValue.getValue() + secondCharValue.getValue());
         }
-
-        if (!firstValueType.equals(new CharType()) || !secondValueType.equals(new IntType()))
-            throw new ExpressionException("Incompatible operands.");
-
-        if (this.operation != '+' && this.operation != '-')
-            throw new ExpressionException("Operation " + this.operation + " is not defined for the given operands types: " 
-                                            + firstValueType + ", " + secondValueType);
 
         CharValue firstCharValue = (CharValue)firstValue;
         IntValue secondIntValue = (IntValue)secondValue;

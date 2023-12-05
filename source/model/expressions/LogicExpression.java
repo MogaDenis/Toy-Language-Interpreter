@@ -31,14 +31,7 @@ public class LogicExpression implements Expression
         Value value1, value2;
 
         value1 = expression1.evaluate(symbolTable, heap);
-
-        if (!value1.getType().equals(new BoolType()))
-            throw new ExpressionException("First operand is not of type BoolType.");
-
         value2 = expression2.evaluate(symbolTable, heap);
-
-        if (!value2.getType().equals(new BoolType()))
-            throw new ExpressionException("Second operand is not of type BoolType.");
 
         BoolValue boolValue1 = (BoolValue)value1;
         BoolValue boolValue2 = (BoolValue)value2;

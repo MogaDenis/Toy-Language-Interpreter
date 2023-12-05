@@ -34,9 +34,6 @@ public class WhileStatement implements IStatement
 
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
-//        if (!expressionValue.getType().equals(new BoolType()))
-//            throw new StatementException("The expression is not a logic expression.");
-
         BoolValue expressionTruthValue = (BoolValue)expressionValue;
 
         if (expressionTruthValue.getValue())

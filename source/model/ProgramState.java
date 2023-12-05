@@ -1,7 +1,5 @@
 package source.model;
 
-import java.util.Vector;
-
 import source.model.exceptions.*;
 import source.model.statements.IStatement;
 import source.model.structures.*;
@@ -15,19 +13,16 @@ public class ProgramState
     private final FileTable fileTable;
     private final IHeap heap;
     private final IStatement originalProgram;
-    private final Integer id;
-    private static final Vector<Integer> usedIDs = new Vector<>();
-
+    private Integer id;
     private final TypeTable typeTable;
-
-    private Integer getUnusedID()
+    public static Integer currentID = 1;
+    public void setID()
     {
-        Integer newID = 1;
-
-        while (usedIDs.contains(newID))
-            newID++;
-
-        return newID;
+        synchronized (ProgramState.class)
+        {
+            this.id = currentID;
+            currentID++;
+        }
     }
 
     public ProgramState(IStatement program) throws TypeException
@@ -44,8 +39,7 @@ public class ProgramState
 
         this.executionStack.push(this.originalProgram);
 
-        this.id = this.getUnusedID();
-        usedIDs.add(this.id);
+        this.setID();
     }
 
     public ProgramState(IStack<IStatement> stack, SymbolTable symbolTable, IList<Value> output, FileTable fileTable, IHeap heap, IStatement statement, TypeTable typeTable) throws TypeException
@@ -62,8 +56,7 @@ public class ProgramState
 
         this.executionStack.push(this.originalProgram);
 
-        this.id = this.getUnusedID();
-        usedIDs.add(this.id);
+        this.setID();
     }
     
     public ProgramState oneStep() throws EmptyStackException, StatementException, ExpressionException, ValueException, TypeException

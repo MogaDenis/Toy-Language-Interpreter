@@ -33,9 +33,6 @@ public class CloseFileStatement implements IStatement
 
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
 
-//        if (!expressionValue.getType().equals(new StringType()))
-//            throw new StatementException("The given expression is not of StringType");
-
         StringValue stringFileName = (StringValue)expressionValue;
 
         FileTable fileTable = programState.getFileTable();

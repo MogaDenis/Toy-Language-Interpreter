@@ -31,9 +31,6 @@ public class IfStatement implements IStatement
         IStack<IStatement> executionStack = programState.getExecutionStack();
         IHeap heap = programState.getHeap();
 
-//        if (!this.expression.evaluate(programState.getSymbolTable(), heap).getType().equals(new BoolType()))
-//            throw new StatementException("The expression is not a logic expression.");
-
         Value evaluation = this.expression.evaluate(programState.getSymbolTable(), heap);
 
         BoolValue evaluationTruthValue = (BoolValue)evaluation;

@@ -29,9 +29,6 @@ public class RelationalExpression implements Expression
         Value firstExpressionValue = this.expression1.evaluate(symbolTable, heap);
         Value secondExpressionValue = this.expression2.evaluate(symbolTable, heap);
 
-        if (!firstExpressionValue.getType().equals(secondExpressionValue.getType()))
-            throw new ExpressionException("The given expression have different types.");
-
         return switch(this.relation)
         {
             case "==" -> firstExpressionValue.equal(secondExpressionValue);

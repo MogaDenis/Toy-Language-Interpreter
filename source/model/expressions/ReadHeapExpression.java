@@ -25,9 +25,7 @@ public class ReadHeapExpression implements Expression
     public Value evaluate(SymbolTable symbolTable, IHeap heap) throws StatementException, ExpressionException, ValueException
     {
         Value expressionValue = this.expression.evaluate(symbolTable, heap);
-
-        if (!(expressionValue instanceof ReferenceValue referenceValue))
-            throw new StatementException("The given expression does not evaluate to a ReferenceValue.");
+        ReferenceValue referenceValue = (ReferenceValue)expressionValue;
 
         if (!heap.isUsed(((ReferenceValue)expressionValue).getAddress()))
             throw new StatementException("The given address is not in the heap.");

@@ -35,18 +35,7 @@ public class ReadFileStatement implements IStatement
     {
         SymbolTable symbolTable = programState.getSymbolTable();
 
-//        if (!symbolTable.containsKey(variableName))
-//            throw new StatementException("The variable '" + this.variableName + "' is undefined.");
-
-//        Value variableValue = symbolTable.get(variableName);
-
-//        if (!variableValue.getType().equals(new IntType()))
-//            throw new StatementException("The given variable is not of IntType.");
-
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
-
-//        if (!expressionValue.getType().equals(new StringType()))
-//            throw new StatementException("The given expression is not of StringType.");
 
         StringValue stringFileName = (StringValue)expressionValue;
 

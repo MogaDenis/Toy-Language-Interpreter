@@ -36,13 +36,7 @@ public class NewStatement implements IStatement
         if (!(symbolTable.get(this.variableName).getType() instanceof ReferenceType))
             throw new StatementException("The given variable is not of ReferenceType.");
 
-//        Value referenceValue = symbolTable.get(this.variableName);
         Value expressionValue = this.expression.evaluate(symbolTable, programState.getHeap());
-
-//        ReferenceType referenceType = (ReferenceType)referenceValue.getType();
-
-//        if (!referenceType.getInner().equals(expressionValue.getType()))
-//            throw new StatementException("The type of the expression and the type of the reference do not match.");
 
         IHeap heap = programState.getHeap();
         Integer address = heap.allocate(expressionValue);

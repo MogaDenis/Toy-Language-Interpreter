@@ -19,9 +19,6 @@ public class VariableExpression implements Expression
     @Override
     public Value evaluate(SymbolTable symbolTable, IHeap heap) throws ExpressionException
     {
-        if (!symbolTable.containsKey(id))
-            throw new ExpressionException("Symbol " + id + " is not defined.");
-
         return symbolTable.get(id);
     }
 

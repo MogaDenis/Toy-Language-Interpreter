@@ -37,12 +37,8 @@ public class AssignmentStatement implements IStatement
             throw new StatementException("The used variable " + this.id + " was not declared.");
 
         Value value = this.expression.evaluate(symbolTable, programState.getHeap());
-//        Type type = symbolTable.get(this.id).getType();
 
-//        if (value.getType().equals(type))
-            symbolTable.put(id, value);
-//        else
-//            throw new StatementException("Declared type of variable " + this.id + " and type of assigned expression do not match.");
+        symbolTable.put(id, value);
 
         return null;
     }
@@ -51,9 +47,6 @@ public class AssignmentStatement implements IStatement
     {
         Type variableType = typeEnvironment.get(this.id);
         Type expressionType = this.expression.typecheck(typeEnvironment);
-//
-//        if (variableType == null)
-//            throw new TypeException("The variable " + this.id + " was not declared.");
 
         if (!variableType.equals(expressionType))
             throw new TypeException("Declared type of variable \" + this.id + \" and type of assigned expression do not match.");
