@@ -24,6 +24,24 @@ public class CharValue implements Value
     }
 
     @Override
+    public boolean equals(Object other)
+    {
+        if (this == other)
+            return true;
+
+        if (!(other instanceof CharValue charValue))
+            return false;
+
+        return this.character.equals(charValue.character);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return this.character.hashCode();
+    }
+
+    @Override
     public BoolValue equal(Value otherValue)
     {
         if (!(otherValue instanceof CharValue charValue))

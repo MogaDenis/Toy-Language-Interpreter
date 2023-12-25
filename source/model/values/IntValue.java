@@ -30,6 +30,24 @@ public class IntValue implements Value
     }
 
     @Override
+    public boolean equals(Object other)
+    {
+        if (this == other)
+            return true;
+
+        if (!(other instanceof IntValue intValue))
+            return false;
+
+        return this.value.equals(intValue.value);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return this.value.hashCode();
+    }
+
+    @Override
     public BoolValue equal(Value otherValue)
     {
         if (!(otherValue instanceof IntValue intValue))

@@ -27,6 +27,24 @@ public class ReferenceValue implements Value
     }
 
     @Override
+    public boolean equals(Object other)
+    {
+        if (this == other)
+            return true;
+
+        if (!(other instanceof ReferenceValue referenceValue))
+            return false;
+
+        return this.address.equals(referenceValue.address) && this.locationType.equals(referenceValue.locationType);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return this.address.hashCode();
+    }
+
+    @Override
     public BoolValue equal(Value otherValue)
     {
         if (!(otherValue instanceof ReferenceValue referenceValue))
