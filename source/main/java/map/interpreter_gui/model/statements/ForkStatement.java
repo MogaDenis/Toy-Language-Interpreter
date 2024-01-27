@@ -3,6 +3,11 @@ package map.interpreter_gui.model.statements;
 import map.interpreter_gui.model.ProgramState;
 import map.interpreter_gui.model.exceptions.TypeException;
 import map.interpreter_gui.model.structures.*;
+import map.interpreter_gui.model.structures.barrier_table.IBarrierTable;
+import map.interpreter_gui.model.structures.count_semaphore_table.ICountSemaphoreTable;
+import map.interpreter_gui.model.structures.latch_table.ILatchTable;
+import map.interpreter_gui.model.structures.lock_table.ILockTable;
+import map.interpreter_gui.model.structures.toy_semaphore_table.IToySemaphoreTable;
 import map.interpreter_gui.model.types.Type;
 
 public class ForkStatement implements IStatement

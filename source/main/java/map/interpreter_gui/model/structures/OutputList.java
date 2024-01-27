@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import map.interpreter_gui.model.values.Value;
 
 import java.util.List;
-import java.util.Map;
 
 public class OutputList implements IList<Value>
 {

@@ -6,12 +6,36 @@ import java.util.List;
 
 import map.interpreter_gui.model.ProgramState;
 import map.interpreter_gui.model.exceptions.TypeException;
-import map.interpreter_gui.model.expressions.ArithmeticExpression;
-import map.interpreter_gui.model.expressions.ReadHeapExpression;
-import map.interpreter_gui.model.expressions.RelationalExpression;
-import map.interpreter_gui.model.expressions.ValueExpression;
-import map.interpreter_gui.model.expressions.VariableExpression;
+import map.interpreter_gui.model.expressions.*;
 import map.interpreter_gui.model.statements.*;
+import map.interpreter_gui.model.statements.barrier_statements.AwaitBarrierStatement;
+import map.interpreter_gui.model.statements.barrier_statements.NewBarrierStatement;
+import map.interpreter_gui.model.statements.conditional_statements.ConditionalAssignmentStatement;
+import map.interpreter_gui.model.statements.conditional_statements.IfStatement;
+import map.interpreter_gui.model.statements.conditional_statements.SwitchStatement;
+import map.interpreter_gui.model.statements.count_semaphore_statements.AcquireCountSemaphoreStatement;
+import map.interpreter_gui.model.statements.count_semaphore_statements.NewCountSemaphoreStatement;
+import map.interpreter_gui.model.statements.count_semaphore_statements.ReleaseCountSemaphoreStatement;
+import map.interpreter_gui.model.statements.declaration_statements.VariableDeclarationStatement;
+import map.interpreter_gui.model.statements.declaration_statements.VariableDeclarationWithInitializerStatement;
+import map.interpreter_gui.model.statements.latch_statements.AwaitLatchStatement;
+import map.interpreter_gui.model.statements.latch_statements.CountDownLatchStatement;
+import map.interpreter_gui.model.statements.latch_statements.NewLatchStatement;
+import map.interpreter_gui.model.statements.lock_statements.LockStatement;
+import map.interpreter_gui.model.statements.lock_statements.NewLockStatement;
+import map.interpreter_gui.model.statements.lock_statements.UnlockStatement;
+import map.interpreter_gui.model.statements.read_file_statements.CloseReadFileStatement;
+import map.interpreter_gui.model.statements.read_file_statements.OpenReadFileStatement;
+import map.interpreter_gui.model.statements.read_file_statements.ReadFileStatement;
+import map.interpreter_gui.model.statements.repetitive_statements.ForStatement;
+import map.interpreter_gui.model.statements.repetitive_statements.RepeatUntilStatement;
+import map.interpreter_gui.model.statements.repetitive_statements.WhileStatement;
+import map.interpreter_gui.model.statements.toy_semaphore_statements.AcquireToySemaphoreStatement;
+import map.interpreter_gui.model.statements.toy_semaphore_statements.NewToySemaphoreStatement;
+import map.interpreter_gui.model.statements.toy_semaphore_statements.ReleaseToySemaphoreStatement;
+import map.interpreter_gui.model.statements.write_file_statements.CloseWriteFileStatement;
+import map.interpreter_gui.model.statements.write_file_statements.OpenWriteFileStatement;
+import map.interpreter_gui.model.statements.write_file_statements.WriteFileStatement;
 import map.interpreter_gui.model.types.BoolType;
 import map.interpreter_gui.model.types.CharType;
 import map.interpreter_gui.model.types.IntType;
@@ -268,10 +292,14 @@ public class ProgramsRepository
             new CompoundStatement(new PrintStatement(new ArithmeticExpression('-', new ReadHeapExpression(new VariableExpression("v1")), new ValueExpression(new IntValue(1)))),
             new ReleaseCountSemaphoreStatement("cnt")))))))));
 
+    private static final IStatement example28 = new CompoundStatement(new VariableDeclarationWithInitializerStatement("v1", new IntType(), new ValueExpression(new IntValue(2))),
+            new CompoundStatement(new VariableDeclarationWithInitializerStatement("v2", new IntType(), new ValueExpression(new IntValue(3))),
+            new IfStatement(new VariableExpression("v1"), new PrintStatement(new MULExpression(new VariableExpression("v1"), new VariableExpression("v2"))), new PrintStatement(new VariableExpression("v1")))));
+
     public static final List<IStatement> programs = Arrays.asList(example1, example2, example3, example4, example5,
             example6, example7, example8, example9, example10, example11, example12, example13, example14, example15,
             example16, example17, example18, example19, example20, example21, example22, example23, example24,
-            example25, example26, example27);
+            example25, example26, example27, example28);
 
     public static List<IStatement> getProgramsAsStatements() {
         return programs;

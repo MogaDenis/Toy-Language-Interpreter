@@ -10,6 +10,11 @@ import map.interpreter_gui.controller.Controller;
 import map.interpreter_gui.model.ProgramState;
 import map.interpreter_gui.model.statements.IStatement;
 import map.interpreter_gui.model.structures.*;
+import map.interpreter_gui.model.structures.barrier_table.IBarrierTable;
+import map.interpreter_gui.model.structures.count_semaphore_table.ICountSemaphoreTable;
+import map.interpreter_gui.model.structures.latch_table.ILatchTable;
+import map.interpreter_gui.model.structures.lock_table.ILockTable;
+import map.interpreter_gui.model.structures.toy_semaphore_table.IToySemaphoreTable;
 import map.interpreter_gui.model.values.StringValue;
 import map.interpreter_gui.model.values.Value;
 
@@ -49,6 +54,8 @@ public class ProgramController {
     @FXML
     private ListView<String> executionStackListView;
 
+    // Barrier table
+
     @FXML
     private TableView<Pair<Integer, Pair<Integer, String>>> barrierTableTableView;
 
@@ -61,6 +68,8 @@ public class ProgramController {
     @FXML
     private TableColumn<Pair<Integer, Pair<Integer, String>>, String> barrierTableListColumn;
 
+    // Lock table
+
     @FXML
     private TableView<Pair<Integer, Integer>> lockTableTableView;
 
@@ -70,6 +79,8 @@ public class ProgramController {
     @FXML
     private TableColumn<Pair<Integer, Integer>, Integer> lockTableValueColumn;
 
+    // Latch table
+
     @FXML
     private TableView<Pair<Integer, Integer>> latchTableTableView;
 
@@ -78,6 +89,8 @@ public class ProgramController {
 
     @FXML
     private TableColumn<Pair<Integer, Integer>, Integer> latchTableValueColumn;
+
+    // Toy semaphore table
 
     @FXML
     private TableView<Pair<Integer, Pair<Integer, Pair<String, Integer>>>> toySemaphoreTableTableView;
@@ -90,6 +103,8 @@ public class ProgramController {
 
     @FXML
     private TableColumn<Pair<Integer, Pair<Integer, Pair<String, Integer>>>, String> toySemaphoreTableListColumn;
+
+    // Count semaphore table
 
     @FXML
     private TableView<Pair<Integer, Pair<Integer, String>>> countSemaphoreTableTableView;
@@ -136,18 +151,24 @@ public class ProgramController {
     public void initialize() {
         this.heapAddressColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getKey()).asObject());
         this.heapValueColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue().toString()));
+
         this.symbolTableNameColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
         this.symbolTableValueColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue().toString()));
+
         this.barrierTableAddressColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getKey()).asObject());
         this.barrierTableValueColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getValue().getKey()).asObject());
         this.barrierTableListColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue().getValue()));
+
         this.lockTableAddressColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getKey()).asObject());
         this.lockTableValueColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getValue()).asObject());
+
         this.latchTableAddressColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getKey()).asObject());
         this.latchTableValueColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getValue()).asObject());
+
         this.toySemaphoreTableAddressColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getKey()).asObject());
         this.toySemaphoreTableValueColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getValue().getKey()).asObject());
         this.toySemaphoreTableListColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue().getValue().getKey()));
+
         this.countSemaphoreTableAddressColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getKey()).asObject());
         this.countSemaphoreTableValueColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getValue().getKey()).asObject());
         this.countSemaphoreTableListColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue().getValue()));
@@ -191,6 +212,7 @@ public class ProgramController {
         populateSymbolTable();
         populateExecutionStack();
         populateProgramStatesIDs();
+
         populateBarrierTable();
         populateLockTable();
         populateLatchTable();

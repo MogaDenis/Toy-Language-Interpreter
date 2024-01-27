@@ -3,6 +3,16 @@ package map.interpreter_gui.model;
 import map.interpreter_gui.model.exceptions.*;
 import map.interpreter_gui.model.statements.IStatement;
 import map.interpreter_gui.model.structures.*;
+import map.interpreter_gui.model.structures.barrier_table.BarrierTable;
+import map.interpreter_gui.model.structures.barrier_table.IBarrierTable;
+import map.interpreter_gui.model.structures.count_semaphore_table.CountSemaphoreTable;
+import map.interpreter_gui.model.structures.count_semaphore_table.ICountSemaphoreTable;
+import map.interpreter_gui.model.structures.latch_table.ILatchTable;
+import map.interpreter_gui.model.structures.latch_table.LatchTable;
+import map.interpreter_gui.model.structures.lock_table.ILockTable;
+import map.interpreter_gui.model.structures.lock_table.LockTable;
+import map.interpreter_gui.model.structures.toy_semaphore_table.IToySemaphoreTable;
+import map.interpreter_gui.model.structures.toy_semaphore_table.ToySemaphoreTable;
 
 public class ProgramState 
 {
