@@ -31,11 +31,31 @@ public class Controller
         return this.repository.getProgramsList();
     }
 
+    public void setPrograms(List<ProgramState> programs) {
+        this.repository.setProgramsList(programs);
+    }
+
+    public Boolean programsLeftToExecuteExist() {
+        List<ProgramState> programsList = this.repository.getProgramsList();
+
+        for (ProgramState program : programsList) {
+            if (program.isNotCompleted()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void oneStepForAllPrograms(List<ProgramState> programs) throws InterruptedException
     {
         this.executor = Executors.newFixedThreadPool(2);
 
         programs.forEach(this.repository::logProgramStateExecution);
+
+        programs.forEach(program -> program.getHeap().setContent(this.safeGarbageCollector(
+            this.getAddressesFromSymbolTable(program.getSymbolTable().getContent().values()),
+            program.getHeap())));
 
         List<Callable<ProgramState>> callList = programs.stream()
         .map(program -> (Callable<ProgramState>)(program::oneStep))

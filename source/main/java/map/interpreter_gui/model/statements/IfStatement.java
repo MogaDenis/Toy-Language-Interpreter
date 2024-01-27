@@ -8,8 +8,10 @@ import map.interpreter_gui.model.ProgramState;
 import map.interpreter_gui.model.exceptions.ExpressionException;
 import map.interpreter_gui.model.exceptions.StatementException;
 import map.interpreter_gui.model.exceptions.ValueException;
+import map.interpreter_gui.model.types.IntType;
 import map.interpreter_gui.model.types.Type;
 import map.interpreter_gui.model.values.BoolValue;
+import map.interpreter_gui.model.values.IntValue;
 import map.interpreter_gui.model.values.Value;
 
 public class IfStatement implements IStatement
@@ -33,7 +35,14 @@ public class IfStatement implements IStatement
 
         Value evaluation = this.expression.evaluate(programState.getSymbolTable(), heap);
 
-        BoolValue evaluationTruthValue = (BoolValue)evaluation;
+        BoolValue evaluationTruthValue;
+
+        if (evaluation instanceof IntValue) {
+            evaluationTruthValue = new BoolValue(((IntValue)evaluation).getValue() != 0);
+        }
+        else {
+            evaluationTruthValue = (BoolValue)evaluation;
+        }
 
         if (evaluationTruthValue.getValue())
             executionStack.push(this.thenStatement);
@@ -47,8 +56,8 @@ public class IfStatement implements IStatement
     {
         Type expressionType = this.expression.typecheck(typeEnvironment);
 
-        if (!(expressionType instanceof BoolType))
-            throw new TypeException("The expression is not a logic expression.");
+        if (!(expressionType instanceof BoolType) && !(expressionType instanceof IntType))
+            throw new TypeException("The expression is not compatible with an if-statement.");
 
         this.thenStatement.typecheck(((TypeTable)typeEnvironment).deepCopy());
         this.elseStatement.typecheck(((TypeTable)typeEnvironment).deepCopy());

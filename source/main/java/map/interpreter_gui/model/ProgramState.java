@@ -12,6 +12,11 @@ public class ProgramState
     private final ReadFileTable readFileTable;
     private final WriteFileTable writeFileTable;
     private final IHeap heap;
+    private final IBarrierTable barrierTable;
+    private final ILockTable lockTable;
+    private final ILatchTable latchTable;
+    private final IToySemaphoreTable toySemaphoreTable;
+    private final ICountSemaphoreTable countSemaphoreTable;
     private final IStatement originalProgram;
     private Integer id;
     private final TypeTable typeTable;
@@ -33,6 +38,11 @@ public class ProgramState
         this.readFileTable = new ReadFileTable();
         this.writeFileTable = new WriteFileTable();
         this.heap = new Heap();
+        this.barrierTable = new BarrierTable();
+        this.lockTable = new LockTable();
+        this.latchTable = new LatchTable();
+        this.toySemaphoreTable = new ToySemaphoreTable();
+        this.countSemaphoreTable = new CountSemaphoreTable();
         this.typeTable = new TypeTable();
 
         this.originalProgram = program.deepCopy();
@@ -43,7 +53,10 @@ public class ProgramState
         this.setID();
     }
 
-    public ProgramState(ExecutionStack stack, SymbolTable symbolTable, OutputList output, ReadFileTable readFileTable, WriteFileTable writeFileTable, IHeap heap, IStatement statement, TypeTable typeTable) throws TypeException
+    public ProgramState(ExecutionStack stack, SymbolTable symbolTable, OutputList output, ReadFileTable readFileTable,
+                        WriteFileTable writeFileTable, IHeap heap, IBarrierTable barrierTable, ILockTable lockTable,
+                        ILatchTable latchTable, IToySemaphoreTable toySemaphoreTable,
+                        ICountSemaphoreTable countSemaphoreTable, IStatement statement, TypeTable typeTable) throws TypeException
     {
         this.executionStack = stack;
         this.symbolTable = symbolTable;
@@ -51,6 +64,11 @@ public class ProgramState
         this.readFileTable = readFileTable;
         this.writeFileTable = writeFileTable;
         this.heap = heap;
+        this.barrierTable = barrierTable;
+        this.lockTable = lockTable;
+        this.latchTable = latchTable;
+        this.toySemaphoreTable = toySemaphoreTable;
+        this.countSemaphoreTable = countSemaphoreTable;
         this.originalProgram = statement.deepCopy();
         this.typeTable = typeTable;
 
@@ -107,6 +125,26 @@ public class ProgramState
         return this.heap;
     }
 
+    public IBarrierTable getBarrierTable() {
+        return this.barrierTable;
+    }
+
+    public ILockTable getLockTable() {
+        return this.lockTable;
+    }
+
+    public ILatchTable getLatchTable() {
+        return this.latchTable;
+    }
+
+    public IToySemaphoreTable getToySemaphoreTable() {
+        return this.toySemaphoreTable;
+    }
+
+    public ICountSemaphoreTable getCountSemaphoreTable() {
+        return this.countSemaphoreTable;
+    }
+
     public TypeTable getTypeTable()
     {
         return this.typeTable;
@@ -120,13 +158,21 @@ public class ProgramState
     @Override
     public String toString()
     {
-        return "\n#####################\n\n~Program state ID: " + this.id + " ~\nExecution stack:\n" + 
-            this.executionStack.toString() + "\nSymbol table:\n" + 
-            this.symbolTable.toString() + "\nOutput list:\n" + 
+        return "\n#####################\n\n~Program state ID: " + this.id + " ~\nExecution stack:\n" +
+            this.executionStack.toString() + "\nSymbol table:\n" +
+            this.symbolTable.toString() + "\nOutput list:\n" +
             this.output.toString() + "\nReadFile table:\n" +
             this.readFileTable.toStringKeySet() + "\nWriteFile table:\n" +
-            this.writeFileTable.toStringKeySet() +"\nHeap:\n" +
-            this.heap.toString() +
+            this.writeFileTable.toStringKeySet() + "\nHeap:\n" +
+            this.heap.toString() + "\nBarrier table:\n" +
+            this.barrierTable.toString() + "\nLatch table:\n" +
+            this.latchTable.toString() + "\nToySemaphore table:\n" +
+            this.toySemaphoreTable + "\nCountSemaphore table:\n" +
+            this.countSemaphoreTable +
             "\n#####################";
+    }
+
+    public String toStringCode() {
+        return this.originalProgram.toString();
     }
 }

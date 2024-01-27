@@ -54,6 +54,9 @@ public class    WriteHeapStatement implements IStatement
         Type variableType = typeEnvironment.get(this.variableName);
         Type expressionType = this.expression.typecheck(typeEnvironment);
 
+        if (variableType == null)
+            throw new TypeException("The given variable was not declared in this scope.");
+
         if (!(variableType instanceof ReferenceType))
             throw new TypeException("The given variable is not of ReferenceType.");
 

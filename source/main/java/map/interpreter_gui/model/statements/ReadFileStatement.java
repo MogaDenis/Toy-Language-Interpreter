@@ -78,6 +78,10 @@ public class ReadFileStatement implements IStatement
             throw new TypeException("The given variable name is not defined!");
 
         Type variableType = typeEnvironment.get(this.variableName);
+
+        if (variableType == null)
+            throw new TypeException("The given variable was not declared in this scope.");
+
         if (!(variableType instanceof IntType))
             throw new TypeException("The given variable is not of type IntType.");
 

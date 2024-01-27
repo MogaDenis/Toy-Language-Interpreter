@@ -11,13 +11,16 @@ import map.interpreter_gui.model.statements.IStatement;
 import map.interpreter_gui.repository.InMemoryRepository;
 import map.interpreter_gui.repository.ProgramsRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class ProgramsListController {
     @FXML
     private Button displayButton;
     private ProgramController programController;
 
     @FXML
-    private ListView<IStatement> programsListView;
+    private ListView<String> programsListView;
 
     public void setProgramController(ProgramController programController) {
         this.programController = programController;
@@ -25,7 +28,9 @@ public class ProgramsListController {
 
     @FXML
     public void initialize() {
-        this.programsListView.setItems(FXCollections.observableArrayList(ProgramsRepository.getProgramsAsStatements()));
+        List<String> programsCode = ProgramsRepository.getProgramsStates().stream().map(ProgramState::toStringCode).toList();
+
+        this.programsListView.setItems(FXCollections.observableArrayList(programsCode));
         this.displayButton.setOnAction(actionEvent -> {
             int index = this.programsListView.getSelectionModel().getSelectedIndex();
 

@@ -28,6 +28,6 @@ public class NoOperationStatement implements IStatement
     @Override
     public String toString()
     {
-        return "";
+        return "NoOp\n";
     }
 }

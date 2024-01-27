@@ -51,6 +51,9 @@ public class NewStatement implements IStatement
         Type variableType = typeEnvironment.get(this.variableName);
         Type expressionType = this.expression.typecheck(typeEnvironment);
 
+        if (variableType == null)
+            throw new TypeException("The given variable was not declared in this scope.");
+
         if (!variableType.equals(new ReferenceType(expressionType)))
             throw new TypeException("The type of the expression and the type of the reference do not match.");
 

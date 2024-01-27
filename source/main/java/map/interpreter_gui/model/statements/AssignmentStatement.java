@@ -48,6 +48,9 @@ public class AssignmentStatement implements IStatement
         Type variableType = typeEnvironment.get(this.id);
         Type expressionType = this.expression.typecheck(typeEnvironment);
 
+        if (variableType == null)
+            throw new TypeException("The given variable was not declared in this scope.");
+
         if (!variableType.equals(expressionType))
             throw new TypeException("Declared type of variable \" + this.id + \" and type of assigned expression do not match.");
 

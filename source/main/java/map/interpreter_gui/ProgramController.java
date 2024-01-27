@@ -50,6 +50,60 @@ public class ProgramController {
     private ListView<String> executionStackListView;
 
     @FXML
+    private TableView<Pair<Integer, Pair<Integer, String>>> barrierTableTableView;
+
+    @FXML
+    private TableColumn<Pair<Integer, Pair<Integer, String>>, Integer> barrierTableAddressColumn;
+
+    @FXML
+    private TableColumn<Pair<Integer, Pair<Integer, String>>, Integer> barrierTableValueColumn;
+
+    @FXML
+    private TableColumn<Pair<Integer, Pair<Integer, String>>, String> barrierTableListColumn;
+
+    @FXML
+    private TableView<Pair<Integer, Integer>> lockTableTableView;
+
+    @FXML
+    private TableColumn<Pair<Integer, Integer>, Integer> lockTableAddressColumn;
+
+    @FXML
+    private TableColumn<Pair<Integer, Integer>, Integer> lockTableValueColumn;
+
+    @FXML
+    private TableView<Pair<Integer, Integer>> latchTableTableView;
+
+    @FXML
+    private TableColumn<Pair<Integer, Integer>, Integer> latchTableAddressColumn;
+
+    @FXML
+    private TableColumn<Pair<Integer, Integer>, Integer> latchTableValueColumn;
+
+    @FXML
+    private TableView<Pair<Integer, Pair<Integer, Pair<String, Integer>>>> toySemaphoreTableTableView;
+
+    @FXML
+    private TableColumn<Pair<Integer, Pair<Integer, Pair<String, Integer>>>, Integer> toySemaphoreTableAddressColumn;
+
+    @FXML
+    private TableColumn<Pair<Integer, Pair<Integer, Pair<String, Integer>>>, Integer> toySemaphoreTableValueColumn;
+
+    @FXML
+    private TableColumn<Pair<Integer, Pair<Integer, Pair<String, Integer>>>, String> toySemaphoreTableListColumn;
+
+    @FXML
+    private TableView<Pair<Integer, Pair<Integer, String>>> countSemaphoreTableTableView;
+
+    @FXML
+    private TableColumn<Pair<Integer, Pair<Integer, String>>, Integer> countSemaphoreTableAddressColumn;
+
+    @FXML
+    private TableColumn<Pair<Integer, Pair<Integer, String>>, Integer> countSemaphoreTableValueColumn;
+
+    @FXML
+    private TableColumn<Pair<Integer, Pair<Integer, String>>, String> countSemaphoreTableListColumn;
+
+    @FXML
     private Button oneStepButton;
 
     @FXML
@@ -62,14 +116,20 @@ public class ProgramController {
     }
 
     private ProgramState getCurrentProgramState(){
-        if (this.controller.getProgramStates().isEmpty())
+        List<ProgramState> programStates = this.controller.getProgramStates();
+
+        if (programStates.isEmpty())
             return null;
 
         int currentId = programStatesListView.getSelectionModel().getSelectedIndex();
+        this.programStatesListView.getFocusModel().focus(programStatesListView.getSelectionModel().getSelectedIndex());
         if (currentId == -1)
-            return this.controller.getProgramStates().getFirst();
+            return null;
 
-        return this.controller.getProgramStates().get(currentId);
+        if (currentId >= programStates.size())
+            currentId = programStates.size() - 1;
+
+        return programStates.get(currentId);
     }
 
     @FXML
@@ -78,24 +138,42 @@ public class ProgramController {
         this.heapValueColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue().toString()));
         this.symbolTableNameColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
         this.symbolTableValueColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue().toString()));
+        this.barrierTableAddressColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getKey()).asObject());
+        this.barrierTableValueColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getValue().getKey()).asObject());
+        this.barrierTableListColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue().getValue()));
+        this.lockTableAddressColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getKey()).asObject());
+        this.lockTableValueColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getValue()).asObject());
+        this.latchTableAddressColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getKey()).asObject());
+        this.latchTableValueColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getValue()).asObject());
+        this.toySemaphoreTableAddressColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getKey()).asObject());
+        this.toySemaphoreTableValueColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getValue().getKey()).asObject());
+        this.toySemaphoreTableListColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue().getValue().getKey()));
+        this.countSemaphoreTableAddressColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getKey()).asObject());
+        this.countSemaphoreTableValueColumn.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getValue().getKey()).asObject());
+        this.countSemaphoreTableListColumn.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue().getValue()));
 
         this.oneStepButton.setOnAction(actionEvent -> {
-            if(this.controller == null){
+            if(this.controller == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "The program was not selected!", ButtonType.OK);
                 alert.showAndWait();
                 return;
             }
 
-            boolean emptyExecutionStack = Objects.requireNonNull(getCurrentProgramState()).getExecutionStack().isEmpty();
-
-            if (emptyExecutionStack) {
+            if (!this.controller.programsLeftToExecuteExist()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Nothing left to execute!", ButtonType.OK);
                 alert.showAndWait();
+
+                this.controller.setPrograms(this.controller.removeCompletedPrograms(this.controller.getProgramStates()));
+                populate();
+
                 return;
             }
 
             try {
+                this.controller.setPrograms(this.controller.removeCompletedPrograms(this.controller.getProgramStates()));
+
                 this.controller.oneStepForAllPrograms(this.controller.getProgramStates());
+
                 populate();
             }
             catch (InterruptedException e) {
@@ -113,13 +191,102 @@ public class ProgramController {
         populateSymbolTable();
         populateExecutionStack();
         populateProgramStatesIDs();
+        populateBarrierTable();
+        populateLockTable();
+        populateLatchTable();
+        populateToySemaphoreTable();
+        populateCountSemaphoreTable();
+    }
+
+    private void populateBarrierTable() {
+        List<ProgramState> programStates = this.controller.getProgramStates();
+
+        if (programStates.isEmpty()) {
+            return;
+        }
+
+        IBarrierTable barrierTable = programStates.getFirst().getBarrierTable();
+
+        List<Pair<Integer, Pair<Integer, String>>> barrierTableList = new ArrayList<>();
+        for (Map.Entry<Integer, Pair<Integer, String>> entry : barrierTable.getContentString().entrySet())
+            barrierTableList.add(new Pair<>(entry.getKey(), entry.getValue()));
+
+        this.barrierTableTableView.setItems(FXCollections.observableList(barrierTableList));
+        this.barrierTableTableView.refresh();
+    }
+
+    private void populateLockTable() {
+        List<ProgramState> programStates = this.controller.getProgramStates();
+
+        if (programStates.isEmpty()) {
+            return;
+        }
+
+        ILockTable lockTable = programStates.getFirst().getLockTable();
+
+        List<Pair<Integer, Integer>> lockTableList = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : lockTable.getContent().entrySet())
+            lockTableList.add(new Pair<>(entry.getKey(), entry.getValue()));
+
+        this.lockTableTableView.setItems(FXCollections.observableList(lockTableList));
+        this.lockTableTableView.refresh();
+    }
+
+    private void populateLatchTable() {
+        List<ProgramState> programStates = this.controller.getProgramStates();
+
+        if (programStates.isEmpty()) {
+            return;
+        }
+
+        ILatchTable latchTable = programStates.getFirst().getLatchTable();
+
+        List<Pair<Integer, Integer>> latchTableList = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : latchTable.getContent().entrySet())
+            latchTableList.add(new Pair<>(entry.getKey(), entry.getValue()));
+
+        this.latchTableTableView.setItems(FXCollections.observableList(latchTableList));
+        this.latchTableTableView.refresh();
+    }
+
+    private void populateToySemaphoreTable() {
+        List<ProgramState> programStates = this.controller.getProgramStates();
+
+        if (programStates.isEmpty()) {
+            return;
+        }
+
+        IToySemaphoreTable toySemaphoreTable = programStates.getFirst().getToySemaphoreTable();
+
+        List<Pair<Integer, Pair<Integer, Pair<String, Integer>>>> semaphoreTableList = new ArrayList<>();
+        for (Map.Entry<Integer, Pair<Integer, Pair<String, Integer>>> entry : toySemaphoreTable.getContentString().entrySet())
+            semaphoreTableList.add(new Pair<>(entry.getKey(), entry.getValue()));
+
+        this.toySemaphoreTableTableView.setItems(FXCollections.observableList(semaphoreTableList));
+        this.toySemaphoreTableTableView.refresh();
+    }
+
+    private void populateCountSemaphoreTable() {
+        List<ProgramState> programStates = this.controller.getProgramStates();
+
+        if (programStates.isEmpty()) {
+            return;
+        }
+
+        ICountSemaphoreTable countSemaphoreTable = programStates.getFirst().getCountSemaphoreTable();
+
+        List<Pair<Integer, Pair<Integer, String>>> countSemaphoreTableList = new ArrayList<>();
+        for (Map.Entry<Integer, Pair<Integer, String>> entry : countSemaphoreTable.getContentString().entrySet())
+            countSemaphoreTableList.add(new Pair<>(entry.getKey(), entry.getValue()));
+
+        this.countSemaphoreTableTableView.setItems(FXCollections.observableList(countSemaphoreTableList));
+        this.countSemaphoreTableTableView.refresh();
     }
 
     private void populateHeap() {
         List<ProgramState> programStates = this.controller.getProgramStates();
 
         if (programStates.isEmpty()) {
-            this.heapTableView.getItems().clear();
             return;
         }
 
@@ -137,7 +304,6 @@ public class ProgramController {
         List<ProgramState> programStates = this.controller.getProgramStates();
 
         if (programStates.isEmpty()) {
-            this.outputListView.getItems().clear();
             return;
         }
 
@@ -154,7 +320,6 @@ public class ProgramController {
         ProgramState currentProgram = this.getCurrentProgramState();
 
         if (currentProgram == null) {
-            this.fileTableListView.getItems().clear();
             return;
         }
 
@@ -196,7 +361,13 @@ public class ProgramController {
 
         if (currentProgram == null) {
             this.executionStackListView.getItems().clear();
-            return;
+
+            if (!this.controller.programsLeftToExecuteExist())
+                return;
+
+            currentProgram = this.controller.getProgramStates().getFirst();
+            this.programStatesListView.getSelectionModel().select(0);
+            this.programStatesListView.getFocusModel().focus(0);
         }
 
         ExecutionStack executionStack = currentProgram.getExecutionStack();

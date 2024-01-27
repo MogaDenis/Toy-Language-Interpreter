@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import map.interpreter_gui.model.values.Value;
 
 import java.util.List;
+import java.util.Map;
 
 public class OutputList implements IList<Value>
 {
@@ -53,5 +54,18 @@ public class OutputList implements IList<Value>
     }
     public Integer size() {
         return this.internalList.size();
+    }
+
+    @Override
+    public String toString() {
+        if (this.internalList.isEmpty())
+            return "Empty list\n";
+
+        StringBuilder string = new StringBuilder();
+
+        for (Value value : this.internalList)
+            string.append(value.toString()).append("\n");
+
+        return string.toString();
     }
 }

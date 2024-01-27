@@ -21,6 +21,11 @@ public class ForkStatement implements IStatement
         // symbolTable and typeTable are copied.
 
         IHeap heap = programState.getHeap();
+        IBarrierTable barrierTable = programState.getBarrierTable();
+        ILockTable lockTable = programState.getLockTable();
+        ILatchTable latchTable = programState.getLatchTable();
+        IToySemaphoreTable toySemaphoreTable = programState.getToySemaphoreTable();
+        ICountSemaphoreTable countSemaphoreTable = programState.getCountSemaphoreTable();
         ReadFileTable readFileTable = programState.getReadFileTable();
         WriteFileTable writeFileTable = programState.getWriteFileTable();
         OutputList output = programState.getOutput();
@@ -28,7 +33,8 @@ public class ForkStatement implements IStatement
         SymbolTable symbolTableDeepCopy = programState.getSymbolTable().deepCopy();
         TypeTable typeTable = programState.getTypeTable().deepCopy();
 
-        return new ProgramState(new ExecutionStack(), symbolTableDeepCopy, output, readFileTable, writeFileTable, heap, statement, typeTable);
+        return new ProgramState(new ExecutionStack(), symbolTableDeepCopy, output, readFileTable, writeFileTable, heap,
+                barrierTable, lockTable, latchTable, toySemaphoreTable, countSemaphoreTable, statement, typeTable);
     }
 
     public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException

@@ -2,30 +2,27 @@ package map.interpreter_gui.model.statements;
 
 import map.interpreter_gui.model.ProgramState;
 import map.interpreter_gui.model.exceptions.StatementException;
+import map.interpreter_gui.model.exceptions.TypeException;
 import map.interpreter_gui.model.structures.IDictionary;
 import map.interpreter_gui.model.structures.SymbolTable;
 import map.interpreter_gui.model.types.Type;
 
-public class VariableDeclarationStatement implements IStatement
-{
+public class VariableDeclarationStatement implements IStatement {
     private final String name;
     private final Type type;
 
-    public VariableDeclarationStatement(String name, Type type)
-    {
+    public VariableDeclarationStatement(String name, Type type) {
         this.name = name;
         this.type = type;
     }
 
     @Override
-    public IStatement deepCopy()
-    {
+    public IStatement deepCopy() {
         return new VariableDeclarationStatement(this.name, this.type);
     }
 
     @Override
-    public ProgramState execute(ProgramState programState) throws StatementException
-    {
+    public ProgramState execute(ProgramState programState) throws StatementException {
         SymbolTable symbolTable = programState.getSymbolTable();
 
         if (symbolTable.containsKey(name))
@@ -36,16 +33,17 @@ public class VariableDeclarationStatement implements IStatement
         return null;
     }
 
-    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment)
-    {
+    public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException {
+        if (typeEnvironment.get(this.name) != null)
+            throw new TypeException("The given variable was already declared in this scope.");
+
         typeEnvironment.put(this.name, this.type);
 
         return typeEnvironment;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return this.type.toString() + " " + this.name + ";\n";
     }
 }
