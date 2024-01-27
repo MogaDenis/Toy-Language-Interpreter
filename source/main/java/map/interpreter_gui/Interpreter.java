@@ -16,8 +16,7 @@ public class Interpreter
     public static void main(String[] args)
     {
         // Get all program states from the repository.
-        ProgramsRepository programsRepository = new ProgramsRepository();
-        List<ProgramState> programsStates = programsRepository.getProgramsStates();
+        List<ProgramState> programsStates = ProgramsRepository.getProgramsStates();
 
         // Inject each state into its own repository.
         List<InMemoryRepository> programsRepositories = new ArrayList<>();

@@ -7,12 +7,10 @@ import javafx.scene.control.ListView;
 import map.interpreter_gui.controller.Controller;
 import map.interpreter_gui.model.ProgramState;
 import map.interpreter_gui.model.exceptions.TypeException;
-import map.interpreter_gui.model.statements.IStatement;
 import map.interpreter_gui.repository.InMemoryRepository;
 import map.interpreter_gui.repository.ProgramsRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProgramsListController {
     @FXML
