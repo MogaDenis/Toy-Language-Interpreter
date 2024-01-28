@@ -24,6 +24,8 @@ import map.interpreter_gui.model.statements.latch_statements.NewLatchStatement;
 import map.interpreter_gui.model.statements.lock_statements.LockStatement;
 import map.interpreter_gui.model.statements.lock_statements.NewLockStatement;
 import map.interpreter_gui.model.statements.lock_statements.UnlockStatement;
+import map.interpreter_gui.model.statements.procedure_statements.CallProcedureStatement;
+import map.interpreter_gui.model.statements.procedure_statements.NewProcedureStatement;
 import map.interpreter_gui.model.statements.read_file_statements.CloseReadFileStatement;
 import map.interpreter_gui.model.statements.read_file_statements.OpenReadFileStatement;
 import map.interpreter_gui.model.statements.read_file_statements.ReadFileStatement;
@@ -296,10 +298,19 @@ public class ProgramsRepository
             new CompoundStatement(new VariableDeclarationWithInitializerStatement("v2", new IntType(), new ValueExpression(new IntValue(3))),
             new IfStatement(new VariableExpression("v1"), new PrintStatement(new MULExpression(new VariableExpression("v1"), new VariableExpression("v2"))), new PrintStatement(new VariableExpression("v1")))));
 
+    private static final IStatement example29 = new CompoundStatement(new NewProcedureStatement("sum", Arrays.asList("a", "b"), new CompoundStatement(new VariableDeclarationWithInitializerStatement("v", new IntType(), new ArithmeticExpression('+', new VariableExpression("a"), new VariableExpression("b"))), new PrintStatement(new VariableExpression("v")))),
+            new CompoundStatement(new NewProcedureStatement("product", Arrays.asList("a", "b"), new CompoundStatement(new VariableDeclarationWithInitializerStatement("v", new IntType(), new ArithmeticExpression('*', new VariableExpression("a"), new VariableExpression("b"))), new PrintStatement(new VariableExpression("v")))),
+            new CompoundStatement(new VariableDeclarationWithInitializerStatement("v", new IntType(), new ValueExpression(new IntValue(2))),
+            new CompoundStatement(new VariableDeclarationWithInitializerStatement("w", new IntType(), new ValueExpression(new IntValue(5))),
+            new CompoundStatement(new CallProcedureStatement("sum", Arrays.asList(new ArithmeticExpression('*', new VariableExpression("v"), new ValueExpression(new IntValue(10))), new VariableExpression("w"))),
+            new CompoundStatement(new PrintStatement(new VariableExpression("v")),
+            new CompoundStatement(new ForkStatement(new CallProcedureStatement("product", Arrays.asList(new VariableExpression("v"), new VariableExpression("w")))),
+            new ForkStatement(new CallProcedureStatement("sum", Arrays.asList(new VariableExpression("v"), new VariableExpression("w")))))))))));
+
     public static final List<IStatement> programs = Arrays.asList(example1, example2, example3, example4, example5,
             example6, example7, example8, example9, example10, example11, example12, example13, example14, example15,
             example16, example17, example18, example19, example20, example21, example22, example23, example24,
-            example25, example26, example27, example28);
+            example25, example26, example27, example28, example29);
 
     public static List<IStatement> getProgramsAsStatements() {
         return programs;

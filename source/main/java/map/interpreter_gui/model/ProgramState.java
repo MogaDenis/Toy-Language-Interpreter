@@ -11,13 +11,16 @@ import map.interpreter_gui.model.structures.latch_table.ILatchTable;
 import map.interpreter_gui.model.structures.latch_table.LatchTable;
 import map.interpreter_gui.model.structures.lock_table.ILockTable;
 import map.interpreter_gui.model.structures.lock_table.LockTable;
+import map.interpreter_gui.model.structures.procedure_table.IProcedureTable;
+import map.interpreter_gui.model.structures.procedure_table.ProcedureTable;
 import map.interpreter_gui.model.structures.toy_semaphore_table.IToySemaphoreTable;
 import map.interpreter_gui.model.structures.toy_semaphore_table.ToySemaphoreTable;
 
 public class ProgramState 
 {
     private final ExecutionStack executionStack;
-    private final SymbolTable symbolTable;
+//    private final SymbolTable symbolTable;
+    private final SymbolTableStack symbolTableStack;
     private final OutputList output;
     private final ReadFileTable readFileTable;
     private final WriteFileTable writeFileTable;
@@ -27,6 +30,7 @@ public class ProgramState
     private final ILatchTable latchTable;
     private final IToySemaphoreTable toySemaphoreTable;
     private final ICountSemaphoreTable countSemaphoreTable;
+    private final IProcedureTable procedureTable;
     private final IStatement originalProgram;
     private Integer id;
     private final TypeTable typeTable;
@@ -43,7 +47,11 @@ public class ProgramState
     public ProgramState(IStatement program) throws TypeException
     {
         this.executionStack = new ExecutionStack();
-        this.symbolTable = new SymbolTable();
+
+//        this.symbolTable = new SymbolTable();
+        this.symbolTableStack = new SymbolTableStack();
+        this.symbolTableStack.push(new SymbolTable());
+
         this.output = new OutputList();
         this.readFileTable = new ReadFileTable();
         this.writeFileTable = new WriteFileTable();
@@ -53,6 +61,7 @@ public class ProgramState
         this.latchTable = new LatchTable();
         this.toySemaphoreTable = new ToySemaphoreTable();
         this.countSemaphoreTable = new CountSemaphoreTable();
+        this.procedureTable = new ProcedureTable();
         this.typeTable = new TypeTable();
 
         this.originalProgram = program.deepCopy();
@@ -63,13 +72,15 @@ public class ProgramState
         this.setID();
     }
 
-    public ProgramState(ExecutionStack stack, SymbolTable symbolTable, OutputList output, ReadFileTable readFileTable,
+    public ProgramState(ExecutionStack stack, SymbolTableStack symbolTableStack, OutputList output, ReadFileTable readFileTable,
                         WriteFileTable writeFileTable, IHeap heap, IBarrierTable barrierTable, ILockTable lockTable,
                         ILatchTable latchTable, IToySemaphoreTable toySemaphoreTable,
-                        ICountSemaphoreTable countSemaphoreTable, IStatement statement, TypeTable typeTable) throws TypeException
+                        ICountSemaphoreTable countSemaphoreTable, IProcedureTable procedureTable,
+                        IStatement statement, TypeTable typeTable) throws TypeException
     {
         this.executionStack = stack;
-        this.symbolTable = symbolTable;
+//        this.symbolTable = symbolTable;
+        this.symbolTableStack = symbolTableStack;
         this.output = output;
         this.readFileTable = readFileTable;
         this.writeFileTable = writeFileTable;
@@ -79,6 +90,7 @@ public class ProgramState
         this.latchTable = latchTable;
         this.toySemaphoreTable = toySemaphoreTable;
         this.countSemaphoreTable = countSemaphoreTable;
+        this.procedureTable = procedureTable;
         this.originalProgram = statement.deepCopy();
         this.typeTable = typeTable;
 
@@ -112,7 +124,12 @@ public class ProgramState
 
     public SymbolTable getSymbolTable()
     {
-        return this.symbolTable;
+        return this.symbolTableStack.top();
+    }
+
+    public SymbolTableStack getSymbolTableStack()
+    {
+        return this.symbolTableStack;
     }
 
     public OutputList getOutput()
@@ -155,6 +172,10 @@ public class ProgramState
         return this.countSemaphoreTable;
     }
 
+    public IProcedureTable getProcedureTable() {
+        return this.procedureTable;
+    }
+
     public TypeTable getTypeTable()
     {
         return this.typeTable;
@@ -170,7 +191,7 @@ public class ProgramState
     {
         return "\n#####################\n\n~Program state ID: " + this.id + " ~\nExecution stack:\n" +
             this.executionStack.toString() + "\nSymbol table:\n" +
-            this.symbolTable.toString() + "\nOutput list:\n" +
+            this.symbolTableStack.top().toString() + "\nOutput list:\n" +
             this.output.toString() + "\nReadFile table:\n" +
             this.readFileTable.toStringKeySet() + "\nWriteFile table:\n" +
             this.writeFileTable.toStringKeySet() + "\nHeap:\n" +
@@ -178,7 +199,8 @@ public class ProgramState
             this.barrierTable.toString() + "\nLatch table:\n" +
             this.latchTable.toString() + "\nToySemaphore table:\n" +
             this.toySemaphoreTable + "\nCountSemaphore table:\n" +
-            this.countSemaphoreTable +
+            this.countSemaphoreTable + "\nProcedure table:\n" +
+            this.procedureTable +
             "\n#####################";
     }
 

@@ -7,6 +7,7 @@ import map.interpreter_gui.model.structures.barrier_table.IBarrierTable;
 import map.interpreter_gui.model.structures.count_semaphore_table.ICountSemaphoreTable;
 import map.interpreter_gui.model.structures.latch_table.ILatchTable;
 import map.interpreter_gui.model.structures.lock_table.ILockTable;
+import map.interpreter_gui.model.structures.procedure_table.IProcedureTable;
 import map.interpreter_gui.model.structures.toy_semaphore_table.IToySemaphoreTable;
 import map.interpreter_gui.model.types.Type;
 
@@ -31,15 +32,17 @@ public class ForkStatement implements IStatement
         ILatchTable latchTable = programState.getLatchTable();
         IToySemaphoreTable toySemaphoreTable = programState.getToySemaphoreTable();
         ICountSemaphoreTable countSemaphoreTable = programState.getCountSemaphoreTable();
+        IProcedureTable procedureTable = programState.getProcedureTable();
         ReadFileTable readFileTable = programState.getReadFileTable();
         WriteFileTable writeFileTable = programState.getWriteFileTable();
         OutputList output = programState.getOutput();
 
-        SymbolTable symbolTableDeepCopy = programState.getSymbolTable().deepCopy();
+//        SymbolTable symbolTableDeepCopy = programState.getSymbolTable().deepCopy();
+        SymbolTableStack symbolTableStackDeepCopy = programState.getSymbolTableStack().deepCopy();
         TypeTable typeTable = programState.getTypeTable().deepCopy();
 
-        return new ProgramState(new ExecutionStack(), symbolTableDeepCopy, output, readFileTable, writeFileTable, heap,
-                barrierTable, lockTable, latchTable, toySemaphoreTable, countSemaphoreTable, statement, typeTable);
+        return new ProgramState(new ExecutionStack(), symbolTableStackDeepCopy, output, readFileTable, writeFileTable, heap,
+                barrierTable, lockTable, latchTable, toySemaphoreTable, countSemaphoreTable, procedureTable, statement, typeTable);
     }
 
     public IDictionary<String, Type> typecheck(IDictionary<String, Type> typeEnvironment) throws TypeException
